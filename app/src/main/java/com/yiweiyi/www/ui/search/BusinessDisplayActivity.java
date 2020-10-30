@@ -1,0 +1,353 @@
+package com.yiweiyi.www.ui.search;
+
+import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.util.Log;
+import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.fragment.app.Fragment;
+import androidx.viewpager2.adapter.FragmentStateAdapter;
+import androidx.viewpager2.widget.ViewPager2;
+
+import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.tabs.TabLayoutMediator;
+import com.qmuiteam.qmui.alpha.QMUIAlphaImageButton;
+import com.tencent.mm.opensdk.modelmsg.SendMessageToWX;
+import com.tencent.mm.opensdk.modelmsg.WXImageObject;
+import com.tencent.mm.opensdk.modelmsg.WXMediaMessage;
+import com.tencent.mm.opensdk.modelmsg.WXMiniProgramObject;
+import com.yiweiyi.www.R;
+import com.yiweiyi.www.api.Constants;
+import com.yiweiyi.www.base.BaseActivity;
+import com.yiweiyi.www.base.CommonData;
+import com.yiweiyi.www.bean.search.SearchCompeBean;
+import com.yiweiyi.www.presenter.SearchPresenter;
+import com.yiweiyi.www.utils.ShareDialog;
+import com.yiweiyi.www.utils.SpUtils;
+import com.yiweiyi.www.view.search.SearchCompeView;
+import com.youth.banner.transformer.MZScaleInTransformer;
+
+import java.io.ByteArrayOutputStream;
+import java.util.ArrayList;
+import java.util.List;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+
+/**
+ * @Author: zsh
+ * 2020/9/25
+ * desc:商家展示页
+ */
+public class BusinessDisplayActivity extends BaseActivity implements SearchCompeView {
+
+    @BindView(R.id.back_bt)
+    QMUIAlphaImageButton backBt;
+    @BindView(R.id.search_tv)
+    TextView searchTv;
+    @BindView(R.id.search_cl)
+    ConstraintLayout searchCl;
+    @BindView(R.id.search_bt)
+    QMUIAlphaImageButton searchBt;
+    @BindView(R.id.bar_cl)
+    ConstraintLayout barCl;
+    @BindView(R.id.tab_layout)
+    TabLayout tabLayout;
+    @BindView(R.id.more_tab_bt)
+    QMUIAlphaImageButton moreTabBt;
+    @BindView(R.id.main_vp2)
+    ViewPager2 vp2;
+    //分享弹窗
+    private ShareDialog shareDialog;
+    public static String SEARCH = "search";
+    private String mSearch;
+    private SearchPresenter mSearchPresenter;
+    private String diqu, alldiqu;
+    private String mCity;
+    private List<String> mArea_list;
+    @BindView(R.id.ll_mini_program)
+    LinearLayout ll_mini_program ;
+    @BindView(R.id.rc)
+    RelativeLayout rc;
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_business_display);
+        ButterKnife.bind(this);
+        mSearch = getIntent().getStringExtra(SEARCH);
+        mSearchPresenter = new SearchPresenter(this);
+        ll_mini_program.setVisibility(View.GONE);
+        initView();
+        initLisetener();
+    }
+
+    private void initLisetener() {
+        //分享界面的点击监听
+        shareDialog.setDialogCallBackListener(new ShareDialog.DialogCallBackListener() {
+            @SuppressLint("WrongConstant")
+            @Override
+            public void wxHaoyouBack(int position) {
+                ll_mini_program.setVisibility(View.GONE);
+                WXMiniProgramObject miniProgram = new WXMiniProgramObject();
+                miniProgram.webpageUrl="www.xianlankufang.com";// 兼容低版本的网页链接
+                miniProgram.userName="gh_6606c78a3dd6";//小程序ID
+                miniProgram.path="/pages/index/index";//小程序路径
+                WXMediaMessage mediaMessage = new WXMediaMessage(miniProgram);
+                mediaMessage.title = "真实货源\t即搜即得";//小程序消息title
+                mediaMessage.description = "真实货源\t即搜即得"; // 小程序消息desc
+//                Bitmap bitmap = BitmapFactory.decodeResource(BusinessDisplayActivity.this.getResources(),R.mipmap.ic_launcher);
+                Bitmap bitmap = capture(vp2);
+//                Bitmap sendBitmap = Bitmap.createScaledBitmap(bitmap,50,50,true);
+                mediaMessage.thumbData = bmpToByteArray(bitmap);
+
+                SendMessageToWX.Req req = new SendMessageToWX.Req();
+                req.transaction = "真实货源\t即搜即得"; // 小程序消息封面图片，小于128k
+                req.scene = SendMessageToWX.Req.WXSceneSession;
+                req.message = mediaMessage;
+                Constants.wx_api.sendReq(req);
+                bitmap.recycle();
+            }
+            @Override
+            public void wxPyqBack(int position) {
+                ll_mini_program.setVisibility(View.VISIBLE);
+                mHandler.sendEmptyMessageDelayed(0, 500);
+
+            }
+        });
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                diqu = tab.getText().toString();
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+                diqu = tab.getText().toString();
+            }
+        });
+    }
+
+    public  Bitmap capture(View view) {
+//        getWindow().getDecorView().setDrawingCacheEnabled(true);
+//        Bitmap bitmap = getWindow().getDecorView().getDrawingCache();
+        Bitmap bitmap = null;
+        try {
+            bitmap = getBitmap(view);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return bitmap;
+    }
+    private Bitmap getBitmap(View view) throws Exception {
+
+        View screenView = getWindow().getDecorView();
+        screenView.setDrawingCacheEnabled(true);
+        screenView.buildDrawingCache();
+
+        //获取屏幕整张图片
+        Bitmap bitmap = screenView.getDrawingCache();
+
+        if (bitmap != null) {
+
+            //需要截取的长和宽
+            int outWidth = view.getWidth();
+            int outHeight = view.getHeight();
+
+            //获取需要截图部分的在屏幕上的坐标(view的左上角坐标）
+            int[] viewLocationArray = new int[2];
+            view.getLocationOnScreen(viewLocationArray);
+
+            //从屏幕整张图片中截取指定区域
+            bitmap = Bitmap.createBitmap(bitmap, viewLocationArray[0], viewLocationArray[1], outWidth, outHeight);
+            Toast.makeText(this, "截图成功", Toast.LENGTH_SHORT).show();
+            view.setDrawingCacheEnabled(false);  //禁用DrawingCahce否则会影响性能
+        }
+
+        return bitmap;
+    }
+
+    /**
+     * 分享图片
+     * @param bitmap    图片
+     * @param shareType    0：分享到好友  1：分享到朋友圈
+     */
+    private void sharePicture(Bitmap bitmap, int shareType) {
+        WXImageObject imgObj = new WXImageObject(bitmap);
+
+        WXMediaMessage msg = new WXMediaMessage();
+        msg.mediaObject = imgObj;
+
+//        Bitmap thumbBitmap = Bitmap.createScaledBitmap(bitmap, THUMB_SIZE, THUMB_SIZE, true);
+//        bitmap.recycle();
+//        msg.thumbData = Util.bmpToByteArray(bitmap,false);  //设置缩略图
+        msg.thumbData = bmpToByteArray(bitmap);
+        SendMessageToWX.Req req = new SendMessageToWX.Req();
+        req.transaction = "真实货源\t即搜即得";
+        req.message = msg;
+        req.scene = shareType;
+        Constants.wx_api.sendReq(req);
+    }
+    public static byte[] bmpToByteArray(Bitmap bitmap) {
+        if (bitmap == null) {
+            return null;
+        }
+        try {
+            ByteArrayOutputStream output = new ByteArrayOutputStream();
+            byte[] result = null;
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, output);
+            int options = 100;
+            while (output.toByteArray().length > 35*1024) {
+                Log.e("TAG_daxiao","=="+output.toByteArray().length);
+                output.reset(); //清空output
+                bitmap.compress(Bitmap.CompressFormat.JPEG, options, output);
+                options /= 2;
+            }
+            result = output.toByteArray();
+
+            bitmap.recycle();
+
+            output.close();
+            return result;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+    private Handler mHandler = new Handler(){
+        @Override
+        public void handleMessage(@NonNull Message msg) {
+            super.handleMessage(msg);
+            sharePicture(capture(rc),1);
+            ll_mini_program.setVisibility(View.GONE);
+        }
+    };
+    /**
+     * 设置vp2
+     */
+    private void setVp2(SearchCompeBean.DataBean baseBean) {
+        mArea_list = baseBean.getArea_list();
+        mArea_list.add(0, "全部");
+        diqu = "全部";
+        List<Fragment> fragmentList = new ArrayList<>();
+
+        for (int i = 0; i < mArea_list.size(); i++) {
+            fragmentList.add(BusinessDisplayFragment.newInstance(mSearch, mArea_list.get(i)));
+        }
+
+
+        vp2.setOffscreenPageLimit(mArea_list.size() + 1);
+
+        vp2.setAdapter(new FragmentStateAdapter(this) {
+            @NonNull
+            @Override
+            public Fragment createFragment(int position) {
+                return fragmentList.get(position);
+            }
+
+            @Override
+            public int getItemCount() {
+                return fragmentList.size();
+            }
+        });
+
+        vp2.setPageTransformer(new MZScaleInTransformer());
+
+        new TabLayoutMediator(tabLayout, vp2, new TabLayoutMediator.TabConfigurationStrategy() {
+            @Override
+            public void onConfigureTab(@NonNull TabLayout.Tab tab, int position) {
+                tab.setText(mArea_list.get(position));
+            }
+        }).attach();
+        if (!mCity.isEmpty()) {
+            for (int i = 0; i < mArea_list.size(); i++) {
+                if (mCity.equals(mArea_list.get(i))) {
+                    tabLayout.getTabAt(i).select();
+                }
+
+            }
+        }
+    }
+
+    private void initView() {
+        shareDialog = new ShareDialog(this, w);
+        searchTv.setText(mSearch);
+        initData();
+    }
+
+    private void initData() {
+        mSearchPresenter.searchCompe(mSearch, SpUtils.getUserID(), "");
+    }
+
+
+    @OnClick({R.id.back_bt, R.id.more_tab_bt, R.id.search_bt})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.back_bt:
+                finish();
+                break;
+            case R.id.more_tab_bt:
+                if (!diqu.isEmpty() && !alldiqu.isEmpty() && diqu != null && alldiqu != null) {
+                    Intent intent = new Intent(mContext, SelectRegionActivity.class);
+                    Log.e("地区", diqu);
+                    intent.putExtra(SelectRegionActivity.DATA, diqu);
+                    intent.putExtra(SelectRegionActivity.ALLDATA, alldiqu);
+                    startActivityForResult(intent, CommonData.GETCITY);
+                }
+
+                break;
+            case R.id.search_bt: {
+                //分享
+                shareDialog.show();
+            }
+            break;
+        }
+    }
+
+    @Override
+    public void onSearchCompeSuccess(SearchCompeBean baseBean) {
+        for (int i = 0; i < baseBean.getData().getArea_list().size(); i++) {
+            if (i == 0) {
+                alldiqu = baseBean.getData().getArea_list().get(i);
+            } else {
+                alldiqu = alldiqu + "," + baseBean.getData().getArea_list().get(i);
+            }
+        }
+        setVp2(baseBean.getData());
+    }
+
+    @Override
+    public void onError(String e) {
+
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        mCity = diqu;
+        if (resultCode == Activity.RESULT_OK) {
+            switch (requestCode) {
+                case CommonData.GETCITY:
+                    mCity = data.getExtras().getString("city");
+                    Log.e("huidao", mCity);
+                    break;
+            }
+        }
+    }
+}

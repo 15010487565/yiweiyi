@@ -1,0 +1,582 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+    <include
+        layout="@layout/view_simple_topbar_white"/>
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/scroll"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <com.youth.banner.Banner
+                android:id="@+id/banner"
+                android:layout_width="match_parent"
+                android:layout_height="242dp"
+                android:background="@color/color666666"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+            <LinearLayout
+                android:layout_width="87dp"
+                android:layout_height="32dp"
+                android:layout_marginTop="25dp"
+                android:layout_marginRight="7dp"
+                android:background="@drawable/shape_yuanjiao_20_96545454"
+                android:orientation="horizontal"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <com.qmuiteam.qmui.alpha.QMUIAlphaImageButton
+                    android:id="@+id/share_bt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:src="@drawable/dian_black"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="19dp"
+                    android:layout_gravity="center_vertical"
+                    android:background="@color/colorCCCCCC" />
+                <LinearLayout
+                    android:id="@+id/back_bt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp"
+                    android:layout_weight="1"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" >
+                    <com.qmuiteam.qmui.alpha.QMUIAlphaImageButton
+
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center_vertical"
+                        android:src="@drawable/close"
+                        />
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/index_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="17dp"
+                android:layout_marginEnd="17dp"
+                android:layout_marginBottom="16dp"
+                android:background="@drawable/shape_yuanjiao_50_434343"
+                android:paddingStart="12dp"
+                android:paddingTop="4dp"
+                android:paddingEnd="12dp"
+                android:paddingBottom="4dp"
+                android:text="0/0"
+                android:textColor="@color/white"
+                android:textSize="12dp"
+                app:layout_constraintBottom_toBottomOf="@id/banner"
+                app:layout_constraintRight_toRightOf="parent" />
+
+            <TextView
+                android:id="@+id/compe_name_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="23dp"
+                android:layout_marginTop="10dp"
+                android:textColor="@color/black"
+                android:textSize="25sp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/banner" />
+
+            <ImageView
+                android:id="@+id/map_img"
+                android:layout_width="11dp"
+                android:layout_height="14dp"
+                android:src="@drawable/map"
+                app:layout_constraintBottom_toBottomOf="@id/location_tv"
+                app:layout_constraintLeft_toLeftOf="@id/compe_name_tv"
+                app:layout_constraintTop_toTopOf="@id/location_tv" />
+
+            <TextView
+                android:id="@+id/location_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="6dp"
+                android:textColor="@color/color606060"
+                android:textSize="15sp"
+                app:layout_constraintLeft_toRightOf="@id/map_img"
+                app:layout_constraintTop_toBottomOf="@id/compe_name_tv" />
+
+            <LinearLayout
+                android:id="@+id/number_ll"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="14dp"
+                android:orientation="horizontal"
+                app:layout_constraintTop_toBottomOf="@id/location_tv">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/visitToday_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:text="0"
+                        android:textColor="@color/black"
+                        android:textSize="19sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="5dp"
+                        android:layout_weight="1"
+                        android:text="@string/today_number"
+                        android:textColor="@color/black"
+                        android:textSize="13sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/numberVisitors_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:text="0"
+                        android:textColor="@color/black"
+                        android:textSize="19sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="5dp"
+                        android:layout_weight="1"
+                        android:text="@string/visitors_number"
+                        android:textColor="@color/black"
+                        android:textSize="13sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/contactTimes_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:text="0"
+                        android:textColor="@color/black"
+                        android:textSize="19sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="5dp"
+                        android:layout_weight="1"
+                        android:text="@string/contact_times"
+                        android:textColor="@color/black"
+                        android:textSize="13sp" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/reliable_"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="13dp"
+                android:text="@string/reliable"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                app:layout_constraintLeft_toLeftOf="@id/compe_name_tv"
+                app:layout_constraintTop_toBottomOf="@id/number_ll" />
+
+            <TextView
+                android:id="@+id/number_people_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="13dp"
+                android:text="0"
+                android:textColor="@color/color868686"
+                android:textSize="13sp"
+                app:layout_constraintBottom_toBottomOf="@id/reliable_"
+                app:layout_constraintLeft_toRightOf="@id/reliable_"
+                app:layout_constraintTop_toTopOf="@id/reliable_" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/people_think__company_reliable"
+                android:textColor="@color/color868686"
+                android:textSize="13sp"
+                app:layout_constraintBottom_toBottomOf="@id/number_people_tv"
+                app:layout_constraintLeft_toRightOf="@id/number_people_tv"
+                app:layout_constraintTop_toTopOf="@id/number_people_tv" />
+
+            <com.qmuiteam.qmui.alpha.QMUIAlphaButton
+                android:id="@+id/zan_bt"
+                android:layout_width="wrap_content"
+                android:layout_height="33dp"
+                android:layout_marginRight="11dp"
+                android:background="@drawable/shape_yuanjiao_50_a0a0a0_ffffff"
+                android:drawableLeft="@drawable/ungreat_xiao"
+                android:paddingLeft="13dp"
+                android:paddingRight="10dp"
+                android:text="0"
+                android:textSize="14sp"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="@id/reliable_" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/zan_rv"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_marginLeft="@dimen/margin_20"
+                android:paddingBottom="20dp"
+                app:layout_constraintLeft_toLeftOf="@id/reliable_"
+                app:layout_constraintRight_toLeftOf="@id/more_zan_bt"
+                app:layout_constraintTop_toBottomOf="@id/reliable_" />
+
+            <com.qmuiteam.qmui.alpha.QMUIAlphaImageButton
+                android:id="@+id/more_zan_bt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingRight="15dp"
+                android:src="@drawable/more_3e"
+                app:layout_constraintBottom_toBottomOf="@id/zan_rv"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="@id/zan_rv" />
+
+            <View
+                android:id="@+id/liner1_"
+                android:layout_width="match_parent"
+                android:layout_height="7dp"
+                android:background="@color/colorF5F5F5"
+                app:layout_constraintTop_toBottomOf="@id/zan_rv" />
+
+            <TextView
+                android:id="@+id/company_profile_"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="17dp"
+                android:text="@string/company_profile"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                app:layout_constraintLeft_toLeftOf="@id/reliable_"
+                app:layout_constraintTop_toBottomOf="@id/liner1_" />
+
+            <WebView
+                android:id="@+id/company_profile_web"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin_20"
+                app:layout_constraintTop_toBottomOf="@id/company_profile_" />
+
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/products_catalogue_cl"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/company_profile_web">
+
+                <View
+                    android:id="@+id/liner2_"
+                    android:layout_width="match_parent"
+                    android:layout_height="7dp"
+                    android:background="@color/colorF5F5F5"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/products_catalogue_"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="23dp"
+                    android:layout_marginTop="17dp"
+                    android:text="@string/products_catalogue"
+                    android:textColor="@color/black"
+                    android:textSize="18sp"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/liner2_" />
+
+                <com.qmuiteam.qmui.alpha.QMUIAlphaButton
+                    android:id="@+id/more_products_catalogue_bt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="23dp"
+                    android:background="@null"
+                    android:drawableRight="@drawable/double_arrow"
+                    android:text="@string/see_more"
+                    android:textColor="@color/color767676"
+                    android:textSize="14sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/products_catalogue_"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/products_catalogue_" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/products_catalogue_rv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="21dp"
+                    android:layout_marginRight="21dp"
+                    android:layout_marginBottom="24dp"
+                    app:layout_constraintTop_toBottomOf="@id/more_products_catalogue_bt" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/real_view_cl"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/products_catalogue_cl"
+                app:layout_scrollFlags="scroll">
+
+                <View
+                    android:id="@+id/liner3_"
+                    android:layout_width="match_parent"
+                    android:layout_height="7dp"
+                    android:background="@color/colorF5F5F5"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/real_view_"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="23dp"
+                    android:layout_marginTop="17dp"
+                    android:text="@string/real_view"
+                    android:textColor="@color/black"
+                    android:textSize="18sp"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/liner3_" />
+
+                <com.qmuiteam.qmui.alpha.QMUIAlphaButton
+                    android:id="@+id/real_view_bt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="23dp"
+                    android:background="@null"
+                    android:drawableRight="@drawable/double_arrow"
+                    android:text="@string/see_more"
+                    android:textColor="@color/color767676"
+                    android:textSize="14sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/real_view_"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/real_view_" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/real_view_rv"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    app:layout_constraintTop_toBottomOf="@id/real_view_bt"
+                    tools:layout_editor_absoluteX="16dp" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+            <View
+                android:id="@+id/liner4_"
+                android:layout_width="match_parent"
+                android:layout_height="7dp"
+                android:background="@color/colorF5F5F5"
+                app:layout_constraintTop_toBottomOf="@id/real_view_cl" />
+
+            <TextView
+                android:id="@+id/certifications_"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="23dp"
+                android:layout_marginTop="17dp"
+                android:text="@string/certifications"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/liner4_" />
+
+            <com.qmuiteam.qmui.alpha.QMUIAlphaButton
+                android:id="@+id/certifications_bt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="23dp"
+                android:background="@null"
+                android:drawableRight="@drawable/double_arrow"
+                android:text="@string/see_more"
+                android:textColor="@color/color767676"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toBottomOf="@+id/certifications_"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/certifications_" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/certifications_rv"
+                android:layout_width="match_parent"
+                android:layout_height="189dp"
+                app:layout_constraintTop_toBottomOf="@id/certifications_bt" />
+
+            <View
+                android:id="@+id/liner5_"
+                android:layout_width="match_parent"
+                android:layout_height="7dp"
+                android:background="@color/colorF5F5F5"
+                app:layout_constraintTop_toBottomOf="@id/certifications_rv" />
+
+            <TextView
+                android:id="@+id/contact_details_"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="23dp"
+                android:layout_marginTop="17dp"
+                android:text="@string/contact_details"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/liner5_" />
+
+            <WebView
+                android:id="@+id/contact_details_web"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                app:layout_constraintTop_toBottomOf="@id/contact_details_" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                app:layout_constraintTop_toBottomOf="@id/contact_details_web" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </androidx.core.widget.NestedScrollView>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/bar_cl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:alpha="0.0"
+        android:background="@color/white"
+        android:paddingBottom="3dp"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <View
+            android:id="@+id/viewTop"
+            android:layout_width="match_parent"
+            android:layout_height="25dp"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/compe_name_title_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="@id/more_"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="@id/more_" />
+
+        <LinearLayout
+            android:id="@+id/more_"
+            android:layout_width="87dp"
+            android:layout_height="32dp"
+            android:layout_marginRight="7dp"
+            android:background="@drawable/shape_yuanjiao_20_a0a0a0_ffffff"
+            android:orientation="horizontal"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/viewTop">
+
+            <com.qmuiteam.qmui.alpha.QMUIAlphaImageButton
+                android:id="@+id/share_bar_bt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:src="@drawable/dian_black"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="19dp"
+                android:layout_gravity="center_vertical"
+                android:background="@color/colorCCCCCC" />
+
+            <com.qmuiteam.qmui.alpha.QMUIAlphaImageButton
+                android:id="@+id/back_bar_bt"
+                android:layout_width="wrap_content"
+                android:layout_height="13dp"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:src="@drawable/close"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_mini_program"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:layout_alignParentBottom="true"
+        android:background="@color/white"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" >
+        <ImageView
+            android:id="@+id/iv_mini_program"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_marginLeft="30dp"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="15sp"
+            android:layout_marginLeft="30dp"
+            android:text="扫码进入小程序\n获取更多厂家信息"/>
+    </LinearLayout>
+    <com.qmuiteam.qmui.alpha.QMUIAlphaButton
+        android:id="@+id/call_bt"
+        android:layout_width="179dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:background="@drawable/shape_yuanjiao_50_357ee7"
+        android:drawableLeft="@drawable/phone_bai_xiao"
+        android:paddingLeft="20dp"
+        android:textColor="@color/white"
+        android:textSize="17sp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

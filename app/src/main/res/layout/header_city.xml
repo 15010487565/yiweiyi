@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/colorf3f3f3">
+
+    <TextView
+        android:id="@+id/current_area_"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="20dp"
+        android:text="当前地区"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/current_area_tv"
+        android:layout_width="100dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/shape_yuanjiao_7_357ee7"
+        android:gravity="center"
+        android:text="暂无"
+        android:textColor="@color/white"
+        app:layout_constraintLeft_toLeftOf="@id/current_area_"
+        app:layout_constraintTop_toBottomOf="@id/current_area_" />
+
+    <com.qmuiteam.qmui.alpha.QMUIAlphaButton
+        android:id="@+id/current_area_btn"
+        android:layout_width="120dp"
+        android:layout_height="40dp"
+        android:background="@null"
+        android:enabled="false"
+        android:gravity="center"
+        android:text="@string/current_area_underline"
+        app:layout_constraintLeft_toRightOf="@id/current_area_tv"
+        app:layout_constraintTop_toTopOf="@id/current_area_tv" />
+
+    <TextView
+        android:id="@+id/common_area_"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="常用地区 (长按删除)"
+        app:layout_constraintLeft_toLeftOf="@id/current_area_"
+        app:layout_constraintTop_toBottomOf="@id/current_area_tv" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/common_area_rv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="10dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/common_area_" />
+
+    <TextView
+        android:id="@+id/hot_area_"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="热门地区"
+        app:layout_constraintLeft_toLeftOf="@id/current_area_"
+        app:layout_constraintTop_toBottomOf="@id/common_area_rv" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/hot_area_rv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="10dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/hot_area_" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+    <com.yiweiyi.www.view.SanJiaoView
+        android:id="@+id/sanjiaoView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="45dp"
+        app:sjv_color="@color/colorFD7033"
+        app:sjv_direction="top"
+        app:sjv_resolutionHeight="13dp"
+        app:sjv_resolutionWidth="13dp" />
+    <ListView
+        android:id="@+id/lv_year"
+        android:background="@drawable/shape_popup_bg"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:divider="#FFF"
+        android:dividerHeight="1px"/>
+
+</LinearLayout> 

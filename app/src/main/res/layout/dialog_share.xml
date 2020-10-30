@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/shape_yaunjiao_top_18_white">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/fenxiang_"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="22dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/wx_img"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@drawable/weixin"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:layout_marginTop="5dp"
+            android:id="@+id/wx_haoyou"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:text="微信好友"
+            android:textColor="#333333"
+            android:textSize="12dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/wx_img" />
+
+        <ImageView
+            android:id="@+id/wx_pyq_img"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginLeft="150dp"
+            android:src="@drawable/pengyouquan"
+            app:layout_constraintLeft_toRightOf="@id/wx_haoyou"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:layout_marginTop="5dp"
+            android:id="@+id/wx_pyq"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="朋友圈"
+            android:textColor="#333333"
+            android:textSize="12dp"
+            app:layout_constraintBottom_toBottomOf="@id/wx_haoyou"
+            app:layout_constraintLeft_toLeftOf="@id/wx_pyq_img"
+            app:layout_constraintRight_toRightOf="@id/wx_pyq_img"
+            app:layout_constraintTop_toTopOf="@id/wx_haoyou" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="25dp"
+        android:background="@color/colorE5E5E5"
+        app:layout_constraintBottom_toTopOf="@id/back_tv"
+        app:layout_constraintTop_toBottomOf="@+id/fenxiang_" />
+
+    <com.qmuiteam.qmui.alpha.QMUIAlphaTextView
+        android:id="@+id/back_tv"
+        android:layout_width="match_parent"
+        android:layout_height="52dp"
+        android:textColor="@color/black"
+        android:layout_marginTop="25dp"
+        android:gravity="center"
+        android:text="@string/cancel"
+        android:textSize="20sp"
+        app:layout_constraintTop_toBottomOf="@id/fenxiang_" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

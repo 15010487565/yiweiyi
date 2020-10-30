@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="253dp"
+    android:layout_height="match_parent"
+    android:paddingBottom="67dp">
+
+    <com.qmuiteam.qmui.alpha.QMUIAlphaImageButton
+        android:id="@+id/personal_left_abt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="22dp"
+        android:layout_marginTop="43dp"
+        android:background="@null"
+        android:src="@drawable/more_line"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+<!--    <com.qmuiteam.qmui.widget.QMUIRadiusImageView-->
+<!--        android:id="@+id/head_img"-->
+<!--        android:layout_width="59dp"-->
+<!--        android:layout_height="59dp"-->
+<!--        android:layout_marginLeft="26dp"-->
+<!--        android:layout_marginTop="40dp"-->
+<!--        android:src="@drawable/no_login"-->
+<!--        app:layout_constraintLeft_toLeftOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@id/personal_left_abt" />-->
+    <com.yiweiyi.www.view.CircleImageView
+        android:id="@+id/head_img"
+        android:layout_width="59dp"
+        android:layout_height="59dp"
+        android:layout_marginLeft="26dp"
+        android:layout_marginTop="40dp"
+        android:src="@drawable/no_login"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/personal_left_abt" />
+
+    <com.qmuiteam.qmui.alpha.QMUIAlphaButton
+        android:id="@+id/login_bt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@null"
+        android:text="@string/login"
+        android:textSize="19sp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@id/head_img"
+        app:layout_constraintLeft_toRightOf="@id/head_img"
+        app:layout_constraintTop_toTopOf="@id/head_img" />
+    <LinearLayout
+        android:id="@+id/ll_maininfo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:layout_marginLeft="16dp"
+        app:layout_constraintLeft_toRightOf="@id/head_img"
+        app:layout_constraintTop_toTopOf="@id/head_img"
+        app:layout_constraintBottom_toBottomOf="@id/head_img"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/name_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="17sp"
+            />
+        <TextView
+            android:id="@+id/change_infor_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/change_infor"
+            android:drawablePadding="5dp"
+           android:layout_marginTop="5dp"
+            android:text="@string/personal_infor"
+            android:textSize="11sp"
+             />
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:orientation="vertical"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/head_img">
+
+        <com.qmuiteam.qmui.alpha.QMUIAlphaButton
+            android:id="@+id/store_management"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="27dp"
+            android:background="@null"
+            android:drawableLeft="@drawable/store_management"
+            android:drawablePadding="17dp"
+            android:text="@string/store_management"
+            android:textSize="17sp" />
+
+        <com.qmuiteam.qmui.alpha.QMUIAlphaButton
+            android:id="@+id/raw_material_market"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="27dp"
+            android:background="@null"
+            android:drawableLeft="@drawable/raw_material_market"
+            android:drawablePadding="17dp"
+            android:text="@string/raw_material_market"
+            android:textSize="17sp" />
+
+        <com.qmuiteam.qmui.alpha.QMUIAlphaButton
+            android:id="@+id/advisory_service"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="27dp"
+            android:background="@null"
+            android:drawableLeft="@drawable/advisory_service"
+            android:drawablePadding="17dp"
+            android:text="@string/advisory_service"
+            android:textSize="17sp" />
+
+        <com.qmuiteam.qmui.alpha.QMUIAlphaButton
+            android:id="@+id/free_entry"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="27dp"
+            android:background="@null"
+            android:drawableLeft="@drawable/free_entry"
+            android:drawablePadding="17dp"
+            android:text="@string/free_entry"
+            android:textSize="17sp" />
+
+        <com.qmuiteam.qmui.alpha.QMUIAlphaButton
+            android:id="@+id/feedback"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="27dp"
+            android:background="@null"
+            android:drawableLeft="@drawable/feedback"
+            android:drawablePadding="17dp"
+            android:text="@string/feedback"
+            android:textSize="17sp" />
+
+        <com.qmuiteam.qmui.alpha.QMUIAlphaButton
+            android:id="@+id/setting"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="27dp"
+            android:background="@null"
+            android:drawableLeft="@drawable/set"
+            android:text="@string/set"
+            android:textSize="17sp" />
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

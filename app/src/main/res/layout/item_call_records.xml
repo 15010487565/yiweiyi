@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="20dp"
+    android:layout_marginTop="18dp">
+
+    <ImageView
+        android:id="@+id/head_img"
+        android:layout_width="32dp"
+        android:layout_height="33dp"
+        android:src="@drawable/no_login"
+        app:layout_constraintBottom_toBottomOf="@id/time_tv"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="@id/name_tv" />
+
+    <TextView
+        android:id="@+id/name_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="13dp"
+        android:text="自由飞翔"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        app:layout_constraintLeft_toRightOf="@id/head_img"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/search_history_img"
+        android:layout_width="14dp"
+        android:layout_height="14dp"
+        android:layout_marginLeft="13dp"
+        android:src="@drawable/search_history"
+        app:layout_constraintBottom_toBottomOf="@id/time_tv"
+        app:layout_constraintLeft_toRightOf="@id/head_img"
+        app:layout_constraintTop_toTopOf="@id/time_tv" />
+
+    <TextView
+        android:id="@+id/time_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="6dp"
+        android:layout_marginTop="9dp"
+        android:text="09：22"
+        android:textColor="@color/color717171"
+        android:textSize="14sp"
+        app:layout_constraintLeft_toRightOf="@id/search_history_img"
+        app:layout_constraintTop_toBottomOf="@id/name_tv" />
+
+    <ImageView
+        android:id="@+id/advisory_service_img"
+        android:layout_width="14dp"
+        android:layout_height="14dp"
+        android:layout_marginLeft="20dp"
+        android:src="@drawable/phone_hui"
+        app:layout_constraintBottom_toBottomOf="@id/time_tv"
+        app:layout_constraintLeft_toRightOf="@id/time_tv"
+        app:layout_constraintTop_toTopOf="@id/time_tv" />
+
+    <TextView
+        android:id="@+id/phone_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="6dp"
+        android:text="13012345678"
+        android:textColor="@color/color717171"
+        android:textSize="14sp"
+        app:layout_constraintLeft_toRightOf="@id/advisory_service_img"
+        app:layout_constraintTop_toTopOf="@id/time_tv" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="10dp"
+        android:background="@color/colorf3f3f3"
+        app:layout_constraintTop_toBottomOf="@id/time_tv" />
+</androidx.constraintlayout.widget.ConstraintLayout>
