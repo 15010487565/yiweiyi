@@ -23,6 +23,7 @@ import com.yiweiyi.www.adapter.search.BusinessDisplayAdapter;
 import com.yiweiyi.www.base.BaseFragment;
 import com.yiweiyi.www.bean.search.SearchCompeBean;
 import com.yiweiyi.www.details.DetailsActivity;
+import com.yiweiyi.www.dialog.BottomAirlinesPhoneDialog;
 import com.yiweiyi.www.presenter.SearchPresenter;
 import com.yiweiyi.www.utils.SpUtils;
 import com.yiweiyi.www.view.search.SearchCompeView;
@@ -121,6 +122,7 @@ public class BusinessDisplayFragment extends BaseFragment implements SearchCompe
                 if (data != null && data.size() > 0){
                     SearchCompeBean.DataBean.ShopListBean shopListBean = data.get(position);
                     Intent intent = new Intent(mContext, DetailsActivity.class);
+                    intent.putExtra(DetailsActivity.SHOPEPHONE,shopListBean.getPhone().get(0));
                     intent.putExtra(DetailsActivity.SHOPEID, shopListBean.getId());
                     mContext.startActivity(intent);
                 }
@@ -131,6 +133,10 @@ public class BusinessDisplayFragment extends BaseFragment implements SearchCompe
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
                 switch (view.getId()){
                     case R.id.phone_tv:{
+                        List<SearchCompeBean.DataBean.ShopListBean> data1 = mBusinessDisplayAdapter.getData();
+                        BottomAirlinesPhoneDialog dialog = new BottomAirlinesPhoneDialog();
+                        dialog.setData(data1.get(position).getPhone().get(0));
+                        dialog.show(getFragmentManager(),"Phone");
 
                     }break;
                     case R.id.more_number_tv:{

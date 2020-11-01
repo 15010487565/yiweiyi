@@ -43,7 +43,9 @@ public class VerifyCodeView  extends RelativeLayout {
         textViews[4] = (TextView) inflate.findViewById(R.id.tv_4);
         textViews[5] = (TextView) inflate.findViewById(R.id.tv_5);
         editText = (EditText) inflate.findViewById(R.id.edit_text_view);
-
+        editText.setFocusable(true);
+        editText.setFocusableInTouchMode(true);
+        editText.requestFocus();
         editText.setCursorVisible(false);//隐藏光标
         setEditTextListener();
     }

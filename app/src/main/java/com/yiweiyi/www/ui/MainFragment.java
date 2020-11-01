@@ -108,7 +108,7 @@ public class MainFragment extends BaseFragment {
         recyclerRv.setLayoutManager(new GridLayoutManager(mContext, 2));
         List<HomeCategoryBean.DataBean.ListBean> seriesSortList = new ArrayList<>();
         mSeriesTextAdapter = new SeriesTextAdapter(R.layout.iteam_text_series, seriesSortList);
-        recyclerRv.addItemDecoration(new GridDecorationLpp(2, dip2px(22), dip2px(27), true));
+        recyclerRv.addItemDecoration(new GridDecorationLpp(2, dip2px(22), dip2px(20), true));
         recyclerRv.setAdapter(mSeriesTextAdapter);
     }
 

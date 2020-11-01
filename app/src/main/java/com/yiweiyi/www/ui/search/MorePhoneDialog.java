@@ -2,6 +2,7 @@ package com.yiweiyi.www.ui.search;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
@@ -111,16 +112,16 @@ public class MorePhoneDialog {
         if (dialog == null) return;
 
         if (dialog.isShowing()) return;
-//
-//        Window window = dialog.getWindow();
-//        DisplayMetrics dm = new DisplayMetrics();
-//        WindowManager m = window.getWindowManager();
-//        m.getDefaultDisplay().getMetrics(dm);
-//        if (phone != null && phone.size() > 5) {
-//            window.setLayout((int) (dm.heightPixels * 0.6), (int) (dm.heightPixels * 0.5));
-//        } else {
-//            window.setLayout((int) (dm.heightPixels * 0.6), -2);
-//        }
+
+        Window window = dialog.getWindow();
+        DisplayMetrics dm = new DisplayMetrics();
+        WindowManager m = window.getWindowManager();
+        m.getDefaultDisplay().getMetrics(dm);
+        if (phone != null && phone.size() > 3) {
+            window.setLayout((int) (dm.heightPixels * 0.4), (int) (dm.heightPixels * 0.3));
+        } else {
+            window.setLayout((int) (dm.heightPixels * 0.4), -2);
+        }
 
         mMorePhoneAdapter.replaceData(phone);
 

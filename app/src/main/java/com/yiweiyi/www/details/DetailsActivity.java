@@ -39,6 +39,7 @@ import com.yiweiyi.www.adapter.store.GridAdapter;
 import com.yiweiyi.www.api.Constants;
 import com.yiweiyi.www.api.UrlAddr;
 import com.yiweiyi.www.base.CommonData;
+import com.yiweiyi.www.dialog.BottomAirlinesPhoneDialog;
 import com.yiweiyi.www.model.DetailsModel;
 import com.yiweiyi.www.utils.HtmlUtils;
 import com.yiweiyi.www.utils.ImageUtils;
@@ -131,6 +132,8 @@ public class DetailsActivity extends SimpleTopbarActivity {
     @BindView(R.id.scroll)
     NestedScrollView scroll;
 
+    @BindView(R.id.call_bt)
+    QMUIAlphaButton call_bt;
 
     RecyclerView zan_rv;
     GalleryAdapter adapter;
@@ -138,11 +141,14 @@ public class DetailsActivity extends SimpleTopbarActivity {
     private ShareDialog shareDialog;
     int shpo_id;
     public static String SHOPEID = "SHOPEID";
+    public static String SHOPEPHONE = "SHOPEPHONE";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details);
         ButterKnife.bind(this);
+        String phone = getIntent().getStringExtra(SHOPEPHONE);
+        call_bt.setText(phone);
         initLisetener();
         ll_mini_program.setVisibility(View.GONE);
         shpo_id = getIntent().getIntExtra(SHOPEID, 0);
@@ -395,7 +401,7 @@ public class DetailsActivity extends SimpleTopbarActivity {
                                 .apply(RequestOptions.bitmapTransform(new RoundedCorners(30)))
                                 .into(holder.imageView);
 
-                        index_tv.setText(position+"/"+rotation_imgs.size());
+                        index_tv.setText((position+1)+"/"+rotation_imgs.size());
                     }
                 })
                         .addBannerLifecycleObserver(this)//添加生命周期观察者
@@ -437,6 +443,12 @@ public class DetailsActivity extends SimpleTopbarActivity {
 
             case R.id.share_bt:
                 shareDialog.show();
+                break;
+            case R.id.call_bt:
+                String phone = getIntent().getStringExtra(SHOPEPHONE);
+                BottomAirlinesPhoneDialog dialog = new BottomAirlinesPhoneDialog();
+                dialog.setData(phone);
+                dialog.show(getSupportFragmentManager(),"Phone");
                 break;
 
         }

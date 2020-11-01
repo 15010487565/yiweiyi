@@ -6,6 +6,5 @@
     <stroke
         android:width="2dp"
         android:color="@color/line_c3"/>
-    <size android:width="130dp"
-    android:height="130dp"/>
+
 </shape>

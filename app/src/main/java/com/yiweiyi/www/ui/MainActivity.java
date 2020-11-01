@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -65,7 +66,7 @@ import rx.schedulers.Schedulers;
 public class MainActivity extends BaseActivity implements HomeCategoryView, FreeEntryView, UserInfoView {
 
     @BindView(R.id.personal_abt)
-    QMUIAlphaImageButton personalAbt;
+    ImageView personalAbt;
     @BindView(R.id.tab_layout)
     TabLayout tabLayout;
     @BindView(R.id.more_tab_bt)
@@ -79,7 +80,7 @@ public class MainActivity extends BaseActivity implements HomeCategoryView, Free
     @BindView(R.id.right_nv)
     NavigationView rightNv;
 
-    private QMUIAlphaImageButton mPersonalLeft;
+    private ImageView mPersonalLeft;
     private QMUIRadiusImageView mHeadImg;
     private RecyclerView mAllSeries;
     private AllSeriesAdrpter mAllSeriesAdrpter;
@@ -306,10 +307,15 @@ public class MainActivity extends BaseActivity implements HomeCategoryView, Free
                 tabLayout.getTabAt(position).select();
             }
         });
+
+
+
+
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 tabPosition = tab.getPosition();
+
             }
 
             @Override
@@ -357,9 +363,13 @@ public class MainActivity extends BaseActivity implements HomeCategoryView, Free
         new TabLayoutMediator(tabLayout, vp2, new TabLayoutMediator.TabConfigurationStrategy() {
             @Override
             public void onConfigureTab(@NonNull TabLayout.Tab tab, int position) {
+
                 tab.setText(data.get(position).getName());
+
             }
         }).attach();
+
+
 
     }
 

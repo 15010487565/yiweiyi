@@ -7,6 +7,7 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -59,7 +60,7 @@ public class BusinessDisplayActivity extends BaseActivity implements SearchCompe
     TextView searchTv;
     @BindView(R.id.search_cl)
     ConstraintLayout searchCl;
-    @BindView(R.id.search_bt)
+    @BindView(R.id.share_bt)
     QMUIAlphaImageButton searchBt;
     @BindView(R.id.bar_cl)
     ConstraintLayout barCl;
@@ -287,7 +288,7 @@ public class BusinessDisplayActivity extends BaseActivity implements SearchCompe
 
     private void initView() {
         shareDialog = new ShareDialog(this, w);
-        searchTv.setText(mSearch);
+        searchTv.setText(TextUtils.isEmpty(mSearch)?"真实货源\t即搜即得":mSearch);
         initData();
     }
 
@@ -296,7 +297,7 @@ public class BusinessDisplayActivity extends BaseActivity implements SearchCompe
     }
 
 
-    @OnClick({R.id.back_bt, R.id.more_tab_bt, R.id.search_bt})
+    @OnClick({R.id.back_bt, R.id.more_tab_bt, R.id.share_bt,R.id.search_tv})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.back_bt:
@@ -312,11 +313,14 @@ public class BusinessDisplayActivity extends BaseActivity implements SearchCompe
                 }
 
                 break;
-            case R.id.search_bt: {
+            case R.id.share_bt: {
                 //分享
                 shareDialog.show();
             }
             break;
+            case R.id.search_tv:
+                openActivity(SearchActivity.class);
+                break;
         }
     }
 

@@ -46,7 +46,7 @@ public class SearchActivity extends BaseActivity implements SearchRecordsView,
         ClearRecordsView, DeleteRecordView, ProximitySearchView {
     @BindView(R.id.search_et)
     EditText searchEt;
-    @BindView(R.id.search_bt)
+    @BindView(R.id.share_bt)
     QMUIAlphaButton searchBt;
     @BindView(R.id.bar_cl)
     ConstraintLayout barCl;
@@ -110,7 +110,11 @@ public class SearchActivity extends BaseActivity implements SearchRecordsView,
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 //商家展示页
                 Intent intent = new Intent(mContext, BusinessDisplayActivity.class);
-                intent.putExtra(BusinessDisplayActivity.SEARCH, mSearchHistoryAdapter.getItem(position).getContent());
+                SearchRecordsBean.DataBean item = mSearchHistoryAdapter.getItem(position);
+                if (item != null && item.getContent() != null){
+                    intent.putExtra(BusinessDisplayActivity.SEARCH, item.getContent());
+
+                }
                 startActivity(intent);
             }
         });
@@ -132,9 +136,11 @@ public class SearchActivity extends BaseActivity implements SearchRecordsView,
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 if (!charSequence.toString().isEmpty()) {
                     searchRe.setVisibility(View.VISIBLE);
+                    searchHistoryRe.setVisibility(View.GONE);
                     mSearchPresenter.proximitySearch(charSequence.toString());
                 } else {
                     searchRe.setVisibility(View.GONE);
+                    searchHistoryRe.setVisibility(View.VISIBLE);
                 }
 
             }
@@ -182,10 +188,10 @@ public class SearchActivity extends BaseActivity implements SearchRecordsView,
 
     }
 
-    @OnClick({R.id.search_bt, R.id.clear_bt})
+    @OnClick({R.id.share_bt, R.id.clear_bt})
     public void onViewClicked(View view) {
         switch (view.getId()) {
-            case R.id.search_bt: {
+            case R.id.share_bt: {
                 //关闭页面
                 finish();
             }
