@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/view_empty"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <TextView
+        android:id="@+id/tv_msg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="20dp"
+        android:textSize="15sp"
+        android:textColor="@color/black_26"
+        android:text="抱歉，没有找到与“关键词”相关的结果，请尝试输入其他关键词。"/>
+        <com.qmuiteam.qmui.alpha.QMUIAlphaButton
+            android:id="@+id/advisory_service"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+           android:layout_gravity="center"
+            android:background="@drawable/shape_green5"
+            android:drawableLeft="@drawable/phone_bai_xiao"
+            android:drawablePadding="17dp"
+            android:textColor="@color/white"
+            android:paddingLeft="60dp"
+            android:paddingRight="60dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:text="@string/advisory_service"
+            android:textSize="17sp" />
+</LinearLayout>

@@ -3,9 +3,15 @@ package com.yiweiyi.www.ui.search;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.SpannableString;
+import android.text.Spanned;
 import android.text.TextWatcher;
+import android.text.method.LinkMovementMethod;
+import android.text.style.ForegroundColorSpan;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
@@ -13,13 +19,18 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.google.android.material.appbar.AppBarLayout;
+import com.qmuiteam.qmui.alpha.QMUIAlphaButton;
 import com.yiweiyi.www.R;
 import com.yiweiyi.www.adapter.search.SearchAdapter;
 import com.yiweiyi.www.adapter.search.SearchHistoryAdapter;
+import com.yiweiyi.www.api.ApiManager;
 import com.yiweiyi.www.base.BaseActivity;
 import com.yiweiyi.www.base.BaseBean;
+import com.yiweiyi.www.bean.personal.FreeEntryBean;
 import com.yiweiyi.www.bean.search.ProximitySearchBean;
 import com.yiweiyi.www.bean.search.SearchRecordsBean;
+import com.yiweiyi.www.dialog.BottomAirlinesPhoneDialog;
 import com.yiweiyi.www.presenter.SearchPresenter;
 import com.yiweiyi.www.ui.login.LoginActivity;
 import com.yiweiyi.www.utils.SpUtils;
@@ -27,8 +38,6 @@ import com.yiweiyi.www.view.search.ClearRecordsView;
 import com.yiweiyi.www.view.search.DeleteRecordView;
 import com.yiweiyi.www.view.search.ProximitySearchView;
 import com.yiweiyi.www.view.search.SearchRecordsView;
-import com.google.android.material.appbar.AppBarLayout;
-import com.qmuiteam.qmui.alpha.QMUIAlphaButton;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,6 +45,9 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * @Author: zsh
@@ -250,7 +262,55 @@ public class SearchActivity extends BaseActivity implements SearchRecordsView,
      */
     @Override
     public void onProximitySearchSuccess(ProximitySearchBean baseBean) {
-        mSearchAdapter.setKeyword(baseBean.getData().getSearch_param());
-        mSearchAdapter.replaceData(baseBean.getData().getList());
+        ProximitySearchBean.DataBean data = baseBean.getData();
+        String search_param = data.getSearch_param();
+        mSearchAdapter.setKeyword(search_param);
+        List<ProximitySearchBean.DataBean.ListBean> list = data.getList();
+        Log.e("TAG_搜索",(list==null)+"");
+        if (list != null && list.size() > 0){
+            mSearchAdapter.replaceData(list);
+        }else {
+            View emptyView = getLayoutInflater().inflate(R.layout.view_empty_search, null);
+            mSearchAdapter.setEmptyView(emptyView);
+            TextView textView = emptyView.findViewById(R.id.tv_msg);
+            String searchStr = "抱歉，没有找到与“"+search_param+"”相关的结果，请尝试输入其他关键词。";
+            SpannableString spannableString = new SpannableString(searchStr);
+            //设置部分文字点击事件
+            spannableString.setSpan(
+                    new ForegroundColorSpan(getResources().getColor(R.color.blue)),
+                    9, 9+search_param.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+            textView.setText(spannableString);
+            textView.setMovementMethod(LinkMovementMethod.getInstance());
+
+            emptyView.findViewById(R.id.advisory_service).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ApiManager.getInstance().consumerHotline()
+                            .subscribeOn(Schedulers.io())
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribe(new Subscriber<FreeEntryBean>() {
+                                @Override
+                                public void onCompleted() {
+
+                                }
+
+                                @Override
+                                public void onError(Throwable e) {
+
+                                }
+
+                                @Override
+                                public void onNext(FreeEntryBean baseBean) {
+                                    String data = baseBean.getData();
+                                    BottomAirlinesPhoneDialog dialog = new BottomAirlinesPhoneDialog();
+                                    dialog.setData(data);
+                                    dialog.show(getSupportFragmentManager(),"AirlinesPhone");
+                                }
+                            });
+                }
+            });
+        }
+
     }
 }

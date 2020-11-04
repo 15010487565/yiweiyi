@@ -76,7 +76,7 @@ public class BusinessDisplayActivity extends BaseActivity implements SearchCompe
     private String mSearch;
     private SearchPresenter mSearchPresenter;
     private String diqu, alldiqu;
-    private String mCity;
+
     private List<String> mArea_list;
     @BindView(R.id.ll_mini_program)
     LinearLayout ll_mini_program ;
@@ -276,14 +276,7 @@ public class BusinessDisplayActivity extends BaseActivity implements SearchCompe
                 tab.setText(mArea_list.get(position));
             }
         }).attach();
-        if (!mCity.isEmpty()) {
-            for (int i = 0; i < mArea_list.size(); i++) {
-                if (mCity.equals(mArea_list.get(i))) {
-                    tabLayout.getTabAt(i).select();
-                }
 
-            }
-        }
     }
 
     private void initView() {
@@ -344,12 +337,19 @@ public class BusinessDisplayActivity extends BaseActivity implements SearchCompe
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        mCity = diqu;
         if (resultCode == Activity.RESULT_OK) {
             switch (requestCode) {
                 case CommonData.GETCITY:
-                    mCity = data.getExtras().getString("city");
+                    String mCity = data.getExtras().getString("city");
                     Log.e("huidao", mCity);
+                    for (int i = 0; i < mArea_list.size(); i++) {
+                        String s = mArea_list.get(i);
+                        if (mCity.equals(s)){
+                            vp2.setCurrentItem(i);
+                            break;
+                        }
+                    }
+
                     break;
             }
         }

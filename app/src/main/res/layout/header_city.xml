@@ -37,24 +37,28 @@
         android:text="@string/current_area_underline"
         app:layout_constraintLeft_toRightOf="@id/current_area_tv"
         app:layout_constraintTop_toTopOf="@id/current_area_tv" />
-
-    <TextView
-        android:id="@+id/common_area_"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:text="常用地区 (长按删除)"
-        app:layout_constraintLeft_toLeftOf="@id/current_area_"
-        app:layout_constraintTop_toBottomOf="@id/current_area_tv" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/common_area_rv"
+    <LinearLayout
+        android:id="@+id/ll_common_area"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:orientation="vertical"
         android:layout_marginLeft="15dp"
-        android:layout_marginTop="10dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/common_area_" />
+        app:layout_constraintLeft_toLeftOf="@id/current_area_"
+        app:layout_constraintTop_toBottomOf="@id/current_area_tv" >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="常用地区 (长按删除)"
+            />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/common_area_rv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp" />
+
+    </LinearLayout>
 
     <TextView
         android:id="@+id/hot_area_"
@@ -62,8 +66,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:text="热门地区"
-        app:layout_constraintLeft_toLeftOf="@id/current_area_"
-        app:layout_constraintTop_toBottomOf="@id/common_area_rv" />
+        app:layout_constraintLeft_toLeftOf="@id/ll_common_area"
+        app:layout_constraintTop_toBottomOf="@id/ll_common_area" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/hot_area_rv"

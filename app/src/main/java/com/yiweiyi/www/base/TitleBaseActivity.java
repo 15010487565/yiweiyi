@@ -6,7 +6,10 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.DrawableRes;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.qmuiteam.qmui.util.QMUIStatusBarHelper;
 import com.yiweiyi.www.R;
@@ -18,7 +21,7 @@ import butterknife.OnClick;
  * 2020/9/25
  * desc:activity基类 功能带有头部 bar
  */
-public abstract class TitleBaseActivity extends BaseActivity {
+public abstract class TitleBaseActivity extends BaseActivity  {
     public static int MENU_DEFAULT_NOTID = 0;
 
     /**
@@ -334,5 +337,11 @@ public abstract class TitleBaseActivity extends BaseActivity {
     @Override
     protected void onPause() {
         super.onPause();
+    }
+
+    public RecyclerView.ItemDecoration getRecyclerViewDivider(@DrawableRes int drawableId) {
+        DividerItemDecoration itemDecoration = new DividerItemDecoration(TitleBaseActivity.this, DividerItemDecoration.VERTICAL);
+        itemDecoration.setDrawable(getResources().getDrawable(drawableId));
+        return itemDecoration;
     }
 }

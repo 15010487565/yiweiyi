@@ -1,29 +1,39 @@
 package com.yiweiyi.www.ui.login;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.TextPaint;
 import android.text.TextWatcher;
-import android.util.Log;
+import android.text.method.LinkMovementMethod;
+import android.text.style.ClickableSpan;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.qmuiteam.qmui.layout.QMUIButton;
+import com.tencent.mm.opensdk.modelmsg.SendAuth;
 import com.yiweiyi.www.R;
 import com.yiweiyi.www.api.Constants;
 import com.yiweiyi.www.base.BaseActivity;
 import com.yiweiyi.www.base.BaseBean;
 import com.yiweiyi.www.presenter.LoginPresenter;
+import com.yiweiyi.www.ui.setting.AboutActivity;
 import com.yiweiyi.www.utils.PrfUtils;
 import com.yiweiyi.www.utils.RegexUtils;
 import com.yiweiyi.www.utils.ToastUtils;
 import com.yiweiyi.www.view.login.SendVerifiCodeView;
-import com.qmuiteam.qmui.layout.QMUIButton;
-import com.tencent.mm.opensdk.modelmsg.SendAuth;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+
+import static com.yiweiyi.www.ui.setting.AboutActivity.ABOUT;
+import static com.yiweiyi.www.ui.setting.AboutActivity.ABOUT_AGREEMENT;
+import static com.yiweiyi.www.ui.setting.AboutActivity.ABOUT_PRIVACYPOLICY;
 
 /**
  * @Author: zsh 2020/9/23
@@ -50,14 +60,42 @@ public class LoginActivity extends BaseActivity implements SendVerifiCodeView {
 
     private void initView() {
 
-        Log.e("TAG_重设登录","===");
+
         PrfUtils.setWexinAuth(false);
-       /* SpannableString spannableString = new SpannableString(getString(R.string.registered_title));
-        spannableString.setSpan(new ForegroundColorSpan(Color.parseColor("#295FA1")), 12, 18, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        spannableString.setSpan(new ForegroundColorSpan(Color.parseColor("#295FA1")), 19, 25, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        spannableString.setSpan(new ForegroundColorSpan(Color.parseColor("#295FA1")), 27, spannableString.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+       SpannableString spannableString = new SpannableString(getString(R.string.registered_title));
+        //设置部分文字点击事件
+        ClickableSpan clickableSpan = new ClickableSpan() {
+            @Override
+            public void onClick(View widget) {
+                Intent intent = new Intent(LoginActivity.this, AboutActivity.class);
+                intent.putExtra(ABOUT,ABOUT_AGREEMENT);
+                startActivity(intent);
+            }
+            @Override
+            public void updateDrawState(TextPaint ds) {
+                ds.setColor(Color.parseColor("#295FA1"));            //设置可以点击文本部分的颜色
+                ds.setUnderlineText(true);            //设置该文本部分是否显示超链接形式的下划线
+            }
+        };
+        ClickableSpan clickableSpan2 = new ClickableSpan() {
+            @Override
+            public void onClick(View widget) {
+                Intent intent = new Intent(LoginActivity.this, AboutActivity.class);
+                intent.putExtra(ABOUT,ABOUT_PRIVACYPOLICY);
+                startActivity(intent);
+            }
+            @Override
+            public void updateDrawState(TextPaint ds) {
+                ds.setColor(Color.parseColor("#295FA1"));            //设置可以点击文本部分的颜色
+                ds.setUnderlineText(true);            //设置该文本部分是否显示超链接形式的下划线
+            }
+        };
+        spannableString.setSpan(clickableSpan, 12, 18, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        spannableString.setSpan(clickableSpan2, 19, spannableString.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+
         titleTv.setText(spannableString);
-        */
+        titleTv.setMovementMethod(LinkMovementMethod.getInstance());
+
 
     }
 

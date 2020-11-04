@@ -1,130 +1,135 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorF2F2F2">
-
-    <androidx.constraintlayout.widget.ConstraintLayout
+    android:orientation="vertical"
+    android:background="@color/white">
+    <include
+        layout="@layout/view_simple_topbar_white"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:background="@color/colorF2F2F2"/>
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:background="@color/white"
-        android:paddingLeft="21dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <TextView
-            android:id="@+id/head_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/head"
-            android:textSize="17sp"
-            app:layout_constraintBottom_toBottomOf="@id/head_img"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="@id/head_img" />
-
-        <ImageView
-            android:id="@+id/head_img"
-            android:layout_width="65dp"
-            android:layout_height="65dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginRight="13dp"
-            android:src="@drawable/no_login"
-            app:layout_constraintRight_toLeftOf="@id/more_img"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <ImageView
-            android:id="@+id/more_img"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_marginRight="20dp"
-            android:src="@drawable/jiantou_right_hui"
-            app:layout_constraintBottom_toBottomOf="@id/head_img"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="@id/head_img" />
-
-        <View
-            android:id="@+id/linear1"
+        android:orientation="vertical"
+        android:background="@color/colorF2F2F2">
+        <LinearLayout
+            android:id="@+id/ll_head"
             android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginTop="20dp"
-            android:background="@color/colorF2F2F2"
-            app:layout_constraintTop_toBottomOf="@id/head_img" />
-
-        <TextView
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:text="@string/factory_name"
-            android:textSize="17sp"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/linear1" />
+            android:orientation="horizontal"
+            android:paddingLeft="21dp"
+            android:background="@color/white">
+            <TextView
+                android:id="@+id/head_tv"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_gravity="center_vertical"
+                android:layout_height="wrap_content"
+                android:text="@string/head"
+                android:textSize="17sp"
+                />
 
-        <TextView
-            android:id="@+id/compe_name_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:layout_marginRight="20dp"
-            android:src="@drawable/no_login"
-            android:text="鑫京泰线缆有限公司"
-            android:textColor="@color/black"
-            android:textSize="17sp"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/linear1" />
 
-        <View
-            android:id="@+id/linear2"
+            <com.yiweiyi.www.view.CircleImageView
+                android:id="@+id/head_img"
+                android:layout_width="65dp"
+                android:layout_height="65dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginRight="13dp"
+                android:layout_marginBottom="20dp"
+                android:src="@mipmap/ic_launcher"
+                />
+
+            <ImageView
+                android:id="@+id/more_img"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginRight="20dp"
+                android:src="@drawable/jiantou_right_hui"
+                android:layout_gravity="center_vertical"
+                />
+
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/ll_shopName"
             android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginTop="20dp"
-            android:background="@color/colorF2F2F2"
-            app:layout_constraintTop_toBottomOf="@id/compe_name_tv" />
+            android:layout_height="50dp"
+            android:orientation="horizontal"
+            android:paddingLeft="21dp"
+            android:layout_marginTop="1dp"
+            android:background="@color/white">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="@string/factory_name"
+                android:layout_gravity="center_vertical"
+                android:textSize="17sp"
+                />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:text="@string/principal"
-            android:textSize="17sp"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/linear2" />
-
-        <TextView
-            android:id="@+id/name_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:layout_marginRight="20dp"
-            android:text="曹绍翔"
-            android:textColor="@color/black"
-            android:textSize="17sp"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/linear2" />
-
-        <View
-            android:id="@+id/linear3"
+            <TextView
+                android:id="@+id/compe_name_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginRight="20dp"
+                android:src="@drawable/no_login"
+                android:text="鑫京泰线缆有限公司"
+                android:textColor="@color/black"
+                android:textSize="17sp"
+                />
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/ll_userName"
             android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginTop="20dp"
-            android:background="@color/colorF2F2F2"
-            app:layout_constraintTop_toBottomOf="@id/name_tv" />
+            android:layout_height="50dp"
+            android:orientation="horizontal"
+            android:paddingLeft="21dp"
+            android:layout_marginTop="1dp"
+            android:background="@color/white">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="@string/principal"
+                android:textSize="17sp"
+                android:layout_gravity="center_vertical"
+                />
 
+            <TextView
+                android:id="@+id/name_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="20dp"
+                android:text="曹绍翔"
+                android:layout_gravity="center_vertical"
+                android:textColor="@color/black"
+                android:textSize="17sp"
+                />
+        </LinearLayout>
         <com.qmuiteam.qmui.alpha.QMUIAlphaButton
             android:id="@+id/phone_bt"
             android:layout_width="match_parent"
             android:layout_height="56dp"
+            android:layout_marginTop="1dp"
             android:background="@color/white"
+            android:paddingLeft="21dp"
             android:drawableRight="@drawable/jiantou_right_hui"
             android:gravity="left|center_vertical"
             android:paddingRight="20dp"
             android:text="@string/contact_number"
             android:textColor="@color/black"
             android:textSize="17sp"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/linear3" />
+            />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="@color/colorF2F2F2"/>
+</LinearLayout>

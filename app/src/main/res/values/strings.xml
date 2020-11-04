@@ -69,7 +69,7 @@
     <string name="word_limit_exceeded">超出字数限制</string>
     <string name="please_enter_feedback">请输入您需要反馈的内容</string>
     <string name="submitted_successfully">提交成功</string>
-    <string name="registered_title">注册即代表你同意本平台的《用户协议》和《隐私政策》以及《中国移动认证服务条款》</string>
+    <string name="registered_title">注册即代表您同意本平台的《用户协议》和《隐私政策》</string>
     <string name="close">关闭</string>
     <string name="dial">拨打</string>
     <string name="selectRegion">选择地区</string>

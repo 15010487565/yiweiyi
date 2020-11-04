@@ -1,4 +1,4 @@
-package com.yiweiyi.www.details;
+package com.yiweiyi.www.ui.details;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -43,6 +43,7 @@ import com.yiweiyi.www.dialog.BottomAirlinesPhoneDialog;
 import com.yiweiyi.www.model.DetailsModel;
 import com.yiweiyi.www.utils.HtmlUtils;
 import com.yiweiyi.www.utils.ImageUtils;
+import com.yiweiyi.www.utils.PrfUtils;
 import com.yiweiyi.www.utils.ScreenUtils;
 import com.yiweiyi.www.utils.ShareDialog;
 import com.yiweiyi.www.utils.SpUtils;
@@ -65,7 +66,6 @@ import butterknife.OnClick;
 import www.xcd.com.mylibrary.base.activity.SimpleTopbarActivity;
 import www.xcd.com.mylibrary.help.OkHttpHelper;
 
-import static com.yiweiyi.www.details.ProdcataActivity.ALNUMTYPE;
 
 public class DetailsActivity extends SimpleTopbarActivity {
 
@@ -122,8 +122,17 @@ public class DetailsActivity extends SimpleTopbarActivity {
     @BindView(R.id.certifications_bt)
     QMUIAlphaButton certifications_bt;
 
+    @BindView(R.id.more_zan_bt)
+    QMUIAlphaImageButton more_zan_bt;
+
     @BindView(R.id.products_catalogue_cl)
     ConstraintLayout products_catalogue_cl;
+
+    @BindView(R.id.real_view_cl)
+    ConstraintLayout real_view_cl;
+
+    @BindView(R.id.certifications_cl)
+    ConstraintLayout certifications_cl;
 
     @BindView(R.id.ll_mini_program)
     LinearLayout ll_mini_program;
@@ -139,7 +148,7 @@ public class DetailsActivity extends SimpleTopbarActivity {
     GalleryAdapter adapter;
     //分享弹窗
     private ShareDialog shareDialog;
-    int shpo_id;
+    int shop_id;
     public static String SHOPEID = "SHOPEID";
     public static String SHOPEPHONE = "SHOPEPHONE";
     @Override
@@ -151,12 +160,19 @@ public class DetailsActivity extends SimpleTopbarActivity {
         call_bt.setText(phone);
         initLisetener();
         ll_mini_program.setVisibility(View.GONE);
-        shpo_id = getIntent().getIntExtra(SHOPEID, 0);
+        shop_id = getIntent().getIntExtra(SHOPEID, 0);
         Map<String, String> params = new HashMap<String, String>();
         params.put("user_id", SpUtils.getUserID());
-        params.put("shop_id", shpo_id +"");
+        params.put("shop_id", shop_id +"");
         OkHttpHelper.postAsyncHttp(this,1001,
                 params, UrlAddr.SHOP_DETAILS,this);
+
+        String meShopId = PrfUtils.getMeShopId();
+        Map<String, String> params1 = new HashMap<String, String>();
+        params1.put("user_id", SpUtils.getUserID());
+        params1.put("shop_id", meShopId +"");
+        OkHttpHelper.postAsyncHttp(this,1002,
+                params1, UrlAddr.BROWSEADD,this);
     }
 
     @Override
@@ -372,22 +388,35 @@ public class DetailsActivity extends SimpleTopbarActivity {
                 try {
                     JSONObject jsonObject = new JSONObject(returnData);
                     JSONObject data1 = jsonObject.getJSONObject("data");
-                    JSONArray jsonArray = data1.optJSONArray("type_1");
-                    if (jsonArray != null){
-                        List<String> dataArr = gson.fromJson(jsonArray.toString(), new TypeToken<List<String>>(){}.getType());
-                        catalogueAdapter.setNewData(dataArr);
+                    JSONArray jsonArray1 = data1.optJSONArray("type_1");
+                    if (jsonArray1 != null){
+                        List<String> dataArr1 = gson.fromJson(jsonArray1.toString(), new TypeToken<List<String>>(){}.getType());
+                        catalogueAdapter.setNewData(dataArr1);
                         products_catalogue_cl.setVisibility(View.VISIBLE);
                     }else {
                         products_catalogue_cl.setVisibility(View.GONE);
                     }
 
+                    JSONArray jsonArray2 = data1.optJSONArray("type_2");
+                    if (jsonArray2 != null){
+                        List<String> dataArr2 = gson.fromJson(jsonArray2.toString(), new TypeToken<List<String>>(){}.getType());
+                        realAdapter.setNewData(dataArr2);
+                        real_view_cl.setVisibility(View.VISIBLE);
+                    }else {
+                        real_view_cl.setVisibility(View.GONE);
+                    }
+                    JSONArray jsonArray3 = data1.optJSONArray("type_3");
+                    if (jsonArray3 != null){
+                        List<String> dataArr3 = gson.fromJson(jsonArray3.toString(), new TypeToken<List<String>>(){}.getType());
+                        cationsAdapter.setNewData(dataArr3);
+                        certifications_cl.setVisibility(View.VISIBLE);
+                    }else {
+                        certifications_cl.setVisibility(View.GONE);
+                    }
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
 
-
-                realAdapter.setNewData(data.getType_2());
-                cationsAdapter.setNewData(data.getType_3());
                 //联系方式
                 HtmlUtils.getHtmlData(info.getContact_us(),contact_details_web);
 
@@ -413,7 +442,7 @@ public class DetailsActivity extends SimpleTopbarActivity {
 
         }
     }
-    @OnClick({R.id.share_bt,R.id.more_products_catalogue_bt, R.id.real_view_bt, R.id.certifications_bt})
+    @OnClick({R.id.more_zan_bt,R.id.share_bt,R.id.more_products_catalogue_bt, R.id.real_view_bt, R.id.certifications_bt})
     @Override
     public void onClick(View v) {
         super.onClick(v);
@@ -421,24 +450,27 @@ public class DetailsActivity extends SimpleTopbarActivity {
             case R.id.more_products_catalogue_bt:{
                 //产品图册
                 Intent intent = new Intent(DetailsActivity.this, ProdcataActivity.class);
-                intent.putExtra(SHOPEID,shpo_id);
-                intent.putExtra(ALNUMTYPE,"1");
-//                startActivity(intent);
+                intent.putExtra(SHOPEID, shop_id);
+                intent.putExtra(ProdcataActivity.ALNUMTYPE,"1");
+                startActivity(intent);
             }
                 break;
             case R.id.real_view_bt:{
                 //实景展示
                 Intent intent = new Intent(DetailsActivity.this, ProdcataActivity.class);
-                intent.putExtra(SHOPEID,shpo_id);
-                intent.putExtra(ALNUMTYPE,"2");
-//                startActivity(intent);
+                intent.putExtra(SHOPEID, shop_id);
+                intent.putExtra(ProdcataActivity.ALNUMTYPE,"2");
+                startActivity(intent);
             }
                 break;
-            case R.id.certifications_bt://证书
+            case R.id.certifications_bt:{
+                //证书
                 Intent intent = new Intent(DetailsActivity.this, ProdcataActivity.class);
-                intent.putExtra(SHOPEID,shpo_id);
-                intent.putExtra(ALNUMTYPE,"3");
-//                startActivity(intent);
+                intent.putExtra(SHOPEID, shop_id);
+                intent.putExtra(ProdcataActivity.ALNUMTYPE,"3");
+                startActivity(intent);
+            }
+
                 break;
 
             case R.id.share_bt:
@@ -449,6 +481,13 @@ public class DetailsActivity extends SimpleTopbarActivity {
                 BottomAirlinesPhoneDialog dialog = new BottomAirlinesPhoneDialog();
                 dialog.setData(phone);
                 dialog.show(getSupportFragmentManager(),"Phone");
+                break;
+            case R.id.more_zan_bt:{
+                Intent intent = new Intent(DetailsActivity.this, LikelistActivity.class);
+                intent.putExtra(SHOPEID, shop_id);
+                startActivity(intent);
+            }
+
                 break;
 
         }

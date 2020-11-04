@@ -37,6 +37,7 @@ public class BusinessDisplayAdapter extends BaseQuickAdapter<SearchCompeBean.Dat
         RoundedCorners roundedCorners = new RoundedCorners(2);
         //通过RequestOptions扩展功能,override:采样率,因为ImageView就这么大,可以压缩图片,降低内存消耗
         RequestOptions override = RequestOptions.bitmapTransform(roundedCorners).override(300, 300);
+
         Glide.with(helper.getView(R.id.head_img))
                 .asDrawable()
                 .load(CommonData.mainUrl + item.getLogo())

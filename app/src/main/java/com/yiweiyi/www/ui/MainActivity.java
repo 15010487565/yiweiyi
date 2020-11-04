@@ -184,6 +184,13 @@ public class MainActivity extends BaseActivity implements HomeCategoryView, Free
         mName = headview.findViewById(R.id.name_tv);
         mPersonalLeft = headview.findViewById(R.id.personal_left_abt);
         mStoreManagement = headview.findViewById(R.id.store_management);//
+        //字段is_shop=2商家，其他都是个人
+        int shop = PrfUtils.isShop();
+        if (shop == 2){
+            mStoreManagement.setVisibility(View.VISIBLE);
+        }else {
+            mStoreManagement.setVisibility(View.GONE);
+        }
         mChangeInfor = headview.findViewById(R.id.change_infor_tv);
         mSet = headview.findViewById(R.id.setting);
         mFreeEntry = headview.findViewById(R.id.free_entry);
@@ -466,6 +473,13 @@ public class MainActivity extends BaseActivity implements HomeCategoryView, Free
         hashMap.put("phone", baseBean.getData().getPhone());
         SpUtils.saveUserInfo( hashMap);
         SpUtils.saveUserInfo( "is_shop", baseBean.getData().getIs_shop());
-        SpUtils.saveUserInfo( "shop_id", baseBean.getData().getShop_id());
+        //字段is_shop=2商家，其他都是个人
+        int shop = PrfUtils.isShop();
+        if (shop == 2){
+            mStoreManagement.setVisibility(View.VISIBLE);
+        }else {
+            mStoreManagement.setVisibility(View.GONE);
+        }
+        SpUtils.saveUserInfo( "me_shop_id", baseBean.getData().getShop_id()+"");
     }
 }

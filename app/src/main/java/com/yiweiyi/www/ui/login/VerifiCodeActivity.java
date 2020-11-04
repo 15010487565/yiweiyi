@@ -28,6 +28,7 @@ import butterknife.OnClick;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
+import www.xcd.com.mylibrary.utils.ToastUtil;
 
 /**
  * @Author: zsh
@@ -84,23 +85,38 @@ public class VerifiCodeActivity extends TitleBaseActivity implements SigninView 
                             openid,
                             nickname,
                             headimgurl,
-                            mPhone)
+                            mPhone,
+                            codeEdit.getEditContent())
                             .subscribeOn(Schedulers.io())
                             .observeOn(AndroidSchedulers.mainThread())
                             .subscribe(new Subscriber<SigninBean>() {
                                 @Override
                                 public void onCompleted() {
-
+//                                    Intent intent = new Intent(VerifiCodeActivity.this, MainActivity.class);
+//
+//                                    startActivity(intent);
                                 }
 
                                 @Override
                                 public void onError(Throwable e) {
-
+                                    ToastUtil.showToast("绑定手机号失败!");
                                 }
 
                                 @Override
                                 public void onNext(SigninBean baseBean) {
-
+                                    HashMap<String, String> hashMap = new HashMap<>();
+                                    //存储用户基本
+                                    hashMap.put("id", String.valueOf(baseBean.getData().getId()));
+                                    hashMap.put("nickname", baseBean.getData().getNickname());
+                                    if (baseBean.getData().getAvatar() != null) {
+                                        hashMap.put("avatar", baseBean.getData().getAvatar());
+                                    }
+                                    hashMap.put("phone", baseBean.getData().getPhone());
+                                    SpUtils.saveUserInfo( hashMap);
+                                    //字段is_shop=2商家，其他都是个人
+                                    SpUtils.saveUserInfo( "is_shop", baseBean.getData().getIs_shop());
+                                    SpUtils.saveUserInfo( "me_shop_id", baseBean.getData().getShop_id()+"");
+                                    AppManager.getAppManager().finishAllExpectMainActivity();
                                 }
 
                             });
@@ -128,26 +144,29 @@ public class VerifiCodeActivity extends TitleBaseActivity implements SigninView 
                 finish();
                 break;
             case R.id.newSend_tv:
-                ApiManager.getInstance().sendVerifiCode(mPhone)
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(new Subscriber<BaseBean>() {
-                            @Override
-                            public void onCompleted() {
-                                initView();
-                            }
+                if ("重新获取验证码".equals(newSendTv.getText().toString().trim())){
+                    ApiManager.getInstance().sendVerifiCode(mPhone)
+                            .subscribeOn(Schedulers.io())
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribe(new Subscriber<BaseBean>() {
+                                @Override
+                                public void onCompleted() {
+                                    initView();
+                                }
 
-                            @Override
-                            public void onError(Throwable e) {
+                                @Override
+                                public void onError(Throwable e) {
 
-                            }
+                                }
 
-                            @Override
-                            public void onNext(BaseBean baseBean) {
+                                @Override
+                                public void onNext(BaseBean baseBean) {
 
-                            }
+                                }
 
-                        });
+                            });
+                }
+
                 break;
         }
     }
@@ -201,8 +220,9 @@ public class VerifiCodeActivity extends TitleBaseActivity implements SigninView 
         }
         hashMap.put("phone", baseBean.getData().getPhone());
         SpUtils.saveUserInfo( hashMap);
+        //字段is_shop=2商家，其他都是个人
         SpUtils.saveUserInfo( "is_shop", baseBean.getData().getIs_shop());
-        SpUtils.saveUserInfo( "shop_id", baseBean.getData().getShop_id());
+        SpUtils.saveUserInfo( "me_shop_id", baseBean.getData().getShop_id()+"");
         AppManager.getAppManager().finishAllExpectMainActivity();
     }
 

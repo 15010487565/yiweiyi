@@ -19,22 +19,26 @@ public interface UrlAddr {
     String ABOUT_US = path+"api/index/about_us";//关于我们
     String SHOP_DETAILS = path+"api/shop/info";//商家详情表
 
-    String ALNUM = path+"api/shop/alnum/";//搜索页猜你喜欢
-//    String SEARCH = path+"api/search/list/";//搜索关键字
-//
-//    String CHANNEL = path+"api/channel/list/";//获取频道
-//    String CHANNEL_EDIT = path+"api/channel/edit/";//频道编辑
-//
-//    String USERINFO = path+"api/user/info/";//个人信息
-//    String USERINFO_AD = path+"api/ad/list";//个人信息广告
-//    String USERINFO_LAUNCH_AD = path+"api/ad/initad";//欢迎页广告
-//    String AD_ADD = path+"api/ad/add";//广告
-//
-//    String UPLOADIMG = path+"api/upload/img";//上传图片
-//    String USERINFO_EDIT = path+"api/user/edit";//修改头像
-//
-//    String ATTENTION_SAVE = path+"api/focus/save";//增加关注
-//    String ATTENTION_REMOVE = path+"api/focus/remove";//移除关注
+    String ALNUM = path+"api/shop/album/";//搜索页猜你喜欢
+    String LIKE = path+"api/log/like/";//靠谱列表
+
+    String EDITLOGO = path+"api/shop/editLogo";//修改公司 Logo
+    String EDITSHOPNAME = path+"api/shop/editShopName";//修改厂家名称
+
+    String GETSHOPPHONE = path+"api/shop/getShopPhone";//获取商家联系电话
+
+    String BROWSE = path+"api/log/browse";//访问记录
+    String BROWSEADD = path+"api/log/browseAdd";//新增 访问记录
+
+    String CALLLOG = path+"api/log/callLog";//通话记录
+
+    String ADDCALLLOG = path+"api/log/addCallLog";//新增 通话记录
+
+
+
+    String USER_AGREEMENT = path+"api/index/user_agreement";//用户协议
+    String PRIVACYPOLICY = path+"api/index/privacyPolicy";//隐私政策
+
 //    String ATTENTION_REMOVE_All = path+"api/focus/remove";//移除全部关注
 //    String ATTENTION_LIST = path+"api/focus/history";//关注
 //

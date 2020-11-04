@@ -15,6 +15,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+import static com.yiweiyi.www.ui.setting.AboutActivity.ABOUT;
+import static com.yiweiyi.www.ui.setting.AboutActivity.ABOUT_TYPE;
+
 public class SettingActivity extends TitleBaseActivity {
 
     @BindView(R.id.tv_CacheSize)
@@ -61,7 +64,10 @@ public class SettingActivity extends TitleBaseActivity {
         super.onViewClicked(view);
         switch (view.getId()){
             case R.id.ll_about:
-                openActivity(AboutActivity.class);
+                Intent intent = new Intent(this, AboutActivity.class);
+                intent.putExtra(ABOUT,ABOUT_TYPE);
+                startActivity(intent);
+
                 break;
 
             case R.id.ll_Cache:

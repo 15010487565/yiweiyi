@@ -22,9 +22,9 @@ import com.yiweiyi.www.R;
 import com.yiweiyi.www.adapter.search.BusinessDisplayAdapter;
 import com.yiweiyi.www.base.BaseFragment;
 import com.yiweiyi.www.bean.search.SearchCompeBean;
-import com.yiweiyi.www.details.DetailsActivity;
 import com.yiweiyi.www.dialog.BottomAirlinesPhoneDialog;
 import com.yiweiyi.www.presenter.SearchPresenter;
+import com.yiweiyi.www.ui.details.DetailsActivity;
 import com.yiweiyi.www.utils.SpUtils;
 import com.yiweiyi.www.view.search.SearchCompeView;
 

@@ -84,6 +84,7 @@ public interface ApiService {
                                      @Field("nickname") String nickname,
                                      @Field("avatar") String avatar,
                                      @Field("phone") String phone,
+                                       @Field("code") String code,
                                      @Field("source") String source);
 
     /**

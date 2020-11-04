@@ -94,4 +94,12 @@ public class PrfUtils {
         SharedPreferences preferences = PrfUtils.getSharePreferences();
         return preferences.getString("phone", "");
     }
+    public static int isShop() {
+        SharedPreferences preferences = PrfUtils.getSharePreferences();
+        return preferences.getInt("is_shop", 0);
+    }
+    public static String getMeShopId() {
+        SharedPreferences preferences = PrfUtils.getSharePreferences();
+        return preferences.getString("me_shop_id", "");
+    }
 }

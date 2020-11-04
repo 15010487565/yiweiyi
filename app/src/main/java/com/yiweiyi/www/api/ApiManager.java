@@ -1,8 +1,5 @@
 package com.yiweiyi.www.api;
 
-import com.yiweiyi.www.bean.personal.BusinessPhoneListBean;
-import com.yiweiyi.www.bean.personal.UserInfoBean;
-import com.yiweiyi.www.bean.raw.RawMaterialBean;
 import com.yiweiyi.www.base.BaseBean;
 import com.yiweiyi.www.base.CommonData;
 import com.yiweiyi.www.bean.compe.CompeDetailsBean;
@@ -11,12 +8,14 @@ import com.yiweiyi.www.bean.compe.ReliableListBean;
 import com.yiweiyi.www.bean.compe.ShareImgBean;
 import com.yiweiyi.www.bean.login.SigninBean;
 import com.yiweiyi.www.bean.main.HomeCategoryBean;
+import com.yiweiyi.www.bean.personal.BusinessPhoneListBean;
 import com.yiweiyi.www.bean.personal.FreeEntryBean;
+import com.yiweiyi.www.bean.personal.UserInfoBean;
+import com.yiweiyi.www.bean.raw.RawMaterialBean;
 import com.yiweiyi.www.bean.search.CommonAreasListBean;
 import com.yiweiyi.www.bean.search.ProximitySearchBean;
 import com.yiweiyi.www.bean.search.SearchCompeBean;
 import com.yiweiyi.www.bean.search.SearchRecordsBean;
-import com.yiweiyi.www.utils.LogUtils;
 
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -67,7 +66,6 @@ public class ApiManager {
                 .addConverterFactory(GsonConverterFactory.create()) // 添加Gson转换器
                 .client(okHttpClient)
                 .build();
-        LogUtils.e("mainUrl : " + CommonData.mainUrl);
         apiService = retrofit.create(ApiService.class);
     }
 
@@ -93,8 +91,8 @@ public class ApiManager {
                                             String openid,
                                             String nickname,
                                             String avatar,
-                                            String phone) {
-        return apiService.wxBindPhone(unionid, openid, nickname, avatar, phone, "android");
+                                            String phone,String code) {
+        return apiService.wxBindPhone(unionid, openid, nickname, avatar, phone,code, "android");
     }
 
     //用户协议

@@ -154,6 +154,7 @@ public class RawMaterialActivity extends SimpleTopbarActivity implements OnPopup
 
     @Override
     public void setOnClickListener(String year) {
+        toolbar_tv_menu.setText(year+"年");
         initData(year,type);
     }
 }

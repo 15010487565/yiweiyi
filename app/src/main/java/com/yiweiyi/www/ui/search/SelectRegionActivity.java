@@ -2,10 +2,10 @@ package com.yiweiyi.www.ui.search;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.qmuiteam.qmui.alpha.QMUIAlphaButton;
 import com.yiweiyi.www.R;
 import com.yiweiyi.www.adapter.store.ContactAdapter;
 import com.yiweiyi.www.adapter.store.ContactHeaderItemAdapter;
@@ -26,7 +27,6 @@ import com.yiweiyi.www.utils.ToastUtils;
 import com.yiweiyi.www.view.search.AddCommonAreasView;
 import com.yiweiyi.www.view.search.CommonAreasListView;
 import com.yiweiyi.www.view.search.DelCommonAreasView;
-import com.qmuiteam.qmui.alpha.QMUIAlphaButton;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -71,7 +71,6 @@ public class SelectRegionActivity extends TitleBaseActivity implements CommonAre
         mSearchPresenter = new SearchPresenter(this);
         initView();
         initData();
-
     }
 
     private void initListener() {
@@ -94,7 +93,6 @@ public class SelectRegionActivity extends TitleBaseActivity implements CommonAre
         intent = getIntent();
         mAlldiqu = getIntent().getStringExtra(ALLDATA);
         mDiqu = getIntent().getStringExtra(DATA);
-        Log.e("diqu", mDiqu + "---" + mAlldiqu);
 
     }
 
@@ -113,6 +111,7 @@ public class SelectRegionActivity extends TitleBaseActivity implements CommonAre
         mContactAdapter = new ContactAdapter(this);
         indexableLayout.setAdapter(mContactAdapter);
         indexableLayout.setOverlayStyle_Center();
+        indexableLayout.showAllLetter(false);
         indexableLayout.setCompareMode(IndexableLayout.MODE_FAST);
         List<String> bannerList = new ArrayList<>();
         bannerList.add("");
@@ -203,8 +202,8 @@ public class SelectRegionActivity extends TitleBaseActivity implements CommonAre
                 vh.currentAreaBtn.setEnabled(true);
             }
 
-
             if (mUsed_area != null && mUsed_area.size() != 0) {
+                vh.ll_common_area.setVisibility(View.VISIBLE);
                 ContactHeaderItemAdapter commonlyAdapter = new ContactHeaderItemAdapter(R.layout.item_contact_header_item, mUsed_area);
                 vh.commonAreaRv.setLayoutManager(new GridLayoutManager(mContext, 4));
                 vh.commonAreaRv.setAdapter(commonlyAdapter);
@@ -223,6 +222,8 @@ public class SelectRegionActivity extends TitleBaseActivity implements CommonAre
                         return true;
                     }
                 });
+            }else {
+                vh.ll_common_area.setVisibility(View.GONE);
             }
 
 
@@ -252,8 +253,8 @@ public class SelectRegionActivity extends TitleBaseActivity implements CommonAre
             TextView currentAreaTv;
             @BindView(R.id.current_area_btn)
             QMUIAlphaButton currentAreaBtn;
-            @BindView(R.id.common_area_)
-            TextView commonArea;
+            @BindView(R.id.ll_common_area)
+            LinearLayout ll_common_area;
             @BindView(R.id.common_area_rv)
             RecyclerView commonAreaRv;
             @BindView(R.id.hot_area_)

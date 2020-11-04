@@ -6,11 +6,11 @@
     android:layout_marginLeft="20dp"
     android:layout_marginTop="18dp">
 
-    <ImageView
+    <com.yiweiyi.www.view.CircleImageView
         android:id="@+id/head_img"
-        android:layout_width="32dp"
-        android:layout_height="33dp"
-        android:src="@drawable/no_login"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:src="@mipmap/ic_launcher"
         app:layout_constraintBottom_toBottomOf="@id/time_tv"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="@id/name_tv" />
@@ -41,7 +41,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="6dp"
-        android:layout_marginTop="9dp"
+        android:layout_marginTop="5dp"
         android:text="09：22"
         android:textColor="@color/color717171"
         android:textSize="14sp"

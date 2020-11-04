@@ -158,6 +158,7 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
                     String unionid = object.optString("unionid");
                     editor.putString("unionid", unionid);
                     String headUrl = object.optString("headimgurl");
+//                    headUrl.replace("https://thirdwx.qlogo.cn", "https://wx.qlogo.cn");
                     editor.putString("avatar", headUrl);
                     editor.putBoolean("isAuth", true);
 

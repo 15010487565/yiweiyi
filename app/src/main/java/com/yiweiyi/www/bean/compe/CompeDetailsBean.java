@@ -46,10 +46,10 @@ public class CompeDetailsBean extends BaseBean {
         private int like_num;
         private InfoBean info;
         private List<LikeBean> like;
-        private List<String> type_1;
-        private List<String> type_2;
-        private List<String> type_3;
-        private List<Type3ArrBean> type_3_arr;
+//        private List<String> type_1;
+//        private List<String> type_2;
+//        private List<String> type_3;
+//        private List<Type3ArrBean> type_3_arr;
         private List<String> rotation_imgs;
 
         public int getBrowse_total() {
@@ -100,37 +100,37 @@ public class CompeDetailsBean extends BaseBean {
             this.like = like;
         }
 
-        public List<String> getType_1() {
-            return type_1;
-        }
-
-        public void setType_1(List<String> type_1) {
-            this.type_1 = type_1;
-        }
-
-        public List<String> getType_2() {
-            return type_2;
-        }
-
-        public void setType_2(List<String> type_2) {
-            this.type_2 = type_2;
-        }
-
-        public List<String> getType_3() {
-            return type_3;
-        }
-
-        public void setType_3(List<String> type_3) {
-            this.type_3 = type_3;
-        }
-
-        public List<Type3ArrBean> getType_3_arr() {
-            return type_3_arr;
-        }
-
-        public void setType_3_arr(List<Type3ArrBean> type_3_arr) {
-            this.type_3_arr = type_3_arr;
-        }
+//        public List<String> getType_1() {
+//            return type_1;
+//        }
+//
+//        public void setType_1(List<String> type_1) {
+//            this.type_1 = type_1;
+//        }
+//
+//        public List<String> getType_2() {
+//            return type_2;
+//        }
+//
+//        public void setType_2(List<String> type_2) {
+//            this.type_2 = type_2;
+//        }
+//
+//        public List<String> getType_3() {
+//            return type_3;
+//        }
+//
+//        public void setType_3(List<String> type_3) {
+//            this.type_3 = type_3;
+//        }
+//
+//        public List<Type3ArrBean> getType_3_arr() {
+//            return type_3_arr;
+//        }
+//
+//        public void setType_3_arr(List<Type3ArrBean> type_3_arr) {
+//            this.type_3_arr = type_3_arr;
+//        }
 
         public List<String> getRotation_imgs() {
             return rotation_imgs;
