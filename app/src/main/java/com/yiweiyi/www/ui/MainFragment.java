@@ -91,7 +91,7 @@ public class MainFragment extends BaseFragment {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 Intent intent = new Intent(mContext, BusinessDisplayActivity.class);
-                intent.putExtra(BusinessDisplayActivity.SEARCH, mSeriesTextAdapter.getItem(position).getName());
+                intent.putExtra(BusinessDisplayActivity.SEARCH, mSeriesTextAdapter.getItem(position).getKey_name());
                 mContext.startActivity(intent);
             }
         });

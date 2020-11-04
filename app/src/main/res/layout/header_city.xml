@@ -48,7 +48,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="14dp"
             android:text="常用地区 (长按删除)"
             />
 
@@ -56,7 +56,7 @@
             android:id="@+id/common_area_rv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp" />
+            android:layout_marginTop="14dp" />
 
     </LinearLayout>
 
@@ -64,7 +64,7 @@
         android:id="@+id/hot_area_"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="14dp"
         android:text="热门地区"
         app:layout_constraintLeft_toLeftOf="@id/ll_common_area"
         app:layout_constraintTop_toBottomOf="@id/ll_common_area" />

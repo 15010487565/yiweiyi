@@ -78,7 +78,7 @@ public class MainActivity extends BaseActivity implements HomeCategoryView, Free
     @BindView(R.id.activity_main)
     DrawerLayout activityMain;
     @BindView(R.id.right_nv)
-    NavigationView rightNv;
+    LinearLayout rightNv;
 
     private ImageView mPersonalLeft;
     private QMUIRadiusImageView mHeadImg;
@@ -168,8 +168,8 @@ public class MainActivity extends BaseActivity implements HomeCategoryView, Free
      * 右侧抽屉视图初始化
      */
     private void initViewRight() {
-        View headview = rightNv.inflateHeaderView(R.layout.nav_all_series);
-        mAllSeries = headview.findViewById(R.id.all_series_rv);
+//        View headview = rightNv.inflateHeaderView(R.layout.nav_all_series);
+        mAllSeries = findViewById(R.id.all_series_rv);
         setAllSeriesList();
     }
 
