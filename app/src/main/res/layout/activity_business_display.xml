@@ -4,9 +4,6 @@
     android:id="@+id/rc"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/bar_cl"
@@ -76,60 +73,68 @@
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="@id/search_cl" />
         </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <LinearLayout
-            android:id="@+id/tab_ll"
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/ly_pull_refresh"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/white"
-            android:orientation="horizontal"
-            app:layout_constraintTop_toBottomOf="@id/bar_cl">
-
-            <com.google.android.material.tabs.TabLayout
-                android:id="@+id/tab_layout"
-                android:layout_width="0dp"
+            android:orientation="vertical"
+           android:layout_below="@id/bar_cl">
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                app:tabMaxWidth="200dp"
-                app:tabMinWidth="50dp"
-                app:tabPaddingStart="5dp"
-                app:tabPaddingEnd="5dp"
-                android:layout_marginLeft="10dp"
-                app:tabIndicator="@drawable/shape_tab_indicator_2"
-                app:tabIndicatorColor="@color/color0E76E2"
-                app:tabIndicatorFullWidth="false"
-                app:tabMode="scrollable"
-                app:tabRippleColor="@color/transparent"
-                app:tabSelectedTextColor="@color/color0E76E2"
-                app:tabTextAppearance="@style/TabSize16"
-                app:tabTextColor="@color/color383838" />
+                android:orientation="vertical">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:orientation="horizontal">
+                    <com.google.android.material.tabs.TabLayout
+                        android:id="@+id/tab_layout"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        app:tabMaxWidth="200dp"
+                        app:tabMinWidth="50dp"
+                        app:tabPaddingStart="5dp"
+                        app:tabPaddingEnd="5dp"
+                        android:layout_marginLeft="10dp"
+                        app:tabIndicator="@drawable/shape_tab_indicator_2"
+                        app:tabIndicatorColor="@color/color0E76E2"
+                        app:tabIndicatorFullWidth="false"
+                        app:tabMode="scrollable"
+                        app:tabRippleColor="@color/transparent"
+                        app:tabSelectedTextColor="@color/color0E76E2"
+                        app:tabTextAppearance="@style/TabSize16"
+                        app:tabTextColor="@color/color383838" />
 
 
-            <com.qmuiteam.qmui.alpha.QMUIAlphaImageButton
-                android:id="@+id/more_tab_bt"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:background="@color/white"
-                android:paddingRight="14dp"
-                android:paddingLeft="14dp"
-                android:src="@drawable/more_down" />
+                    <com.qmuiteam.qmui.alpha.QMUIAlphaImageButton
+                        android:id="@+id/more_tab_bt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:background="@color/white"
+                        android:paddingRight="14dp"
+                        android:paddingLeft="14dp"
+                        android:src="@drawable/more_down" />
 
-        </LinearLayout>
+                </LinearLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/colorDCDCDC"
+                    app:layout_constraintTop_toBottomOf="@id/ly_pull_refresh" />
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/colorDCDCDC"
-            app:layout_constraintTop_toBottomOf="@id/tab_ll" />
+                <androidx.viewpager2.widget.ViewPager2
+                    android:id="@+id/main_vp2"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+            </LinearLayout>
 
-        <androidx.viewpager2.widget.ViewPager2
-            android:id="@+id/main_vp2"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tab_ll" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+
     <LinearLayout
         android:id="@+id/ll_mini_program"
         android:layout_width="match_parent"

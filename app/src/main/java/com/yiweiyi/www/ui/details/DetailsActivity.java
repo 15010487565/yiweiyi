@@ -13,7 +13,6 @@ import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -42,8 +41,6 @@ import com.yiweiyi.www.base.CommonData;
 import com.yiweiyi.www.dialog.BottomAirlinesPhoneDialog;
 import com.yiweiyi.www.model.DetailsModel;
 import com.yiweiyi.www.utils.HtmlUtils;
-import com.yiweiyi.www.utils.ImageUtils;
-import com.yiweiyi.www.utils.PrfUtils;
 import com.yiweiyi.www.utils.ScreenUtils;
 import com.yiweiyi.www.utils.ShareDialog;
 import com.yiweiyi.www.utils.SpUtils;
@@ -56,6 +53,8 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -64,10 +63,11 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import www.xcd.com.mylibrary.base.activity.SimpleTopbarActivity;
+import www.xcd.com.mylibrary.base.application.XCDApplication;
 import www.xcd.com.mylibrary.help.OkHttpHelper;
 
 
-public class DetailsActivity extends SimpleTopbarActivity {
+public class DetailsActivity extends SimpleTopbarActivity implements BottomAirlinesPhoneDialog.CallBack {
 
     @BindView(R.id.back_bt)
     LinearLayout back_bt;
@@ -134,8 +134,8 @@ public class DetailsActivity extends SimpleTopbarActivity {
     @BindView(R.id.certifications_cl)
     ConstraintLayout certifications_cl;
 
-    @BindView(R.id.ll_mini_program)
-    LinearLayout ll_mini_program;
+//    @BindView(R.id.ll_mini_program)
+//    LinearLayout ll_mini_program;
     @BindView(R.id.iv_mini_program)
     ImageView iv_mini_program;
     @BindView(R.id.scroll)
@@ -149,6 +149,8 @@ public class DetailsActivity extends SimpleTopbarActivity {
     //分享弹窗
     private ShareDialog shareDialog;
     int shop_id;
+    int is_like;//0:未点赞；
+    int like_num;
     public static String SHOPEID = "SHOPEID";
     public static String SHOPEPHONE = "SHOPEPHONE";
     @Override
@@ -159,7 +161,7 @@ public class DetailsActivity extends SimpleTopbarActivity {
         String phone = getIntent().getStringExtra(SHOPEPHONE);
         call_bt.setText(phone);
         initLisetener();
-        ll_mini_program.setVisibility(View.GONE);
+        iv_mini_program.setVisibility(View.GONE);
         shop_id = getIntent().getIntExtra(SHOPEID, 0);
         Map<String, String> params = new HashMap<String, String>();
         params.put("user_id", SpUtils.getUserID());
@@ -167,10 +169,9 @@ public class DetailsActivity extends SimpleTopbarActivity {
         OkHttpHelper.postAsyncHttp(this,1001,
                 params, UrlAddr.SHOP_DETAILS,this);
 
-        String meShopId = PrfUtils.getMeShopId();
         Map<String, String> params1 = new HashMap<String, String>();
         params1.put("user_id", SpUtils.getUserID());
-        params1.put("shop_id", meShopId +"");
+        params1.put("shop_id", shop_id +"");
         OkHttpHelper.postAsyncHttp(this,1002,
                 params1, UrlAddr.BROWSEADD,this);
     }
@@ -211,6 +212,8 @@ public class DetailsActivity extends SimpleTopbarActivity {
     }
 
     private void initLisetener() {
+        zan_bt.setOnClickListener(this);
+
         back_bt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -224,29 +227,13 @@ public class DetailsActivity extends SimpleTopbarActivity {
             @SuppressLint("WrongConstant")
             @Override
             public void wxHaoyouBack(int position) {
-                ll_mini_program.setVisibility(View.GONE);
-                WXMiniProgramObject miniProgram = new WXMiniProgramObject();
-                miniProgram.webpageUrl="www.xianlankufang.com";// 兼容低版本的网页链接
-                miniProgram.userName="gh_6606c78a3dd6";//小程序ID
-                miniProgram.path="/pages/index/index";//小程序路径
-                WXMediaMessage mediaMessage = new WXMediaMessage(miniProgram);
-                mediaMessage.title = "真实货源\t即搜即得";//小程序消息title
-                mediaMessage.description = "真实货源\t即搜即得"; // 小程序消息desc
-//                Bitmap bitmap = BitmapFactory.decodeResource(BusinessDisplayActivity.this.getResources(),R.mipmap.ic_launcher);
-                Bitmap bitmap = capture(scroll);
-//                Bitmap sendBitmap = Bitmap.createScaledBitmap(bitmap,50,50,true);
-                mediaMessage.thumbData = bmpToByteArray(bitmap);
+                iv_mini_program.setVisibility(View.VISIBLE);
+                mHandler.sendEmptyMessageDelayed(2, 1000);
 
-                SendMessageToWX.Req req = new SendMessageToWX.Req();
-                req.transaction = "真实货源\t即搜即得"; // 小程序消息封面图片，小于128k
-                req.scene = SendMessageToWX.Req.WXSceneSession;
-                req.message = mediaMessage;
-                Constants.wx_api.sendReq(req);
-                bitmap.recycle();
             }
             @Override
             public void wxPyqBack(int position) {
-                ll_mini_program.setVisibility(View.VISIBLE);
+                iv_mini_program.setVisibility(View.VISIBLE);
                 mHandler.sendEmptyMessageDelayed(0, 1000);
 
             }
@@ -286,7 +273,7 @@ public class DetailsActivity extends SimpleTopbarActivity {
 
             //从屏幕整张图片中截取指定区域
             bitmap = Bitmap.createBitmap(bitmap, viewLocationArray[0], viewLocationArray[1], outWidth, outHeight);
-            Toast.makeText(this, "截图成功", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(this, "截图成功", Toast.LENGTH_SHORT).show();
             view.setDrawingCacheEnabled(false);  //禁用DrawingCahce否则会影响性能
         }
 
@@ -309,7 +296,7 @@ public class DetailsActivity extends SimpleTopbarActivity {
 //        msg.thumbData = Util.bmpToByteArray(bitmap,false);  //设置缩略图
         msg.thumbData = bmpToByteArray(bitmap);
         SendMessageToWX.Req req = new SendMessageToWX.Req();
-        req.transaction = "真实货源\t即搜即得";
+        req.transaction = compe_name_tv.getText().toString().trim();
         req.message = msg;
         req.scene = shareType;
         Constants.wx_api.sendReq(req);
@@ -344,13 +331,42 @@ public class DetailsActivity extends SimpleTopbarActivity {
         @Override
         public void handleMessage(@NonNull Message msg) {
             super.handleMessage(msg);
-            sharePicture(capture(scroll),1);
-            ll_mini_program.setVisibility(View.GONE);
+            switch (msg.what){
+                case 0:
+                    sharePicture(capture(scroll),1);
+                    iv_mini_program.setVisibility(View.GONE);
+                    break;
+
+                case 2:
+                    WXMiniProgramObject miniProgram = new WXMiniProgramObject();
+                    miniProgram.webpageUrl="www.xianlankufang.com";// 兼容低版本的网页链接
+                    miniProgram.userName="gh_6606c78a3dd6";//小程序ID
+                    miniProgram.path="/pages/detail/detail?scene="+shop_id;//小程序路径
+                    WXMediaMessage mediaMessage = new WXMediaMessage(miniProgram);
+                    mediaMessage.title = compe_name_tv.getText().toString().trim();//小程序消息title
+                    mediaMessage.description = compe_name_tv.getText().toString().trim(); // 小程序消息desc
+//                Bitmap bitmap = BitmapFactory.decodeResource(BusinessDisplayActivity.this.getResources(),R.mipmap.ic_launcher);
+                    Bitmap bitmap = capture(scroll);
+//                Bitmap sendBitmap = Bitmap.createScaledBitmap(bitmap,50,50,true);
+                    mediaMessage.thumbData = bmpToByteArray(bitmap);
+
+                    SendMessageToWX.Req req = new SendMessageToWX.Req();
+                    req.transaction = compe_name_tv.getText().toString().trim(); // 小程序消息封面图片，小于128k
+                    req.scene = SendMessageToWX.Req.WXSceneSession;
+                    req.message = mediaMessage;
+                    Constants.wx_api.sendReq(req);
+                    bitmap.recycle();
+
+                    iv_mini_program.setVisibility(View.GONE);
+                    break;
+            }
+
         }
     };
 
     @Override
     public void onSuccessResult(int requestCode, int returnCode, String returnMsg, String returnData, Map<String, String> paramsMaps) {
+
         switch (requestCode){
             case 1001:
                 Gson gson = new Gson();
@@ -360,8 +376,9 @@ public class DetailsActivity extends SimpleTopbarActivity {
                 numberVisitors_tv.setText(data.getBrowse_total()+"");
                 contactTimes_tv.setText(data.getCall_log_total()+"");
 
-                tv_like.setText(data.getLike_num()+"");
-                zan_bt.setText(data.getLike_num()+"");
+                like_num = data.getLike_num();
+                tv_like.setText(like_num +"");
+                zan_bt.setText(like_num +"");
                 adapter.setNewData(data.getLike());
 
                 DetailsModel.DataBean.InfoBean info = data.getInfo();
@@ -369,7 +386,7 @@ public class DetailsActivity extends SimpleTopbarActivity {
                 compe_name_tv.setText(shop_name);
                 location_tv.setText(info.getAddress());
 
-                int is_like = info.getIs_like();
+                is_like = info.getIs_like();
                 if (is_like == 0){
                     Drawable drawableLeft = getResources().getDrawable(
                             R.drawable.ungreat_xiao);
@@ -436,13 +453,40 @@ public class DetailsActivity extends SimpleTopbarActivity {
                         .addBannerLifecycleObserver(this)//添加生命周期观察者
                         .setIndicator(new CircleIndicator(this));
 
-                ImageUtils.setImage(iv_mini_program,CommonData.mainUrl+info.getQr_code());
+//                ImageUtils.setImage(iv_mini_program,CommonData.mainUrl+info.getQr_code());
 
+                Glide.with(XCDApplication.getAppContext())
+                        .load(CommonData.mainUrl + info.getShare_img())
+                        .into(iv_mini_program);
+
+                break;
+            case 1003:{
+                is_like = 1;
+                Drawable drawableLeft = getResources().getDrawable(
+                        R.drawable.great_xiao);
+                zan_bt.setCompoundDrawablesWithIntrinsicBounds(drawableLeft,
+                        null, null, null);
+                like_num+=1;
+                tv_like.setText(like_num +"");
+                zan_bt.setText(like_num +"");
+            }
+                break;
+            case 1004:{
+                is_like = 0;
+                Drawable drawableLeft = getResources().getDrawable(
+                        R.drawable.ungreat_xiao);
+                zan_bt.setCompoundDrawablesWithIntrinsicBounds(drawableLeft,
+                        null, null, null);
+                like_num-=1;
+                tv_like.setText((like_num<=0?0:(like_num)) +"");
+                zan_bt.setText((like_num<=0?0:(like_num))+"");
+            }
                 break;
 
         }
     }
-    @OnClick({R.id.more_zan_bt,R.id.share_bt,R.id.more_products_catalogue_bt, R.id.real_view_bt, R.id.certifications_bt})
+
+    @OnClick({R.id.call_bt,R.id.more_zan_bt,R.id.share_bt,R.id.more_products_catalogue_bt, R.id.real_view_bt, R.id.certifications_bt})
     @Override
     public void onClick(View v) {
         super.onClick(v);
@@ -465,7 +509,7 @@ public class DetailsActivity extends SimpleTopbarActivity {
                 break;
             case R.id.certifications_bt:{
                 //证书
-                Intent intent = new Intent(DetailsActivity.this, ProdcataActivity.class);
+                Intent intent = new Intent(DetailsActivity.this, CertificationActivity.class);
                 intent.putExtra(SHOPEID, shop_id);
                 intent.putExtra(ProdcataActivity.ALNUMTYPE,"3");
                 startActivity(intent);
@@ -487,6 +531,22 @@ public class DetailsActivity extends SimpleTopbarActivity {
                 intent.putExtra(SHOPEID, shop_id);
                 startActivity(intent);
             }
+
+                break;
+            case R.id.zan_bt:
+                if (is_like == 0){
+                    Map<String, String> params1 = new HashMap<String, String>();
+                    params1.put("user_id", SpUtils.getUserID());
+                    params1.put("shop_id", shop_id +"");
+                    OkHttpHelper.postAsyncHttp(DetailsActivity.this,1003,
+                            params1, UrlAddr.LIKEADD,this);
+                }else {
+                    Map<String, String> params1 = new HashMap<String, String>();
+                    params1.put("user_id", SpUtils.getUserID());
+                    params1.put("shop_id", shop_id +"");
+                    OkHttpHelper.postAsyncHttp(DetailsActivity.this,1004,
+                            params1, UrlAddr.LIKEDEL,this);
+                }
 
                 break;
 
@@ -512,5 +572,24 @@ public class DetailsActivity extends SimpleTopbarActivity {
         super.onDestroy();
         //销毁
         banner.destroy();
+        if (mHandler != null)
+            mHandler.removeCallbacksAndMessages(null);
+    }
+
+    @Override
+    public void callPhone(String phone) {
+        Map<String, String> params1 = new HashMap<String, String>();
+        params1.put("user_id", SpUtils.getUserID());
+        params1.put("shop_id", shop_id +"");
+
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd-HH:mm:ss");
+        Date date = new Date(System.currentTimeMillis());
+        String str=simpleDateFormat.format(date);
+
+        params1.put("shop_phone", phone +"");
+        params1.put("call_time", str +"");
+        params1.put("is_connect", shop_id +"");
+        OkHttpHelper.postAsyncHttp(this,1002,
+                params1, UrlAddr.ADDCALLLOG,this);
     }
 }

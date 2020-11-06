@@ -59,7 +59,7 @@ public class MainFragment extends BaseFragment {
 
         if (mPagerView == null) {
 
-            mPagerView = inflater.inflate(R.layout.recycler_all, container, false);
+            mPagerView = inflater.inflate(R.layout.frament_rc, container, false);
         }
 
         mUnbinder = ButterKnife.bind(this, mPagerView);

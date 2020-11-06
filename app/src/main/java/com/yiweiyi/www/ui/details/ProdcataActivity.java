@@ -49,17 +49,20 @@ public class ProdcataActivity extends SimpleTopbarActivity {
         //1 产品图册  , 2 实景展示 , 3 资质证书
         if ("1".equals(type)){
             resetTopbarTitle("产品图册");
+            Map<String, String> params = new HashMap<String, String>();
+            params.put("type", type);
+            params.put("shop_id", getIntent().getIntExtra(DetailsActivity.SHOPEID,0)+"");
+            OkHttpHelper.postAsyncHttp(this,1000,
+                    params, UrlAddr.ALNUM,this);
         }else if("2".equals(type)){
             resetTopbarTitle("实景展示");
-        }else {
-            resetTopbarTitle("资质证书");
+            Map<String, String> params = new HashMap<String, String>();
+            params.put("type", type);
+            params.put("shop_id", getIntent().getIntExtra(DetailsActivity.SHOPEID,0)+"");
+            OkHttpHelper.postAsyncHttp(this,1000,
+                    params, UrlAddr.ALNUM,this);
         }
 
-        Map<String, String> params = new HashMap<String, String>();
-        params.put("type", type);
-        params.put("shop_id", getIntent().getIntExtra(DetailsActivity.SHOPEID,0)+"");
-        OkHttpHelper.postAsyncHttp(this,1000,
-                params, UrlAddr.ALNUM,this);
     }
 
     @Override
@@ -91,9 +94,10 @@ public class ProdcataActivity extends SimpleTopbarActivity {
 
     @Override
     public void onSuccessResult(int requestCode, int returnCode, String returnMsg, String returnData, Map<String, String> paramsMaps) {
+        Gson gson = new Gson();
         switch (requestCode){
             case 1000:
-                Gson gson = new Gson();
+
                 ProdcataModel pr = gson.fromJson(returnData, ProdcataModel.class);
                 List<ProdcataModel.DataBean> data = pr.getData();
                 if (data == null || data.size() == 0){

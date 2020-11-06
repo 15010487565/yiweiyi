@@ -200,8 +200,9 @@ public class ApiManager {
     //搜索接口
     public Observable<SearchCompeBean> searchCompe(String search,
                                                    String user_id,
-                                                   String area) {
-        return apiService.searchCompe(search, user_id, area);
+                                                   String area,
+                                                   String page) {
+        return apiService.searchCompe(search, user_id, area,page);
     }
 
     //用户添加常用地区

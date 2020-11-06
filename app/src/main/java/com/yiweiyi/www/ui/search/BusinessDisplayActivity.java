@@ -18,6 +18,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 
@@ -30,14 +31,21 @@ import com.tencent.mm.opensdk.modelmsg.WXMediaMessage;
 import com.tencent.mm.opensdk.modelmsg.WXMiniProgramObject;
 import com.yiweiyi.www.R;
 import com.yiweiyi.www.api.Constants;
+import com.yiweiyi.www.api.EventBusMsg;
 import com.yiweiyi.www.base.BaseActivity;
 import com.yiweiyi.www.base.CommonData;
 import com.yiweiyi.www.bean.search.SearchCompeBean;
 import com.yiweiyi.www.presenter.SearchPresenter;
+import com.yiweiyi.www.ui.details.DetailsActivity;
+import com.yiweiyi.www.ui.login.LoginActivity;
 import com.yiweiyi.www.utils.ShareDialog;
 import com.yiweiyi.www.utils.SpUtils;
 import com.yiweiyi.www.view.search.SearchCompeView;
 import com.youth.banner.transformer.MZScaleInTransformer;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
@@ -52,7 +60,8 @@ import butterknife.OnClick;
  * 2020/9/25
  * desc:商家展示页
  */
-public class BusinessDisplayActivity extends BaseActivity implements SearchCompeView {
+public class BusinessDisplayActivity extends BaseActivity implements SearchCompeView,
+        SwipeRefreshLayout.OnRefreshListener{
 
     @BindView(R.id.back_bt)
     QMUIAlphaImageButton backBt;
@@ -82,9 +91,12 @@ public class BusinessDisplayActivity extends BaseActivity implements SearchCompe
     LinearLayout ll_mini_program ;
     @BindView(R.id.rc)
     RelativeLayout rc;
+
+    private SwipeRefreshLayout ly_pull_refresh;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        EventBus.getDefault().register(this);
         setContentView(R.layout.activity_business_display);
         ButterKnife.bind(this);
         mSearch = getIntent().getStringExtra(SEARCH);
@@ -280,13 +292,21 @@ public class BusinessDisplayActivity extends BaseActivity implements SearchCompe
     }
 
     private void initView() {
+
+        ly_pull_refresh = findViewById(R.id.ly_pull_refresh);
+        ly_pull_refresh.setOnRefreshListener(this);
+        //设置样式刷新显示的位置
+        ly_pull_refresh.setProgressViewOffset(true, -20, 100);
+        ly_pull_refresh.setColorSchemeResources(R.color.red, R.color.blue, R.color.black);
+        ly_pull_refresh.setRefreshing(false);
+
         shareDialog = new ShareDialog(this, w);
         searchTv.setText(TextUtils.isEmpty(mSearch)?"真实货源\t即搜即得":mSearch);
         initData();
     }
 
     private void initData() {
-        mSearchPresenter.searchCompe(mSearch, SpUtils.getUserID(), "");
+        mSearchPresenter.searchCompe(mSearch, SpUtils.getUserID(), "","0");
     }
 
 
@@ -297,12 +317,18 @@ public class BusinessDisplayActivity extends BaseActivity implements SearchCompe
                 finish();
                 break;
             case R.id.more_tab_bt:
-                if (!diqu.isEmpty() && !alldiqu.isEmpty() && diqu != null && alldiqu != null) {
-                    Intent intent = new Intent(mContext, SelectRegionActivity.class);
-                    Log.e("地区", diqu);
-                    intent.putExtra(SelectRegionActivity.DATA, diqu);
-                    intent.putExtra(SelectRegionActivity.ALLDATA, alldiqu);
-                    startActivityForResult(intent, CommonData.GETCITY);
+                String userID = SpUtils.getUserID();
+                if (userID.isEmpty()) {
+                    Intent intent = new Intent(mContext, LoginActivity.class);
+                    mContext.startActivity(intent);
+                }else {
+                    if (!diqu.isEmpty() && !alldiqu.isEmpty() && diqu != null && alldiqu != null) {
+                        Intent intent = new Intent(mContext, SelectRegionActivity.class);
+                        Log.e("地区", diqu);
+                        intent.putExtra(SelectRegionActivity.DATA, diqu);
+                        intent.putExtra(SelectRegionActivity.ALLDATA, alldiqu);
+                        startActivityForResult(intent, CommonData.GETCITY);
+                    }
                 }
 
                 break;
@@ -312,13 +338,33 @@ public class BusinessDisplayActivity extends BaseActivity implements SearchCompe
             }
             break;
             case R.id.search_tv:
-                openActivity(SearchActivity.class);
+                Intent intent = new Intent(this, SearchIndexActivity.class);
+                intent.putExtra("type","index");
+                startActivity(intent);
                 break;
         }
     }
 
     @Override
+    public void onDestroy() {
+        super.onDestroy();
+
+        if (EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().unregister(this);
+        }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEventMainThread(EventBusMsg event) {
+        int code = event.getCode();
+        if (code == Constants.REFRESHSEARCH) {
+           initData();
+        }
+    }
+
+    @Override
     public void onSearchCompeSuccess(SearchCompeBean baseBean) {
+        ly_pull_refresh.setRefreshing(false);
         for (int i = 0; i < baseBean.getData().getArea_list().size(); i++) {
             if (i == 0) {
                 alldiqu = baseBean.getData().getArea_list().get(i);
@@ -353,5 +399,10 @@ public class BusinessDisplayActivity extends BaseActivity implements SearchCompe
                     break;
             }
         }
+    }
+
+    @Override
+    public void onRefresh() {
+        initData();
     }
 }

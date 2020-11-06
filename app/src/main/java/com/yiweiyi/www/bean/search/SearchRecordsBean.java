@@ -11,6 +11,7 @@ import java.util.List;
  */
 public class SearchRecordsBean extends BaseBean {
 
+
     private List<DataBean> data;
 
     public List<DataBean> getData() {
@@ -23,10 +24,10 @@ public class SearchRecordsBean extends BaseBean {
 
     public static class DataBean {
         /**
-         * id : 4012
-         * user_id : 295
-         * content : 低压铜芯电缆
-         * create_time : 1601453132
+         * id : 4653
+         * user_id : 354
+         * content : 低压铜缆生产厂家
+         * create_time : 1604572695
          */
 
         private int id;

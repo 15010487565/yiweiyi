@@ -17,12 +17,29 @@
             android:orientation="horizontal"
             >
             <TextView
+                android:id="@+id/tv_app"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:text="APP："
+                android:textSize="13sp" />
+
+            <TextView
+                android:id="@+id/tv_xcx"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:text="小程序："
+                android:textSize="13sp" />
+            <TextView
                 android:id="@+id/left_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_weight="1"
-                android:text="总浏览量：3567"
+                android:text="总："
                 android:textSize="13sp" />
 
             <TextView
@@ -31,7 +48,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_weight="1"
-                android:text="今日浏览量：3567"
+                android:text="今日："
                 android:textSize="13sp" />
         </LinearLayout>
         <TextView
@@ -44,6 +61,7 @@
             android:textSize="14sp"
             android:textColor="#646464"
             android:text=""
+            android:visibility="gone"
             android:background="@color/line_gray"
             />
     </RelativeLayout>

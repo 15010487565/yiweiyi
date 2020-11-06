@@ -25,6 +25,7 @@ import com.yiweiyi.www.bean.search.SearchCompeBean;
 import com.yiweiyi.www.dialog.BottomAirlinesPhoneDialog;
 import com.yiweiyi.www.presenter.SearchPresenter;
 import com.yiweiyi.www.ui.details.DetailsActivity;
+import com.yiweiyi.www.ui.login.LoginActivity;
 import com.yiweiyi.www.utils.SpUtils;
 import com.yiweiyi.www.view.search.SearchCompeView;
 
@@ -101,9 +102,9 @@ public class BusinessDisplayFragment extends BaseFragment implements SearchCompe
 
     private void initData() {
         if (area.equals("全部")) {
-            mSearchPresenter.searchCompe(search, SpUtils.getUserID(), "");
+            mSearchPresenter.searchCompe(search, SpUtils.getUserID(), "","0");
         } else {
-            mSearchPresenter.searchCompe(search, SpUtils.getUserID(), area);
+            mSearchPresenter.searchCompe(search, SpUtils.getUserID(), area,"0");
         }
 
         //mBusinessDisplayAdapter.replaceData(mDataBeanList);
@@ -118,36 +119,50 @@ public class BusinessDisplayFragment extends BaseFragment implements SearchCompe
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 //公司详情
-
-                if (data != null && data.size() > 0){
-                    SearchCompeBean.DataBean.ShopListBean shopListBean = data.get(position);
-                    Intent intent = new Intent(mContext, DetailsActivity.class);
-                    intent.putExtra(DetailsActivity.SHOPEPHONE,shopListBean.getPhone().get(0));
-                    intent.putExtra(DetailsActivity.SHOPEID, shopListBean.getId());
+                String userID = SpUtils.getUserID();
+                if (userID.isEmpty()) {
+                    Intent intent = new Intent(mContext, LoginActivity.class);
                     mContext.startActivity(intent);
+                }else {
+                    if (data != null && data.size() > 0){
+                        SearchCompeBean.DataBean.ShopListBean shopListBean = data.get(position);
+                        Intent intent = new Intent(mContext, DetailsActivity.class);
+                        intent.putExtra(DetailsActivity.SHOPEPHONE,shopListBean.getPhone().get(0));
+                        intent.putExtra(DetailsActivity.SHOPEID, shopListBean.getId());
+                        mContext.startActivity(intent);
+                    }
                 }
+
             }
         });
         mBusinessDisplayAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-                switch (view.getId()){
-                    case R.id.phone_tv:{
-                        List<SearchCompeBean.DataBean.ShopListBean> data1 = mBusinessDisplayAdapter.getData();
-                        BottomAirlinesPhoneDialog dialog = new BottomAirlinesPhoneDialog();
-                        dialog.setData(data1.get(position).getPhone().get(0));
-                        dialog.show(getFragmentManager(),"Phone");
+                //公司详情
+                String userID = SpUtils.getUserID();
+                if (userID.isEmpty()) {
+                    Intent intent = new Intent(mContext, LoginActivity.class);
+                    mContext.startActivity(intent);
+                }else {
+                    switch (view.getId()){
+                        case R.id.phone_tv:{
+                            List<SearchCompeBean.DataBean.ShopListBean> data1 = mBusinessDisplayAdapter.getData();
+                            BottomAirlinesPhoneDialog dialog = new BottomAirlinesPhoneDialog();
+                            dialog.setData(data1.get(position).getPhone().get(0));
+                            dialog.show(getFragmentManager(),"Phone");
 
-                    }break;
-                    case R.id.more_number_tv:{
-                        //
-                        if (data != null && data.size() > 0){
-                            SearchCompeBean.DataBean.ShopListBean shopListBean = data.get(position);
-                            mMorePhoneDialog.show(shopListBean.getPhone());
-                        }
+                        }break;
+                        case R.id.more_number_tv:{
+                            //
+                            if (data != null && data.size() > 0){
+                                SearchCompeBean.DataBean.ShopListBean shopListBean = data.get(position);
+                                mMorePhoneDialog.show(shopListBean.getPhone());
+                            }
 
-                    }break;
+                        }break;
+                    }
                 }
+
             }
         });
     }

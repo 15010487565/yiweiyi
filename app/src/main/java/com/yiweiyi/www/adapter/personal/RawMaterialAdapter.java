@@ -10,8 +10,9 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import com.yiweiyi.www.R;
 import com.yiweiyi.www.bean.raw.RawMaterialBean;
 
-import java.text.SimpleDateFormat;
 import java.util.List;
+
+import www.xcd.com.mylibrary.help.HelpUtils;
 
 /**
  * @Author: zsh
@@ -28,12 +29,11 @@ public class RawMaterialAdapter extends BaseQuickAdapter<RawMaterialBean.DataBea
 
     @Override
     protected void convert(@NonNull BaseViewHolder helper, RawMaterialBean.DataBean.ListBean item) {
-        String date = new SimpleDateFormat("MM月dd日").format(
-                new java.util.Date(item.getDate() * 1000));
+        String date = HelpUtils.getDateToString(item.getDate());
         helper.setText(R.id.date_tv, date);
         helper.setText(R.id.price_tv, String.valueOf(item.getPrice()));
         if (item.getWave() > 0) {
-            helper.setText(R.id.number_tv, "+" + item.getWave());
+            helper.setText(R.id.number_tv, "" + item.getWave());
             helper.getView(R.id.number_tv)
                     .setBackground(mContext.getResources().getDrawable(R.drawable.shape_yuanjiao_6_fd7033));
         } else {

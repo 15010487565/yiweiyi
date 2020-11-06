@@ -13,7 +13,6 @@ import com.qmuiteam.qmui.alpha.QMUIAlphaButton;
 import com.yiweiyi.www.R;
 import com.yiweiyi.www.api.UrlAddr;
 import com.yiweiyi.www.base.CommonData;
-import com.yiweiyi.www.me.SingleEditActivity;
 import com.yiweiyi.www.utils.ImageUtils;
 import com.yiweiyi.www.utils.PrfUtils;
 import com.yiweiyi.www.view.CircleImageView;
@@ -93,16 +92,16 @@ public class BasicInfoActivity extends PhotoActivity {
             case R.id.head_img:
                 getChoiceDialog().show();
                 break;
-            case R.id.ll_shopName:{
-                Intent intent = new Intent(this, SingleEditActivity.class);
-                intent.putExtra("title","厂名");
-                intent.putExtra("key"," shop_name");
-                String shop_name = intent.getStringExtra("shop_name");
-                intent.putExtra("content",shop_name);
-                startActivityForResult(intent,1);
-            }
-
-                break;
+//            case R.id.ll_shopName:{
+//                Intent intent = new Intent(this, SingleEditActivity.class);
+//                intent.putExtra("title","厂名");
+//                intent.putExtra("key"," shop_name");
+//                String shop_name = intent.getStringExtra("shop_name");
+//                intent.putExtra("content",shop_name);
+//                startActivityForResult(intent,1);
+//            }
+//
+//                break;
             case R.id.phone_bt: {
                 Intent intent = new Intent(this, PhoneListActivity.class);
                 startActivity(intent);

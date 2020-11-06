@@ -6,7 +6,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 
 import com.yiweiyi.www.R;
-import com.yiweiyi.www.me.UserinfoActivity;
+import com.yiweiyi.www.ui.me.UserinfoActivity;
 import com.yiweiyi.www.utils.ImageUtils;
 import com.yiweiyi.www.utils.PrfUtils;
 import com.yiweiyi.www.view.CircleImageView;

@@ -1,5 +1,6 @@
 package com.yiweiyi.www.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -35,13 +36,13 @@ import com.yiweiyi.www.bean.main.HomeCategoryBean;
 import com.yiweiyi.www.bean.personal.FreeEntryBean;
 import com.yiweiyi.www.bean.personal.UserInfoBean;
 import com.yiweiyi.www.dialog.BottomAirlinesPhoneDialog;
-import com.yiweiyi.www.me.FeedBackActivity;
-import com.yiweiyi.www.me.RawMaterialActivity;
-import com.yiweiyi.www.me.UserinfoActivity;
+import com.yiweiyi.www.ui.me.FeedBackActivity;
+import com.yiweiyi.www.ui.me.RawMaterialActivity;
+import com.yiweiyi.www.ui.me.UserinfoActivity;
 import com.yiweiyi.www.presenter.MainPresenter;
 import com.yiweiyi.www.presenter.PersonalPresenter;
 import com.yiweiyi.www.ui.login.LoginActivity;
-import com.yiweiyi.www.ui.search.SearchActivity;
+import com.yiweiyi.www.ui.search.SearchTabActivity;
 import com.yiweiyi.www.ui.setting.SettingActivity;
 import com.yiweiyi.www.ui.store.StoreManageActivity;
 import com.yiweiyi.www.utils.PrfUtils;
@@ -141,7 +142,15 @@ public class MainActivity extends BaseActivity implements HomeCategoryView, Free
             Log.e("TAG_首页","nickname="+nickname);
             mName.setText(nickname);
 
+            int shop = PrfUtils.isShop();
+            if (shop == 2){
+                mStoreManagement.setVisibility(View.VISIBLE);
+            }else {
+                mStoreManagement.setVisibility(View.GONE);
+            }
+
         }else {
+            mStoreManagement.setVisibility(View.GONE);
             mLogin.setVisibility(View.VISIBLE);
             ll_maininfo.setVisibility(View.GONE);
             mHead.setImageResource(R.drawable.no_login);
@@ -185,12 +194,18 @@ public class MainActivity extends BaseActivity implements HomeCategoryView, Free
         mPersonalLeft = headview.findViewById(R.id.personal_left_abt);
         mStoreManagement = headview.findViewById(R.id.store_management);//
         //字段is_shop=2商家，其他都是个人
-        int shop = PrfUtils.isShop();
-        if (shop == 2){
-            mStoreManagement.setVisibility(View.VISIBLE);
-        }else {
+        String userID = SpUtils.getUserID();
+        if (userID.isEmpty()) {
             mStoreManagement.setVisibility(View.GONE);
+        }else {
+            int shop = PrfUtils.isShop();
+            if (shop == 2){
+                mStoreManagement.setVisibility(View.VISIBLE);
+            }else {
+                mStoreManagement.setVisibility(View.GONE);
+            }
         }
+
         mChangeInfor = headview.findViewById(R.id.change_infor_tv);
         mSet = headview.findViewById(R.id.setting);
         mFreeEntry = headview.findViewById(R.id.free_entry);
@@ -415,7 +430,9 @@ public class MainActivity extends BaseActivity implements HomeCategoryView, Free
             break;
             //搜索
             case R.id.search_ll: {
-                openActivity(SearchActivity.class);
+                Intent intent = new Intent(this, SearchTabActivity.class);
+                intent.putExtra("type","tab");
+                startActivity(intent);
             }
             break;
             //更多型号

@@ -60,8 +60,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingLeft="10dp"
+        android:paddingRight="10dp"
         android:textColor="@color/color0582FA"
         android:textSize="15sp"
+        android:text=""
         app:layout_constraintLeft_toRightOf="@id/phone_"
         app:layout_constraintTop_toTopOf="@id/phone_" />
 
@@ -69,7 +71,7 @@
         android:id="@+id/more_number_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
+        android:paddingLeft="10dp"
         android:text="@string/more_number"
         android:textColor="@color/colorFF7D18"
         android:textSize="15sp"

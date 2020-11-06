@@ -23,5 +23,7 @@ public class PhoneListAdapter extends BaseQuickAdapter<String, BaseViewHolder> {
     @Override
     protected void convert(@NonNull BaseViewHolder helper, String item) {
         helper.setText(R.id.phone_tv,item);
+        helper.addOnClickListener(R.id.ll_Del);
+        helper.addOnClickListener(R.id.delete_);
     }
 }

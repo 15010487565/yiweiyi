@@ -1,9 +1,12 @@
 package com.yiweiyi.www.adapter.search;
 
+import android.text.TextUtils;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
@@ -13,6 +16,7 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import com.yiweiyi.www.R;
 import com.yiweiyi.www.base.CommonData;
 import com.yiweiyi.www.bean.search.SearchCompeBean;
+import com.yiweiyi.www.utils.SpUtils;
 
 import java.util.List;
 
@@ -31,7 +35,15 @@ public class BusinessDisplayAdapter extends BaseQuickAdapter<SearchCompeBean.Dat
     protected void convert(@NonNull BaseViewHolder helper, SearchCompeBean.DataBean.ShopListBean item) {
         helper.setText(R.id.compe_name_tv, item.getShop_name());
         helper.setText(R.id.name_tv, item.getHead());
-        helper.setText(R.id.phone_tv, item.getPhone().get(0));
+        TextView phone = helper.getView(R.id.phone_tv);
+        phone.setText(item.getPhone().get(0));
+        if (TextUtils.isEmpty(SpUtils.getUserID())){
+            phone.setBackgroundColor(ContextCompat.getColor(mContext,R.color.blue));
+            phone.setText("\t\t\t\t\t\t\t\t\t\t\t");
+        }else {
+            phone.setBackgroundColor(ContextCompat.getColor(mContext,R.color.white));
+            phone.setText(item.getPhone().get(0));
+        }
         helper.setText(R.id.title_tv, item.getProfile());
         helper.setText(R.id.address_tv, item.getArea());
         RoundedCorners roundedCorners = new RoundedCorners(2);

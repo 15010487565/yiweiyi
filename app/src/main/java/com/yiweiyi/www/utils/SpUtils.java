@@ -79,6 +79,9 @@ public class SpUtils {
         editor.putString("unionid", "");
         editor.putString("avatar", "");
         editor.putBoolean("isAuth", false);
+        editor.putInt("is_shop", 0);
+        editor.putString("me_shop_id", "");
+
         editor.apply();
     }
 

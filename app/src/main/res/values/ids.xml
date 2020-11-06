@@ -2,5 +2,6 @@
 <resources>
     <item name="account_head" type="id" />
     <item name="account_name" type="id" />
+    <item name="ok" type="id"/>
 
 </resources>

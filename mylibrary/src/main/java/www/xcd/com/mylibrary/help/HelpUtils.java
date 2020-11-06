@@ -286,7 +286,7 @@ public class HelpUtils {
             time = time * 1000;
         }
         Date d = new Date(time);
-        SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat sf = new SimpleDateFormat("MM月dd日");
         return sf.format(d);
     }
 

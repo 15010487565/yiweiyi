@@ -1,4 +1,4 @@
-package com.yiweiyi.www.me;
+package com.yiweiyi.www.ui.me;
 
 import android.os.Bundle;
 import android.text.Editable;
@@ -93,6 +93,6 @@ public class FeedBackActivity extends SimpleTopbarActivity {
         params.put("user_id", userID);
         params.put("content", trim);
         OkHttpHelper.postAsyncHttp(this,1001,
-                params, UrlAddr.RAWMARKET,this);
+                params, UrlAddr.FEEDBACK,this);
     }
 }

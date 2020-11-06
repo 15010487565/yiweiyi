@@ -492,4 +492,6 @@ public abstract class SimpleTopbarActivity extends BaseActivity implements OnCli
     public void onErrorResult(int errorCode, String errorExcep) {
         ToastUtil.showToast(errorExcep);
     }
+
+
 }

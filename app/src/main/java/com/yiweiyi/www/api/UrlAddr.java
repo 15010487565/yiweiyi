@@ -19,13 +19,16 @@ public interface UrlAddr {
     String ABOUT_US = path+"api/index/about_us";//关于我们
     String SHOP_DETAILS = path+"api/shop/info";//商家详情表
 
-    String ALNUM = path+"api/shop/album/";//搜索页猜你喜欢
+    String ALNUM = path+"api/shop/album/";//
+    String ALBUMLIST3 = path+"api/shop/ALBUMLIST3/";//资质证书
     String LIKE = path+"api/log/like/";//靠谱列表
 
     String EDITLOGO = path+"api/shop/editLogo";//修改公司 Logo
     String EDITSHOPNAME = path+"api/shop/editShopName";//修改厂家名称
 
     String GETSHOPPHONE = path+"api/shop/getShopPhone";//获取商家联系电话
+    String EDITSHOPPHONE = path+"api/shop/editShopPhone";//编辑联系电话
+
 
     String BROWSE = path+"api/log/browse";//访问记录
     String BROWSEADD = path+"api/log/browseAdd";//新增 访问记录
@@ -34,16 +37,14 @@ public interface UrlAddr {
 
     String ADDCALLLOG = path+"api/log/addCallLog";//新增 通话记录
 
-
-
     String USER_AGREEMENT = path+"api/index/user_agreement";//用户协议
     String PRIVACYPOLICY = path+"api/index/privacyPolicy";//隐私政策
 
-//    String ATTENTION_REMOVE_All = path+"api/focus/remove";//移除全部关注
-//    String ATTENTION_LIST = path+"api/focus/history";//关注
-//
-//    String BROWSE_LIST = path+"api/browse/history";//浏览
-//    String BROWSE_SAVE = path+"api/browse/save";//浏览新增
+    String LIKEADD = path+"api/log/likeAdd";//点赞靠谱
+    String LIKEDEL = path+"api/log/likeDel";//取消 靠谱
+
+    String SEARCH_INDEX = path+"api/search/index";//浏览
+    String FEEDBACK = path+"api/index/feedback";//意见反馈
 //    String BROWSE_REMOVE_SELECT = path+"api/browse/remove";//移除选中浏览记录
 //    String BROWSE_REMOVE_REMOVEALL = path+"api/browse/removeAll";//移除所有浏览记录
 //

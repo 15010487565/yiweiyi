@@ -115,8 +115,8 @@ public class SearchPresenter {
      * @param user_id 用户ID,非必填
      * @param area    地区,非必填
      */
-    public void searchCompe(String search, String user_id, String area) {
-        mSearchModel.searchCompe(search, user_id, area);
+    public void searchCompe(String search, String user_id, String area,String page) {
+        mSearchModel.searchCompe(search, user_id, area,page);
     }
 
     //用户添加常用地区

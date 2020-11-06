@@ -18,9 +18,31 @@
         android:screenOrientation="portrait"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.details.LikelistActivity"></activity>
-        <activity android:name=".ui.details.ProdcataActivity" />
-        <activity android:name=".ui.details.DetailsActivity" />
+        <activity
+            android:name=".ui.details.LikelistActivity"
+            android:alwaysRetainTaskState="true"
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />
+        <activity
+            android:name=".ui.details.ProdcataActivity"
+            android:alwaysRetainTaskState="true"
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />
+        <activity
+            android:name=".ui.details.CertificationActivity"
+            android:alwaysRetainTaskState="true"
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />
+        <activity
+            android:name=".ui.details.WebX5FileActivity"
+            android:alwaysRetainTaskState="true"
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />
+        <activity
+            android:name=".ui.details.DetailsActivity"
+            android:alwaysRetainTaskState="true"
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />
 
         <meta-data
             android:name="design_width_in_dp"
@@ -49,21 +71,30 @@
             android:name=".ui.login.VerifiCodeActivity"
             android:windowSoftInputMode="stateVisible">
 
-<!--             <intent-filter>-->
-<!--             <action android:name="android.intent.action.MAIN" />-->
+            <!--             <intent-filter>-->
+            <!--             <action android:name="android.intent.action.MAIN" />-->
 
 
-<!--             <category android:name="android.intent.category.LAUNCHER" />-->
-<!--             </intent-filter>-->
+            <!--             <category android:name="android.intent.category.LAUNCHER" />-->
+            <!--             </intent-filter>-->
         </activity>
-        <activity android:name=".ui.search.SearchActivity" /> <!-- 店铺管理 -->
+        <activity android:name=".ui.search.SearchTabActivity"
+            android:alwaysRetainTaskState="true"
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />
+        <activity android:name=".ui.search.SearchIndexActivity"
+            android:alwaysRetainTaskState="true"
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />
+
         <activity android:name=".ui.store.StoreManageActivity" /> <!-- 基本信息 -->
         <activity android:name=".ui.store.BasicInfoActivity" />
         <activity android:name=".ui.store.CallRecordsActivity" /> <!-- 商家展示页 -->
         <activity android:name=".ui.search.BusinessDisplayActivity" /> <!-- 网页 -->
         <activity android:name=".web.CommonWebActivity" /> <!-- 联系电话 -->
         <activity android:name=".ui.store.PhoneListActivity" /> <!-- 选择地区 -->
-        <activity android:name=".ui.search.SelectRegionActivity"
+        <activity
+            android:name=".ui.search.SelectRegionActivity"
             android:alwaysRetainTaskState="true"
             android:launchMode="singleTop"
             android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />
@@ -89,22 +120,22 @@
             android:launchMode="singleTop"
             android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />
         <activity
-            android:name=".me.UserinfoActivity"
+            android:name=".ui.me.UserinfoActivity"
             android:alwaysRetainTaskState="true"
             android:launchMode="singleTop"
             android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />
         <activity
-            android:name=".me.SingleEditActivity"
+            android:name=".ui.me.SingleEditActivity"
             android:alwaysRetainTaskState="true"
             android:launchMode="singleTop"
             android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />
         <activity
-            android:name=".me.FeedBackActivity"
+            android:name=".ui.me.FeedBackActivity"
             android:alwaysRetainTaskState="true"
             android:launchMode="singleTop"
             android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />
         <activity
-            android:name=".me.RawMaterialActivity"
+            android:name=".ui.me.RawMaterialActivity"
             android:alwaysRetainTaskState="true"
             android:launchMode="singleTop"
             android:theme="@style/AppThemeAnimation"

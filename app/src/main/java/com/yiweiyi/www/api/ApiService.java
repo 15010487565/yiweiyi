@@ -296,7 +296,8 @@ public interface ApiService {
     @POST("api/search/index/")
     Observable<SearchCompeBean> searchCompe(@Field("search") String search,
                                             @Field("user_id") String user_id,
-                                            @Field("area") String area);
+                                            @Field("area") String area
+                                            ,@Field("page") String page );
 
     /**
      * 用户添加常用地区

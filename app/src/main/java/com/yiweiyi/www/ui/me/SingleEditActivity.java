@@ -1,4 +1,4 @@
-package com.yiweiyi.www.me;
+package com.yiweiyi.www.ui.me;
 
 import android.app.Activity;
 import android.content.Intent;

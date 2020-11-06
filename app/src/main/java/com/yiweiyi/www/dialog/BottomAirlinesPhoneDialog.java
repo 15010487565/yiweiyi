@@ -86,17 +86,24 @@ public class BottomAirlinesPhoneDialog extends DialogFragment implements View.On
         switch (v.getId()){
 
             case R.id.tv_callphone:
-//                Intent intent = new Intent(Intent.ACTION_DIAL);
-//                Uri data = Uri.parse("tel:" + phone);
-//                intent.setData(data);
-//                startActivity(intent);
-                HelpUtils.call(getActivity(),phone,true);
+
+                HelpUtils.call(getActivity(),phone,false);
                 dismiss();
+                if (listener != null){
+                    listener.callPhone(phone);
+                }
                 break;
 
             case R.id.tv_cancel:
                 dismiss();
                 break;
         }
+    }
+    private CallBack listener;
+    public void setOnClickCallPhone(CallBack listener){
+        this.listener = listener;
+    }
+    public interface CallBack{
+        public void callPhone(String phone);
     }
 }

@@ -4,8 +4,6 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/black_f5">
-    <include
-        layout="@layout/view_simple_topbar_white"/>
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_rv"
         android:layout_width="match_parent"

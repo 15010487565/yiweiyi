@@ -12,11 +12,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.gson.Gson;
 import com.yiweiyi.www.R;
 import com.yiweiyi.www.adapter.store.CallRecordsAdapter;
-import com.yiweiyi.www.api.ApiManager;
 import com.yiweiyi.www.api.UrlAddr;
 import com.yiweiyi.www.base.TitleBaseActivity;
-import com.yiweiyi.www.bean.personal.FreeEntryBean;
-import com.yiweiyi.www.dialog.BottomAirlinesPhoneDialog;
 import com.yiweiyi.www.model.CallRecordsModel;
 import com.yiweiyi.www.utils.PrfUtils;
 import com.yiweiyi.www.utils.SpUtils;
@@ -27,9 +24,6 @@ import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 import www.xcd.com.mylibrary.help.OkHttpHelper;
 import www.xcd.com.mylibrary.http.HttpInterface;
 
@@ -40,6 +34,10 @@ import www.xcd.com.mylibrary.http.HttpInterface;
  */
 public class CallRecordsActivity extends TitleBaseActivity implements HttpInterface {
 
+    @BindView(R.id.tv_app)
+    TextView tv_app;
+    @BindView(R.id.tv_xcx)
+    TextView tv_xcx;
     @BindView(R.id.left_tv)
     TextView leftTv;
     @BindView(R.id.right_tv)
@@ -146,10 +144,12 @@ public class CallRecordsActivity extends TitleBaseActivity implements HttpInterf
                 CallRecordsModel callRecordsModel = gson.fromJson(returnData, CallRecordsModel.class);
                 CallRecordsModel.DataBean data = callRecordsModel.getData();
 
+                tv_app.setText("APP："+data.getApp_num());
+                tv_xcx.setText("小程序："+data.getXcx_num());
                 int browse_total = data.getTotal();
-                leftTv.setText("总浏览量："+browse_total);
+                leftTv.setText("总："+browse_total);
                 int today = data.getToday();
-                rightTv.setText("今日浏览量："+today);
+                rightTv.setText("今日："+today);
 
                 List<CallRecordsModel.DataBean.ListBean> list = data.getList();
 
@@ -158,7 +158,7 @@ public class CallRecordsActivity extends TitleBaseActivity implements HttpInterf
                 }else {
                     View emptyView = getLayoutInflater().inflate(R.layout.view_empty, null);
                     mCallRecordsAdapter.setEmptyView(emptyView);
-                    callServise();
+
                 }
             }
 
@@ -168,10 +168,12 @@ public class CallRecordsActivity extends TitleBaseActivity implements HttpInterf
                 CallRecordsModel callRecordsModel = gson.fromJson(returnData, CallRecordsModel.class);
                 CallRecordsModel.DataBean data = callRecordsModel.getData();
 
+                tv_app.setText("APP："+data.getApp_num());
+                tv_xcx.setText("小程序："+data.getXcx_num());
                 int browse_total = data.getTotal();
-                leftTv.setText("总通话次数："+browse_total);
+                leftTv.setText("总："+browse_total);
                 int today = data.getToday();
-                rightTv.setText("今日通话次数："+today);
+                rightTv.setText("今日："+today);
 
                 List<CallRecordsModel.DataBean.ListBean> list = data.getList();
 
@@ -180,7 +182,7 @@ public class CallRecordsActivity extends TitleBaseActivity implements HttpInterf
                 }else {
                     View emptyView = getLayoutInflater().inflate(R.layout.view_empty, null);
                     mCallRecordsAdapter.setEmptyView(emptyView);
-                    callServise();
+
                 }
             }
 
@@ -196,42 +198,14 @@ public class CallRecordsActivity extends TitleBaseActivity implements HttpInterf
                 }else {
                     View emptyView = getLayoutInflater().inflate(R.layout.view_empty, null);
                     mCallRecordsAdapter.setEmptyView(emptyView);
-                    callServise();
+
                 }
                 break;
 
         }
 
     }
-    public void callServise(){
-        findViewById(R.id.advisory_service).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ApiManager.getInstance().consumerHotline()
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(new Subscriber<FreeEntryBean>() {
-                            @Override
-                            public void onCompleted() {
 
-                            }
-
-                            @Override
-                            public void onError(Throwable e) {
-
-                            }
-
-                            @Override
-                            public void onNext(FreeEntryBean baseBean) {
-                                String data = baseBean.getData();
-                                BottomAirlinesPhoneDialog dialog = new BottomAirlinesPhoneDialog();
-                                dialog.setData(data);
-                                dialog.show(getSupportFragmentManager(),"AirlinesPhone");
-                            }
-                        });
-            }
-        });
-    }
     @Override
     public void onErrorResult(int requestCode, String returnMsg) {
 

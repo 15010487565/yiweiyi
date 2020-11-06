@@ -8,7 +8,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.yiweiyi.www.R;
-import com.yiweiyi.www.me.SingleEditActivity;
+import com.yiweiyi.www.ui.me.SingleEditActivity;
 import com.yiweiyi.www.utils.PrfUtils;
 
 import www.xcd.com.mylibrary.func.BaseFunc;

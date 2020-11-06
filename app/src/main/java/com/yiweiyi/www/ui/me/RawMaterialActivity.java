@@ -1,6 +1,7 @@
-package com.yiweiyi.www.me;
+package com.yiweiyi.www.ui.me;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -11,6 +12,7 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.google.gson.Gson;
 import com.yiweiyi.www.R;
 import com.yiweiyi.www.adapter.personal.RawMaterialAdapter;
@@ -30,7 +32,7 @@ import www.xcd.com.mylibrary.help.OkHttpHelper;
 /**
  * Created by gs on 2020/10/28.
  */
-public class RawMaterialActivity extends SimpleTopbarActivity implements OnPopupwindow {
+public class RawMaterialActivity extends SimpleTopbarActivity implements OnPopupwindow, BaseQuickAdapter.RequestLoadMoreListener {
 
     private RecyclerView raw_rv;
     RawMaterialAdapter adapter;
@@ -38,7 +40,8 @@ public class RawMaterialActivity extends SimpleTopbarActivity implements OnPopup
     TextView toolbar_tv_menu;
     private String year;
     private String type;
-
+    private int page = 1;
+    private boolean isMore = false;
     @Override
     protected Object getTopbarTitle() {
         return "原料行情";
@@ -71,11 +74,13 @@ public class RawMaterialActivity extends SimpleTopbarActivity implements OnPopup
                                     case R.id.rg_left:
                                         rgleft.setTextColor(ContextCompat.getColor(RawMaterialActivity.this,R.color.white));
                                         rgRight.setTextColor(ContextCompat.getColor(RawMaterialActivity.this,R.color.colorFD7033));
+                                        page = 1;
                                         initData(year,"1");
                                         break;
                                     case R.id.rg_right:
                                         rgRight.setTextColor(ContextCompat.getColor(RawMaterialActivity.this,R.color.white));
                                         rgleft.setTextColor(ContextCompat.getColor(RawMaterialActivity.this,R.color.colorFD7033));
+                                        page = 1;
                                         initData(year,"2");
                                         break;
                                 }
@@ -85,14 +90,16 @@ public class RawMaterialActivity extends SimpleTopbarActivity implements OnPopup
         raw_rv = (RecyclerView) this.findViewById(R.id.raw_rv);
         raw_rv.setLayoutManager(new LinearLayoutManager(this));
         adapter = new RawMaterialAdapter(R.layout.item_raw_material, null,this);
+        adapter.setOnLoadMoreListener(this);
         raw_rv.setAdapter(adapter);
-        initData("2020","1");
+        initData("","1");
     }
     private void initData(String year,String type) {
+        isMore = false;
         this.year = year;
         this.type = type;
         Map<String, String> params = new HashMap<String, String>();
-        params.put("page", "1");
+        params.put("page", String.valueOf(page));
         params.put("year", year);
         params.put("type", type);
         OkHttpHelper.postAsyncHttp(this,1001,
@@ -101,17 +108,44 @@ public class RawMaterialActivity extends SimpleTopbarActivity implements OnPopup
     List<String> year_list;
     @Override
     public void onSuccessResult(int requestCode, int returnCode, String returnMsg, String returnData, Map<String, String> paramsMaps) {
+        isMore = true;
         switch (requestCode){
             case 1001:
+
                 Gson gson = new Gson();
                 RawMaterialBean rawMaterialBean = gson.fromJson(returnData, RawMaterialBean.class);
                 RawMaterialBean.DataBean data = rawMaterialBean.getData();
                 List<RawMaterialBean.DataBean.ListBean> list = data.getList();
                 year_list = data.getYear_list();
-                adapter.setNewData(list);
+                if (page == 1) {
+                    if (list == null || list.size() == 0) {
+                        adapter.loadMoreEnd();
+                    } else {
+
+                        adapter.setNewData(list);
+                        adapter.loadMoreComplete();
+                    }
+                } else {
+                    if (list == null || list.size() == 0) {
+                        adapter.loadMoreEnd();
+                    } else {
+//                        List<RawMaterialBean.DataBean.ListBean> data1 = adapter.getData();
+//                        data1.addAll(list);
+                        Log.e("TAG_httpUtils","添加数据");
+                        adapter.addData(list);
+                        adapter.loadMoreComplete();
+                    }
+                }
                 break;
 
         }
+    }
+
+    @Override
+    public void onErrorResult(int errorCode, String errorExcep) {
+        super.onErrorResult(errorCode, errorExcep);
+        isMore = true;
+        adapter.loadMoreFail();
     }
 
     @Override
@@ -155,6 +189,16 @@ public class RawMaterialActivity extends SimpleTopbarActivity implements OnPopup
     @Override
     public void setOnClickListener(String year) {
         toolbar_tv_menu.setText(year+"年");
+        page = 1;
         initData(year,type);
+    }
+
+    @Override
+    public void onLoadMoreRequested() {
+        Log.e("TAG_httpUtils","isMore"+isMore);
+        if (isMore){
+            page++;
+            initData(year,type);
+        }
     }
 }

@@ -166,6 +166,8 @@ public class StoreManageActivity extends TitleBaseActivity implements HttpInterf
 
                 int browse_total = data.getBrowse_total();
                 numberHowSawMeTv.setText("("+browse_total+")");
+//                int browse = info.getBrowse();
+//                numberHowSawMeTv.setText("("+browse+")");
                 int call_log_total = data.getCall_log_total();
                 numberCallRecordsTv.setText("("+call_log_total+")");
                 int like_num = data.getLike_num();

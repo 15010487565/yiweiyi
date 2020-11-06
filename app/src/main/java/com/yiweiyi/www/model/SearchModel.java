@@ -1,12 +1,18 @@
 package com.yiweiyi.www.model;
 
+import android.util.Log;
+
 import com.yiweiyi.www.api.ApiManager;
+import com.yiweiyi.www.api.Constants;
+import com.yiweiyi.www.api.EventBusMsg;
 import com.yiweiyi.www.base.BaseBean;
 import com.yiweiyi.www.bean.search.CommonAreasListBean;
 import com.yiweiyi.www.bean.search.ProximitySearchBean;
 import com.yiweiyi.www.bean.search.SearchCompeBean;
 import com.yiweiyi.www.bean.search.SearchRecordsBean;
 import com.yiweiyi.www.presenter.SearchPresenter;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.Map;
 
@@ -142,8 +148,9 @@ public class SearchModel {
 
     public void searchCompe(String search,
                             String user_id,
-                            String area) {
-        ApiManager.getInstance().searchCompe(search, user_id, area)
+                            String area,
+                            String page) {
+        ApiManager.getInstance().searchCompe(search, user_id, area,page)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<SearchCompeBean>() {
@@ -174,6 +181,10 @@ public class SearchModel {
                     @Override
                     public void onCompleted() {
                         mAddCommonAreasInterface.onCompleted();
+                        Log.e("TAG_刷新","店家列表");
+                        EventBusMsg messageEvent = new EventBusMsg();
+                        messageEvent.setCode(Constants.REFRESHSEARCH);
+                        EventBus.getDefault().post(messageEvent);
                     }
 
                     @Override
@@ -197,6 +208,10 @@ public class SearchModel {
                     @Override
                     public void onCompleted() {
                         mDelCommonAreasInterface.onCompleted();
+                        Log.e("TAG_刷新","店家列表");
+                        EventBusMsg messageEvent = new EventBusMsg();
+                        messageEvent.setCode(Constants.REFRESHSEARCH);
+                        EventBus.getDefault().post(messageEvent);
                     }
 
                     @Override
@@ -220,6 +235,7 @@ public class SearchModel {
                     @Override
                     public void onCompleted() {
                         mCommonAreasListInterface.onCompleted();
+
                     }
 
                     @Override
