@@ -34,7 +34,6 @@ import com.yiweiyi.www.base.BaseBean;
 import com.yiweiyi.www.bean.personal.FreeEntryBean;
 import com.yiweiyi.www.bean.search.ProximitySearchBean;
 import com.yiweiyi.www.bean.search.SearchRecordsBean;
-import com.yiweiyi.www.dialog.BottomAirlinesPhoneDialog;
 import com.yiweiyi.www.presenter.SearchPresenter;
 import com.yiweiyi.www.ui.login.LoginActivity;
 import com.yiweiyi.www.utils.SpUtils;
@@ -52,6 +51,7 @@ import butterknife.OnClick;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
+import www.xcd.com.mylibrary.help.HelpUtils;
 
 /**
  * @Author: zsh
@@ -330,9 +330,10 @@ public class SearchTabActivity extends BaseActivity implements SearchRecordsView
                                 @Override
                                 public void onNext(FreeEntryBean baseBean) {
                                     String data = baseBean.getData();
-                                    BottomAirlinesPhoneDialog dialog = new BottomAirlinesPhoneDialog();
-                                    dialog.setData(data);
-                                    dialog.show(getSupportFragmentManager(),"AirlinesPhone");
+                                    HelpUtils.call(SearchTabActivity.this,data,false);
+//                                    BottomAirlinesPhoneDialog dialog = new BottomAirlinesPhoneDialog();
+//                                    dialog.setData(data);
+//                                    dialog.show(getSupportFragmentManager(),"AirlinesPhone");
                                 }
                             });
                 }

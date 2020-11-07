@@ -79,22 +79,20 @@
                     android:src="@drawable/search" />
             </LinearLayout>
 
-            <androidx.constraintlayout.widget.ConstraintLayout
+            <LinearLayout
                 android:id="@+id/tab_ll"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="18dp"
                 android:background="@color/white"
                 android:orientation="horizontal"
-                app:layout_constraintTop_toBottomOf="@id/search_ll">
+                >
 
                 <com.google.android.material.tabs.TabLayout
                     android:id="@+id/tab_layout"
                     android:layout_width="0dp"
+                    android:layout_weight="1"
                     android:layout_height="wrap_content"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toLeftOf="@id/more_tab_bt"
-                    app:layout_constraintTop_toTopOf="parent"
                     app:tabGravity="center"
                     android:layout_marginLeft="15dp"
                     app:tabMaxWidth="200dp"
@@ -110,13 +108,10 @@
                     app:tabTextAppearance="@style/TabSize18"
                     app:tabTextColor="#666666" />
 
-                <View
-                    android:layout_width="35dp"
-                    android:layout_height="30dp"
-                    android:background="@drawable/shap_jianbian_bai"
-                    app:layout_constraintBottom_toBottomOf="@id/tab_layout"
-                    app:layout_constraintRight_toRightOf="@id/tab_layout"
-                    app:layout_constraintTop_toTopOf="@id/tab_layout" />
+<!--                <ImageView-->
+<!--                    android:layout_width="25dp"-->
+<!--                    android:layout_height="50dp"-->
+<!--                    android:background="@drawable/shap_jianbian_bai" />-->
 
                 <com.qmuiteam.qmui.alpha.QMUIAlphaImageButton
                     android:id="@+id/more_tab_bt"
@@ -124,13 +119,11 @@
                     android:layout_height="20dp"
                     android:layout_gravity="center_vertical"
                     android:layout_marginRight="14dp"
-                    android:layout_marginLeft="10dp"
+                    android:layout_marginLeft="14dp"
                     android:background="@drawable/menu2"
-                    app:layout_constraintBottom_toBottomOf="@id/tab_layout"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                   />
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
+            </LinearLayout>
 
             <androidx.viewpager2.widget.ViewPager2
                 android:id="@+id/main_vp2"

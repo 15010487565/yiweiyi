@@ -35,14 +35,13 @@ import com.yiweiyi.www.base.BaseActivity;
 import com.yiweiyi.www.bean.main.HomeCategoryBean;
 import com.yiweiyi.www.bean.personal.FreeEntryBean;
 import com.yiweiyi.www.bean.personal.UserInfoBean;
-import com.yiweiyi.www.dialog.BottomAirlinesPhoneDialog;
-import com.yiweiyi.www.ui.me.FeedBackActivity;
-import com.yiweiyi.www.ui.me.RawMaterialActivity;
-import com.yiweiyi.www.ui.me.UserinfoActivity;
 import com.yiweiyi.www.presenter.MainPresenter;
 import com.yiweiyi.www.presenter.PersonalPresenter;
 import com.yiweiyi.www.ui.login.LoginActivity;
-import com.yiweiyi.www.ui.search.SearchTabActivity;
+import com.yiweiyi.www.ui.me.FeedBackActivity;
+import com.yiweiyi.www.ui.me.RawMaterialActivity;
+import com.yiweiyi.www.ui.me.UserinfoActivity;
+import com.yiweiyi.www.ui.search.SearchIndexActivity;
 import com.yiweiyi.www.ui.setting.SettingActivity;
 import com.yiweiyi.www.ui.store.StoreManageActivity;
 import com.yiweiyi.www.utils.PrfUtils;
@@ -63,6 +62,7 @@ import butterknife.OnClick;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
+import www.xcd.com.mylibrary.help.HelpUtils;
 
 public class MainActivity extends BaseActivity implements HomeCategoryView, FreeEntryView, UserInfoView {
 
@@ -303,9 +303,10 @@ public class MainActivity extends BaseActivity implements HomeCategoryView, Free
                             @Override
                             public void onNext(FreeEntryBean baseBean) {
                                 String data = baseBean.getData();
-                                BottomAirlinesPhoneDialog dialog = new BottomAirlinesPhoneDialog();
-                                dialog.setData(data);
-                                dialog.show(getSupportFragmentManager(),"AirlinesPhone");
+                                HelpUtils.call(MainActivity.this,data,false);
+//                                BottomAirlinesPhoneDialog dialog = new BottomAirlinesPhoneDialog();
+//                                dialog.setData(data);
+//                                dialog.show(getSupportFragmentManager(),"AirlinesPhone");
                             }
                         });
             }
@@ -430,8 +431,8 @@ public class MainActivity extends BaseActivity implements HomeCategoryView, Free
             break;
             //搜索
             case R.id.search_ll: {
-                Intent intent = new Intent(this, SearchTabActivity.class);
-                intent.putExtra("type","tab");
+                Intent intent = new Intent(this, SearchIndexActivity.class);
+//                intent.putExtra("type","tab");
                 startActivity(intent);
             }
             break;

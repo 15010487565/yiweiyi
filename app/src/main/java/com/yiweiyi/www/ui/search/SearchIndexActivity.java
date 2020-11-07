@@ -37,10 +37,9 @@ import com.yiweiyi.www.base.BaseBean;
 import com.yiweiyi.www.bean.personal.FreeEntryBean;
 import com.yiweiyi.www.bean.search.SearchCompeBean;
 import com.yiweiyi.www.bean.search.SearchRecordsBean;
-import com.yiweiyi.www.dialog.BottomAirlinesPhoneDialog;
-import com.yiweiyi.www.ui.me.RawMaterialActivity;
 import com.yiweiyi.www.presenter.SearchPresenter;
 import com.yiweiyi.www.ui.login.LoginActivity;
+import com.yiweiyi.www.ui.me.RawMaterialActivity;
 import com.yiweiyi.www.utils.HtmlUtils;
 import com.yiweiyi.www.utils.SpUtils;
 import com.yiweiyi.www.view.search.ClearRecordsView;
@@ -61,6 +60,7 @@ import butterknife.OnClick;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
+import www.xcd.com.mylibrary.help.HelpUtils;
 import www.xcd.com.mylibrary.help.OkHttpHelper;
 import www.xcd.com.mylibrary.http.HttpInterface;
 
@@ -320,7 +320,6 @@ public class SearchIndexActivity extends BaseActivity implements SearchRecordsVi
                     mSearchAdapter.setKeyword(search_param);
                     List<SearchCompeBean.DataBean.ShopListBean> shop_list = data.getShop_list();
 
-                    mSearchAdapter.setNewData(shop_list);
                     if (shop_list == null || shop_list.size() == 0) {
 
                         View emptyView = getLayoutInflater().inflate(R.layout.view_empty_search, null);
@@ -356,13 +355,23 @@ public class SearchIndexActivity extends BaseActivity implements SearchRecordsVi
                                             @Override
                                             public void onNext(FreeEntryBean baseBean) {
                                                 String data = baseBean.getData();
-                                                BottomAirlinesPhoneDialog dialog = new BottomAirlinesPhoneDialog();
-                                                dialog.setData(data);
-                                                dialog.show(getSupportFragmentManager(), "AirlinesPhone");
+                                                HelpUtils.call(SearchIndexActivity.this,data,false);
+//                                                BottomAirlinesPhoneDialog dialog = new BottomAirlinesPhoneDialog();
+//                                                dialog.setData(data);
+//                                                dialog.show(getSupportFragmentManager(), "AirlinesPhone");
                                             }
                                         });
                             }
                         });
+                    }else {
+//                        mSearchAdapter.setNewData(shop_list);
+
+                        Intent intent = new Intent(mContext, BusinessDisplayActivity.class);
+//                        SearchCompeBean.DataBean.ShopListBean item = mSearchAdapter.getItem(position);
+//                        if (item != null && item.getShop_name() != null) {
+                            intent.putExtra(BusinessDisplayActivity.SEARCH, search_param);
+//                        }
+                        startActivity(intent);
                     }
                 } catch (JsonSyntaxException e) {
                     e.printStackTrace();

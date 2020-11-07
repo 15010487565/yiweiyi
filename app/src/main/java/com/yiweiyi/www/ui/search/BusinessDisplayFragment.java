@@ -20,9 +20,9 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.qmuiteam.qmui.alpha.QMUIAlphaButton;
 import com.yiweiyi.www.R;
 import com.yiweiyi.www.adapter.search.BusinessDisplayAdapter;
+import com.yiweiyi.www.api.UrlAddr;
 import com.yiweiyi.www.base.BaseFragment;
 import com.yiweiyi.www.bean.search.SearchCompeBean;
-import com.yiweiyi.www.dialog.BottomAirlinesPhoneDialog;
 import com.yiweiyi.www.presenter.SearchPresenter;
 import com.yiweiyi.www.ui.details.DetailsActivity;
 import com.yiweiyi.www.ui.login.LoginActivity;
@@ -30,11 +30,16 @@ import com.yiweiyi.www.utils.SpUtils;
 import com.yiweiyi.www.view.search.SearchCompeView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import www.xcd.com.mylibrary.help.HelpUtils;
+import www.xcd.com.mylibrary.help.OkHttpHelper;
+import www.xcd.com.mylibrary.http.HttpInterface;
 
 //import com.example.myapplication.ui.compe.CompanyDetailsActivity;
 
@@ -43,7 +48,7 @@ import butterknife.Unbinder;
  * 2020/9/25
  * desc:商家展示页列表
  */
-public class BusinessDisplayFragment extends BaseFragment implements SearchCompeView {
+public class BusinessDisplayFragment extends BaseFragment implements SearchCompeView, HttpInterface {
     @BindView(R.id.recycler_rv)
     RecyclerView recyclerRv;
     @BindView(R.id.title_tv)
@@ -146,10 +151,14 @@ public class BusinessDisplayFragment extends BaseFragment implements SearchCompe
                 }else {
                     switch (view.getId()){
                         case R.id.phone_tv:{
+
                             List<SearchCompeBean.DataBean.ShopListBean> data1 = mBusinessDisplayAdapter.getData();
-                            BottomAirlinesPhoneDialog dialog = new BottomAirlinesPhoneDialog();
-                            dialog.setData(data1.get(position).getPhone().get(0));
-                            dialog.show(getFragmentManager(),"Phone");
+                            SearchCompeBean.DataBean.ShopListBean shopListBean = data1.get(position);
+                            int id = shopListBean.getId();
+                            callPhone(String.valueOf(id), shopListBean.getPhone().get(0));
+//                            BottomAirlinesPhoneDialog dialog = new BottomAirlinesPhoneDialog();
+//                            dialog.setData(data1.get(position).getPhone().get(0));
+//                            dialog.show(getFragmentManager(),"Phone");
 
                         }break;
                         case R.id.more_number_tv:{
@@ -215,6 +224,34 @@ public class BusinessDisplayFragment extends BaseFragment implements SearchCompe
 
     @Override
     public void onError(String e) {
+
+    }
+
+    public void callPhone(String shop_id,String phone) {
+        HelpUtils.call(getActivity(),phone,false);
+
+        Map<String, String> params1 = new HashMap<String, String>();
+        params1.put("user_id", SpUtils.getUserID());
+        params1.put("shop_id", shop_id +"");
+
+//        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd-HH:mm:ss");
+//        Date date = new Date();
+//        String str=simpleDateFormat.format(date);
+
+        params1.put("shop_phone", phone +"");
+        params1.put("call_time", System.currentTimeMillis() +"");
+        params1.put("is_connect", "否");
+        OkHttpHelper.postAsyncHttp(getActivity(),1002,
+                params1, UrlAddr.ADDCALLLOG,this);
+    }
+
+    @Override
+    public void onSuccessResult(int requestCode, int returnCode, String returnMsg, String returnData, Map<String, String> paramsMaps) {
+
+    }
+
+    @Override
+    public void onErrorResult(int requestCode, String returnMsg) {
 
     }
 }

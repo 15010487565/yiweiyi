@@ -36,7 +36,6 @@ import com.yiweiyi.www.base.BaseActivity;
 import com.yiweiyi.www.base.CommonData;
 import com.yiweiyi.www.bean.search.SearchCompeBean;
 import com.yiweiyi.www.presenter.SearchPresenter;
-import com.yiweiyi.www.ui.details.DetailsActivity;
 import com.yiweiyi.www.ui.login.LoginActivity;
 import com.yiweiyi.www.utils.ShareDialog;
 import com.yiweiyi.www.utils.SpUtils;
@@ -339,7 +338,7 @@ public class BusinessDisplayActivity extends BaseActivity implements SearchCompe
             break;
             case R.id.search_tv:
                 Intent intent = new Intent(this, SearchIndexActivity.class);
-                intent.putExtra("type","index");
+//                intent.putExtra("type","index");
                 startActivity(intent);
                 break;
         }

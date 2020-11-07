@@ -13,7 +13,6 @@ import com.yiweiyi.www.adapter.store.LikeAdapter;
 import com.yiweiyi.www.api.ApiManager;
 import com.yiweiyi.www.api.UrlAddr;
 import com.yiweiyi.www.bean.personal.FreeEntryBean;
-import com.yiweiyi.www.dialog.BottomAirlinesPhoneDialog;
 import com.yiweiyi.www.model.LikeModel;
 
 import java.util.HashMap;
@@ -24,6 +23,7 @@ import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 import www.xcd.com.mylibrary.base.activity.SimpleTopbarActivity;
+import www.xcd.com.mylibrary.help.HelpUtils;
 import www.xcd.com.mylibrary.help.OkHttpHelper;
 import www.xcd.com.mylibrary.utils.ToastUtil;
 
@@ -102,9 +102,10 @@ public class LikelistActivity extends SimpleTopbarActivity {
                                         @Override
                                         public void onNext(FreeEntryBean baseBean) {
                                             String data = baseBean.getData();
-                                            BottomAirlinesPhoneDialog dialog = new BottomAirlinesPhoneDialog();
-                                            dialog.setData(data);
-                                            dialog.show(getSupportFragmentManager(),"AirlinesPhone");
+                                            HelpUtils.call(LikelistActivity.this,data,false);
+//                                            BottomAirlinesPhoneDialog dialog = new BottomAirlinesPhoneDialog();
+//                                            dialog.setData(data);
+//                                            dialog.show(getSupportFragmentManager(),"AirlinesPhone");
                                         }
                                     });
                         }

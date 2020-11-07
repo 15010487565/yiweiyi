@@ -38,7 +38,6 @@ import com.yiweiyi.www.adapter.store.GridAdapter;
 import com.yiweiyi.www.api.Constants;
 import com.yiweiyi.www.api.UrlAddr;
 import com.yiweiyi.www.base.CommonData;
-import com.yiweiyi.www.dialog.BottomAirlinesPhoneDialog;
 import com.yiweiyi.www.model.DetailsModel;
 import com.yiweiyi.www.utils.HtmlUtils;
 import com.yiweiyi.www.utils.ScreenUtils;
@@ -53,8 +52,6 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -64,10 +61,11 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import www.xcd.com.mylibrary.base.activity.SimpleTopbarActivity;
 import www.xcd.com.mylibrary.base.application.XCDApplication;
+import www.xcd.com.mylibrary.help.HelpUtils;
 import www.xcd.com.mylibrary.help.OkHttpHelper;
 
 
-public class DetailsActivity extends SimpleTopbarActivity implements BottomAirlinesPhoneDialog.CallBack {
+public class DetailsActivity extends SimpleTopbarActivity  {
 
     @BindView(R.id.back_bt)
     LinearLayout back_bt;
@@ -522,9 +520,11 @@ public class DetailsActivity extends SimpleTopbarActivity implements BottomAirli
                 break;
             case R.id.call_bt:
                 String phone = getIntent().getStringExtra(SHOPEPHONE);
-                BottomAirlinesPhoneDialog dialog = new BottomAirlinesPhoneDialog();
-                dialog.setData(phone);
-                dialog.show(getSupportFragmentManager(),"Phone");
+                callPhone(phone);
+
+//                BottomAirlinesPhoneDialog dialog = new BottomAirlinesPhoneDialog();
+//                dialog.setData(phone);
+//                dialog.show(getSupportFragmentManager(),"Phone");
                 break;
             case R.id.more_zan_bt:{
                 Intent intent = new Intent(DetailsActivity.this, LikelistActivity.class);
@@ -576,19 +576,21 @@ public class DetailsActivity extends SimpleTopbarActivity implements BottomAirli
             mHandler.removeCallbacksAndMessages(null);
     }
 
-    @Override
+
     public void callPhone(String phone) {
+        HelpUtils.call(this,phone,false);
+
         Map<String, String> params1 = new HashMap<String, String>();
         params1.put("user_id", SpUtils.getUserID());
         params1.put("shop_id", shop_id +"");
 
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd-HH:mm:ss");
-        Date date = new Date(System.currentTimeMillis());
-        String str=simpleDateFormat.format(date);
+//        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd-HH:mm:ss");
+//        Date date = new Date(System.currentTimeMillis());
+//        String str=simpleDateFormat.format(date);
 
         params1.put("shop_phone", phone +"");
-        params1.put("call_time", str +"");
-        params1.put("is_connect", shop_id +"");
+        params1.put("call_time", System.currentTimeMillis() +"");
+        params1.put("is_connect", "");
         OkHttpHelper.postAsyncHttp(this,1002,
                 params1, UrlAddr.ADDCALLLOG,this);
     }
