@@ -73,7 +73,7 @@
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="@id/search_cl" />
         </androidx.constraintlayout.widget.ConstraintLayout>
-        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        <com.yiweiyi.www.view.VerticalSwipeRefreshLayout
             android:id="@+id/ly_pull_refresh"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -132,7 +132,7 @@
                     android:layout_height="match_parent" />
             </LinearLayout>
 
-        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+        </com.yiweiyi.www.view.VerticalSwipeRefreshLayout>
 
 
     <LinearLayout

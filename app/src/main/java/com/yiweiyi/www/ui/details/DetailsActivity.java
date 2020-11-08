@@ -391,11 +391,13 @@ public class DetailsActivity extends SimpleTopbarActivity  {
                     zan_bt.setCompoundDrawablesWithIntrinsicBounds(drawableLeft,
                             null, null, null);
 //                    zan_bt.setCompoundDrawablePadding(13);
+                    zan_bt.setTextColor(getResources().getColor(R.color.black_26));
                 }else {
                     Drawable drawableLeft = getResources().getDrawable(
                             R.drawable.great_xiao);
                     zan_bt.setCompoundDrawablesWithIntrinsicBounds(drawableLeft,
                             null, null, null);
+                    zan_bt.setTextColor(getResources().getColor(R.color.red));
                 }
                 //简介
                 HtmlUtils.getHtmlData(info.getShop_profile(),company_profile_web);
@@ -467,6 +469,7 @@ public class DetailsActivity extends SimpleTopbarActivity  {
                 like_num+=1;
                 tv_like.setText(like_num +"");
                 zan_bt.setText(like_num +"");
+                zan_bt.setTextColor(getResources().getColor(R.color.red));
             }
                 break;
             case 1004:{
@@ -478,6 +481,7 @@ public class DetailsActivity extends SimpleTopbarActivity  {
                 like_num-=1;
                 tv_like.setText((like_num<=0?0:(like_num)) +"");
                 zan_bt.setText((like_num<=0?0:(like_num))+"");
+                zan_bt.setTextColor(getResources().getColor(R.color.black_26));
             }
                 break;
 

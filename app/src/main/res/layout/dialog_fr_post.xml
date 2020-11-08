@@ -6,6 +6,7 @@
     android:layout_gravity="center"
     android:background="@drawable/shape_qq_white">
     <TextView
+        android:id="@+id/tv_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="@dimen/textsize_16"

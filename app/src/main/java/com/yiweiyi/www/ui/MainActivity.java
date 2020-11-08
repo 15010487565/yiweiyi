@@ -2,11 +2,14 @@ package com.yiweiyi.www.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextPaint;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,6 +35,7 @@ import com.yiweiyi.www.R;
 import com.yiweiyi.www.adapter.main.AllSeriesAdrpter;
 import com.yiweiyi.www.api.ApiManager;
 import com.yiweiyi.www.base.BaseActivity;
+import com.yiweiyi.www.base.CommonData;
 import com.yiweiyi.www.bean.main.HomeCategoryBean;
 import com.yiweiyi.www.bean.personal.FreeEntryBean;
 import com.yiweiyi.www.bean.personal.UserInfoBean;
@@ -50,7 +54,6 @@ import com.yiweiyi.www.view.CircleImageView;
 import com.yiweiyi.www.view.main.HomeCategoryView;
 import com.yiweiyi.www.view.personal.FreeEntryView;
 import com.yiweiyi.www.view.personal.UserInfoView;
-import com.youth.banner.transformer.MZScaleInTransformer;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -67,7 +70,7 @@ import www.xcd.com.mylibrary.help.HelpUtils;
 public class MainActivity extends BaseActivity implements HomeCategoryView, FreeEntryView, UserInfoView {
 
     @BindView(R.id.personal_abt)
-    ImageView personalAbt;
+    LinearLayout personalAbt;
     @BindView(R.id.tab_layout)
     TabLayout tabLayout;
     @BindView(R.id.more_tab_bt)
@@ -92,6 +95,7 @@ public class MainActivity extends BaseActivity implements HomeCategoryView, Free
     private QMUIAlphaButton mFreeEntry;
     private QMUIAlphaButton mFeedback;
     private QMUIAlphaButton mRawMaterial,advisory_service;
+    RelativeLayout rl_info;
     private LinearLayout ll_maininfo;
     private CircleImageView mHead;
     private QMUIAlphaButton mLogin;
@@ -122,17 +126,22 @@ public class MainActivity extends BaseActivity implements HomeCategoryView, Free
     protected void onResume() {
         super.onResume();
         if (!SpUtils.getUserID().isEmpty()) {
-                RequestOptions requestOptions = new RequestOptions()
+            RequestOptions requestOptions = new RequestOptions()
                         .placeholder(R.drawable.no_login)
                         .error(R.drawable.no_login)
                         .skipMemoryCache(true)//跳过内存缓存
                         .diskCacheStrategy(DiskCacheStrategy.ALL)//不要在disk硬盘缓存;
-//                                    .fitCenter() /*处理源图片ScaleType*/
-//                                    .transform(new RoundedCornersTransform(10, 10, 10, 10))
                         ;
+            String imageUrl = PrfUtils.getHeadimgurl();
+            String avatar;
+            if (imageUrl != null && imageUrl.startsWith("http")){
+                avatar = imageUrl;
+            }else {
+                avatar = CommonData.mainUrl + imageUrl;
+            }
                 Glide.with(mHead)
                         .asDrawable()
-                        .load(PrfUtils.getHeadimgurl())
+                        .load(avatar)
                         .apply(requestOptions)
                         .into(mHead);
 
@@ -187,6 +196,8 @@ public class MainActivity extends BaseActivity implements HomeCategoryView, Free
      */
     private void initViewLeft() {
         View headview = leftNv.inflateHeaderView(R.layout.nav_my_head);
+        rl_info = headview.findViewById(R.id.rl_info);
+
         ll_maininfo = headview.findViewById(R.id.ll_maininfo);
         mHead = headview.findViewById(R.id.head_img);
         mLogin = headview.findViewById(R.id.login_bt);
@@ -244,16 +255,27 @@ public class MainActivity extends BaseActivity implements HomeCategoryView, Free
                 openActivity(StoreManageActivity.class);
             }
         });
-        if (mChangeInfor != null) {
-            //修改个人信息
-            mChangeInfor.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
+//        if (mChangeInfor != null) {
+//            //修改个人信息
+//            mChangeInfor.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View view) {
+//
+//                }
+//            });
+//        }
+
+        rl_info.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (SpUtils.getUserID().isEmpty()){
+                    openActivity(LoginActivity.class);
+                }else {
                     //跳转个人信息
                     openActivity(UserinfoActivity.class);
                 }
-            });
-        }
+            }
+        });
         //设置
         mSet.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -312,12 +334,12 @@ public class MainActivity extends BaseActivity implements HomeCategoryView, Free
             }
         });
         //登录
-        mLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                openActivity(LoginActivity.class);
-            }
-        });
+//        mLogin.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                openActivity(LoginActivity.class);
+//            }
+//        });
         //全部系列点击
         mAllSeriesAdrpter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
@@ -338,12 +360,19 @@ public class MainActivity extends BaseActivity implements HomeCategoryView, Free
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 tabPosition = tab.getPosition();
-
+                TextView textView = new TextView(MainActivity.this);
+                float selectedSize = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_PX, 20, getResources().getDisplayMetrics());
+                textView.setTextSize(TypedValue.COMPLEX_UNIT_SP,selectedSize);
+                textView.setTextColor(getResources().getColor(R.color.black));
+                TextPaint tp = textView.getPaint();
+                tp.setFakeBoldText(true);
+                textView.setText(tab.getText());
+                tab.setCustomView(textView);
             }
 
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
-
+                tab.setCustomView(null);
             }
 
             @Override
@@ -381,7 +410,7 @@ public class MainActivity extends BaseActivity implements HomeCategoryView, Free
                 return fragmentList.size();
             }
         });
-        vp2.setPageTransformer(new MZScaleInTransformer());
+//        vp2.setPageTransformer(new MZScaleInTransformer());
 
         new TabLayoutMediator(tabLayout, vp2, new TabLayoutMediator.TabConfigurationStrategy() {
             @Override
@@ -407,7 +436,10 @@ public class MainActivity extends BaseActivity implements HomeCategoryView, Free
      * 数据添加
      */
     private void initData() {
-        mPersonalPresenter.userInfo(SpUtils.getUserID());
+        if (!SpUtils.getUserID().isEmpty()) {
+            mPersonalPresenter.userInfo(SpUtils.getUserID());
+        }
+
         mMainPresenter.homeCategory();
     }
 
@@ -499,5 +531,34 @@ public class MainActivity extends BaseActivity implements HomeCategoryView, Free
             mStoreManagement.setVisibility(View.GONE);
         }
         SpUtils.saveUserInfo( "me_shop_id", baseBean.getData().getShop_id()+"");
+
+
+            RequestOptions requestOptions = new RequestOptions()
+                    .placeholder(R.drawable.no_login)
+                    .error(R.drawable.no_login)
+                    .skipMemoryCache(true)//跳过内存缓存
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)//不要在disk硬盘缓存;
+                    ;
+            String imageUrl = PrfUtils.getHeadimgurl();
+            String avatar;
+            if (imageUrl != null && imageUrl.startsWith("http")){
+                avatar = imageUrl;
+            }else {
+                avatar = CommonData.mainUrl + imageUrl;
+            }
+            Glide.with(mHead)
+                    .asDrawable()
+                    .load(avatar)
+                    .apply(requestOptions)
+                    .into(mHead);
+
+            mLogin.setVisibility(View.GONE);
+            ll_maininfo.setVisibility(View.VISIBLE);
+            String nickname = PrfUtils.getNickname();
+            Log.e("TAG_首页","nickname="+nickname);
+            mName.setText(nickname);
+
+
+
     }
 }

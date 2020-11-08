@@ -7,8 +7,10 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.text.TextPaint;
 import android.text.TextUtils;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -39,8 +41,8 @@ import com.yiweiyi.www.presenter.SearchPresenter;
 import com.yiweiyi.www.ui.login.LoginActivity;
 import com.yiweiyi.www.utils.ShareDialog;
 import com.yiweiyi.www.utils.SpUtils;
+import com.yiweiyi.www.view.VerticalSwipeRefreshLayout;
 import com.yiweiyi.www.view.search.SearchCompeView;
-import com.youth.banner.transformer.MZScaleInTransformer;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -91,7 +93,7 @@ public class BusinessDisplayActivity extends BaseActivity implements SearchCompe
     @BindView(R.id.rc)
     RelativeLayout rc;
 
-    private SwipeRefreshLayout ly_pull_refresh;
+    private VerticalSwipeRefreshLayout ly_pull_refresh;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -120,7 +122,7 @@ public class BusinessDisplayActivity extends BaseActivity implements SearchCompe
                 mediaMessage.title = "真实货源\t即搜即得";//小程序消息title
                 mediaMessage.description = "真实货源\t即搜即得"; // 小程序消息desc
 //                Bitmap bitmap = BitmapFactory.decodeResource(BusinessDisplayActivity.this.getResources(),R.mipmap.ic_launcher);
-                Bitmap bitmap = capture(vp2);
+                Bitmap bitmap = capture(rc);
 //                Bitmap sendBitmap = Bitmap.createScaledBitmap(bitmap,50,50,true);
                 mediaMessage.thumbData = bmpToByteArray(bitmap);
 
@@ -142,15 +144,25 @@ public class BusinessDisplayActivity extends BaseActivity implements SearchCompe
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 diqu = tab.getText().toString();
+                TextView textView = new TextView(BusinessDisplayActivity.this);
+                float selectedSize = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_PX, 20, getResources().getDisplayMetrics());
+                textView.setTextSize(TypedValue.COMPLEX_UNIT_SP,selectedSize);
+                textView.setTextColor(getResources().getColor(R.color.black));
+                TextPaint tp = textView.getPaint();
+                tp.setFakeBoldText(true);
+                textView.setText(tab.getText());
+                tab.setCustomView(textView);
             }
 
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
-
+                tab.setCustomView(null);
             }
 
+
             @Override
-            public void onTabReselected(TabLayout.Tab tab) {
+            public void onTabReselected(TabLayout.Tab tab)
+            {
                 diqu = tab.getText().toString();
             }
         });
@@ -279,7 +291,7 @@ public class BusinessDisplayActivity extends BaseActivity implements SearchCompe
             }
         });
 
-        vp2.setPageTransformer(new MZScaleInTransformer());
+//        vp2.setPageTransformer(new MZScaleInTransformer());
 
         new TabLayoutMediator(tabLayout, vp2, new TabLayoutMediator.TabConfigurationStrategy() {
             @Override

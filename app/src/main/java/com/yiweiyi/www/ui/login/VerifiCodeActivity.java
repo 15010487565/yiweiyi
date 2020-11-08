@@ -46,6 +46,7 @@ public class VerifiCodeActivity extends TitleBaseActivity implements SigninView 
     @BindView(R.id.phone_tv)
     TextView tvPhone;
 
+
     private String mPhone;
     private LoginPresenter mLoginPresenter;
     private TimeCount mTime;
@@ -67,7 +68,16 @@ public class VerifiCodeActivity extends TitleBaseActivity implements SigninView 
     }
 
     private void initListener() {
-
+        findViewById(R.id.iv_back).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.e("tag_","sssss");
+                if (mTime != null) {
+                    mTime.onFinish();
+                }
+                finish();
+            }
+        });
         codeEdit.setInputCompleteListener(new VerifyCodeView.InputCompleteListener() {
 
             @Override
@@ -134,15 +144,9 @@ public class VerifiCodeActivity extends TitleBaseActivity implements SigninView 
 
     }
 
-    @OnClick({R.id.toolbar_iv_back, R.id.newSend_tv})
+    @OnClick({ R.id.newSend_tv})
     public void onViewClicked(View view) {
         switch (view.getId()) {
-            case R.id.toolbar_iv_back:
-                if (mTime != null) {
-                    mTime.onFinish();
-                }
-                finish();
-                break;
             case R.id.newSend_tv:
                 if ("重新获取验证码".equals(newSendTv.getText().toString().trim())){
                     ApiManager.getInstance().sendVerifiCode(mPhone)
@@ -168,6 +172,7 @@ public class VerifiCodeActivity extends TitleBaseActivity implements SigninView 
                 }
 
                 break;
+
         }
     }
 
@@ -228,6 +233,6 @@ public class VerifiCodeActivity extends TitleBaseActivity implements SigninView 
 
     @Override
     public void onError(String e) {
-        ToastUtils.showToast(e);
+        ToastUtils.showToast("验证码错误！");
     }
 }

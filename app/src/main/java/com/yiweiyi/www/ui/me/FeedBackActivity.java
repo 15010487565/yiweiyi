@@ -69,7 +69,7 @@ public class FeedBackActivity extends SimpleTopbarActivity {
     public void onSuccessResult(int requestCode, int returnCode, String returnMsg, String returnData, Map<String, String> paramsMaps) {
         switch (requestCode){
             case 1001:
-                ToastUtil.showToast(returnMsg);
+                ToastUtil.showToast("提交成功！");
                 finish();
                 break;
 

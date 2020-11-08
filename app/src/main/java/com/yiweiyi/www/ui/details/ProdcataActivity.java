@@ -15,7 +15,6 @@ import com.google.gson.Gson;
 import com.yiweiyi.www.R;
 import com.yiweiyi.www.api.UrlAddr;
 import com.yiweiyi.www.model.ProdcataModel;
-import com.youth.banner.transformer.MZScaleInTransformer;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -139,7 +138,7 @@ public class ProdcataActivity extends SimpleTopbarActivity {
             }
         });
 
-        vp2.setPageTransformer(new MZScaleInTransformer());
+//        vp2.setPageTransformer(new MZScaleInTransformer());
 
         new TabLayoutMediator(tabLayout, vp2, new TabLayoutMediator.TabConfigurationStrategy() {
             @Override

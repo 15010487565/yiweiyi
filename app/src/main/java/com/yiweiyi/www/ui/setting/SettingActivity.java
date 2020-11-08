@@ -7,9 +7,8 @@ import android.widget.TextView;
 
 import com.yiweiyi.www.R;
 import com.yiweiyi.www.base.TitleBaseActivity;
-import com.yiweiyi.www.ui.MainActivity;
+import com.yiweiyi.www.dialog.LoginOutDialogFragment;
 import com.yiweiyi.www.utils.GlideCacheUtil;
-import com.yiweiyi.www.utils.SpUtils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -75,9 +74,9 @@ public class SettingActivity extends TitleBaseActivity {
 
                 break;
             case R.id.ll_loginout:
-                SpUtils.loginOut();
-                startActivity(new Intent(this, MainActivity.class));
-                finish();
+                LoginOutDialogFragment dialogFr = new LoginOutDialogFragment();
+                dialogFr.show(getSupportFragmentManager(), "LoninOut");
+
                 break;
 
         }

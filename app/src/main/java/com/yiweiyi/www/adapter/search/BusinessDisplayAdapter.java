@@ -1,5 +1,6 @@
 package com.yiweiyi.www.adapter.search;
 
+import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -16,6 +17,7 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import com.yiweiyi.www.R;
 import com.yiweiyi.www.base.CommonData;
 import com.yiweiyi.www.bean.search.SearchCompeBean;
+import com.yiweiyi.www.utils.AlignedTextUtils;
 import com.yiweiyi.www.utils.SpUtils;
 
 import java.util.List;
@@ -33,6 +35,10 @@ public class BusinessDisplayAdapter extends BaseQuickAdapter<SearchCompeBean.Dat
 
     @Override
     protected void convert(@NonNull BaseViewHolder helper, SearchCompeBean.DataBean.ShopListBean item) {
+//        TextView tv_principal = helper.getView(R.id.principal_);
+        SpannableStringBuilder str = AlignedTextUtils.justifyString("电话", 3);
+        TextView tv_phone = helper.getView(R.id.phone_);
+        tv_phone.setText(str+"：");
         helper.setText(R.id.compe_name_tv, item.getShop_name());
         helper.setText(R.id.name_tv, item.getHead());
         TextView phone = helper.getView(R.id.phone_tv);

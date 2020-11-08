@@ -60,6 +60,10 @@ public class LoginActivity extends BaseActivity implements SendVerifiCodeView {
 
     private void initView() {
 
+        phoneEt.setFocusable(true);
+        phoneEt.setFocusableInTouchMode(true);
+        phoneEt.requestFocus();
+        phoneEt.setCursorVisible(false);//隐藏光标
 
         PrfUtils.setWexinAuth(false);
        SpannableString spannableString = new SpannableString(getString(R.string.registered_title));
@@ -169,7 +173,7 @@ public class LoginActivity extends BaseActivity implements SendVerifiCodeView {
 
     @Override
     public void onError(String e) {
-        ToastUtils.showToast(e);
+        ToastUtils.showToast("请求错误，请稍后重试！");
         phoneEt.setEnabled(true);
         loginQbt.setEnabled(true);
     }
