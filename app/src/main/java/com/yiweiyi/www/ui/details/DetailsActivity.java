@@ -40,6 +40,7 @@ import com.yiweiyi.www.api.UrlAddr;
 import com.yiweiyi.www.base.CommonData;
 import com.yiweiyi.www.model.DetailsModel;
 import com.yiweiyi.www.utils.HtmlUtils;
+import com.yiweiyi.www.utils.PrfUtils;
 import com.yiweiyi.www.utils.ScreenUtils;
 import com.yiweiyi.www.utils.ShareDialog;
 import com.yiweiyi.www.utils.SpUtils;
@@ -470,6 +471,12 @@ public class DetailsActivity extends SimpleTopbarActivity  {
                 tv_like.setText(like_num +"");
                 zan_bt.setText(like_num +"");
                 zan_bt.setTextColor(getResources().getColor(R.color.red));
+                DetailsModel.DataBean.LikeBean likeBean = new DetailsModel.DataBean.LikeBean();
+                likeBean.setAvatar(PrfUtils.getHeadimgurl());
+                List<DetailsModel.DataBean.LikeBean> data1 = adapter.getData();
+                data1.add(likeBean);
+                adapter.notifyDataSetChanged();
+
             }
                 break;
             case 1004:{
@@ -482,6 +489,9 @@ public class DetailsActivity extends SimpleTopbarActivity  {
                 tv_like.setText((like_num<=0?0:(like_num)) +"");
                 zan_bt.setText((like_num<=0?0:(like_num))+"");
                 zan_bt.setTextColor(getResources().getColor(R.color.black_26));
+                List<DetailsModel.DataBean.LikeBean> data1 = adapter.getData();
+                data1.remove(data1.size()-1);
+                adapter.notifyDataSetChanged();
             }
                 break;
 

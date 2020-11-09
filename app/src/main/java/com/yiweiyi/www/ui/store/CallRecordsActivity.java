@@ -9,6 +9,7 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.google.gson.Gson;
 import com.yiweiyi.www.R;
 import com.yiweiyi.www.adapter.store.CallRecordsAdapter;
@@ -16,7 +17,6 @@ import com.yiweiyi.www.api.UrlAddr;
 import com.yiweiyi.www.base.TitleBaseActivity;
 import com.yiweiyi.www.model.CallRecordsModel;
 import com.yiweiyi.www.utils.PrfUtils;
-import com.yiweiyi.www.utils.SpUtils;
 
 import java.util.HashMap;
 import java.util.List;
@@ -32,7 +32,7 @@ import www.xcd.com.mylibrary.http.HttpInterface;
  * 2020/9/25
  * desc: 靠谱 谁看过我 通话记录
  */
-public class CallRecordsActivity extends TitleBaseActivity implements HttpInterface {
+public class CallRecordsActivity extends TitleBaseActivity implements HttpInterface, BaseQuickAdapter.RequestLoadMoreListener  {
 
     @BindView(R.id.tv_app)
     TextView tv_app;
@@ -49,7 +49,7 @@ public class CallRecordsActivity extends TitleBaseActivity implements HttpInterf
     LinearLayout head_ll;
     @BindView(R.id.number_tv)
     TextView number_tv;
-
+    int page = 1;
     private CallRecordsAdapter mCallRecordsAdapter;
 
     @Override
@@ -66,24 +66,20 @@ public class CallRecordsActivity extends TitleBaseActivity implements HttpInterf
     }
 
     private void initData() {
-    setList();
-    }
-    String type;
-    private void setList() {
         Intent intent = getIntent();
         /**
          * 1:谁看过我
          * 2:通话记录
          * 3:靠谱
          */
-        type = intent.getStringExtra("type");
+        String type = intent.getStringExtra("type");
         if ("1".equals(type)){
             setBaseTitle(getResources().getString(R.string.who_saw_me));
             head_ll.setVisibility(View.VISIBLE);
             number_tv.setVisibility(View.GONE);
             String meShopId = PrfUtils.getMeShopId();
             Map<String, String> params = new HashMap<String, String>();
-            params.put("user_id", SpUtils.getUserID());
+            params.put("page", String.valueOf(page));
             params.put("shop_id", meShopId +"");
             OkHttpHelper.postAsyncHttp(this,1001,
                     params, UrlAddr.BROWSE,this);
@@ -93,7 +89,7 @@ public class CallRecordsActivity extends TitleBaseActivity implements HttpInterf
             number_tv.setVisibility(View.GONE);
             String meShopId = PrfUtils.getMeShopId();
             Map<String, String> params = new HashMap<String, String>();
-            params.put("user_id", SpUtils.getUserID());
+            params.put("page", String.valueOf(page));
             params.put("shop_id", meShopId +"");
             OkHttpHelper.postAsyncHttp(this,1002,
                     params, UrlAddr.CALLLOG,this);
@@ -105,7 +101,7 @@ public class CallRecordsActivity extends TitleBaseActivity implements HttpInterf
             Map<String, String> params = new HashMap<String, String>();
 //            params.put("user_id", SpUtils.getUserID());
             params.put("shop_id", meShopId +"");
-            params.put("page", "0");
+            params.put("page", String.valueOf(page));
             OkHttpHelper.postAsyncHttp(this,1003,
                     params, UrlAddr.LIKE,this);
         }
@@ -117,6 +113,7 @@ public class CallRecordsActivity extends TitleBaseActivity implements HttpInterf
         setBaseBarDarkColor();
         recyclerRv.setLayoutManager(new LinearLayoutManager(mContext));
         mCallRecordsAdapter = new CallRecordsAdapter(R.layout.item_call_records, null);
+        mCallRecordsAdapter.setOnLoadMoreListener(this);
         recyclerRv.setAdapter(mCallRecordsAdapter);
         recyclerRv.addItemDecoration(getRecyclerViewDivider(R.drawable.inset_recyclerview_divider_1));
     }
@@ -152,14 +149,24 @@ public class CallRecordsActivity extends TitleBaseActivity implements HttpInterf
                 rightTv.setText("今日："+today);
 
                 List<CallRecordsModel.DataBean.ListBean> list = data.getList();
-
-                if (list != null && list.size() > 0){
-                    mCallRecordsAdapter.setNewData(list);
+                if (page == 1){
+                    if (list != null && list.size() > 0){
+                        mCallRecordsAdapter.setNewData(list);
+                        mCallRecordsAdapter.loadMoreComplete();
+                    }else {
+                        View emptyView = getLayoutInflater().inflate(R.layout.view_empty, null);
+                        mCallRecordsAdapter.setEmptyView(emptyView);
+                        mCallRecordsAdapter.loadMoreEnd();
+                    }
                 }else {
-                    View emptyView = getLayoutInflater().inflate(R.layout.view_empty, null);
-                    mCallRecordsAdapter.setEmptyView(emptyView);
-
+                    if (list != null && list.size() > 0){
+                        mCallRecordsAdapter.addData(list);
+                        mCallRecordsAdapter.loadMoreComplete();
+                    }else {
+                        mCallRecordsAdapter.loadMoreEnd();
+                    }
                 }
+
             }
 
                 break;
@@ -177,12 +184,22 @@ public class CallRecordsActivity extends TitleBaseActivity implements HttpInterf
 
                 List<CallRecordsModel.DataBean.ListBean> list = data.getList();
 
-                if (list != null && list.size() > 0){
-                    mCallRecordsAdapter.setNewData(list);
+                if (page == 1){
+                    if (list != null && list.size() > 0){
+                        mCallRecordsAdapter.setNewData(list);
+                        mCallRecordsAdapter.loadMoreComplete();
+                    }else {
+                        View emptyView = getLayoutInflater().inflate(R.layout.view_empty, null);
+                        mCallRecordsAdapter.setEmptyView(emptyView);
+                        mCallRecordsAdapter.loadMoreEnd();
+                    }
                 }else {
-                    View emptyView = getLayoutInflater().inflate(R.layout.view_empty, null);
-                    mCallRecordsAdapter.setEmptyView(emptyView);
-
+                    if (list != null && list.size() > 0){
+                        mCallRecordsAdapter.addData(list);
+                        mCallRecordsAdapter.loadMoreComplete();
+                    }else {
+                        mCallRecordsAdapter.loadMoreEnd();
+                    }
                 }
             }
 
@@ -193,12 +210,22 @@ public class CallRecordsActivity extends TitleBaseActivity implements HttpInterf
                 CallRecordsModel.DataBean data = callRecordsModel.getData();
                 number_tv.setText(data.getTotal()+"人觉得这家公司很靠谱");
                 List<CallRecordsModel.DataBean.ListBean> list = data.getList();
-                if (list != null && list.size() > 0){
-                    mCallRecordsAdapter.setNewData(list);
+                if (page == 1){
+                    if (list != null && list.size() > 0){
+                        mCallRecordsAdapter.setNewData(list);
+                        mCallRecordsAdapter.loadMoreComplete();
+                    }else {
+                        View emptyView = getLayoutInflater().inflate(R.layout.view_empty, null);
+                        mCallRecordsAdapter.setEmptyView(emptyView);
+                        mCallRecordsAdapter.loadMoreEnd();
+                    }
                 }else {
-                    View emptyView = getLayoutInflater().inflate(R.layout.view_empty, null);
-                    mCallRecordsAdapter.setEmptyView(emptyView);
-
+                    if (list != null && list.size() > 0){
+                        mCallRecordsAdapter.addData(list);
+                        mCallRecordsAdapter.loadMoreComplete();
+                    }else {
+                        mCallRecordsAdapter.loadMoreEnd();
+                    }
                 }
                 break;
 
@@ -209,5 +236,11 @@ public class CallRecordsActivity extends TitleBaseActivity implements HttpInterf
     @Override
     public void onErrorResult(int requestCode, String returnMsg) {
 
+    }
+
+    @Override
+    public void onLoadMoreRequested() {
+        page++;
+        initData();
     }
 }
