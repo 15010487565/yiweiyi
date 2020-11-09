@@ -12,7 +12,6 @@ import android.text.method.LinkMovementMethod;
 import android.text.style.ForegroundColorSpan;
 import android.view.KeyEvent;
 import android.view.View;
-import android.webkit.WebView;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -38,9 +37,9 @@ import com.yiweiyi.www.bean.personal.FreeEntryBean;
 import com.yiweiyi.www.bean.search.SearchCompeBean;
 import com.yiweiyi.www.bean.search.SearchRecordsBean;
 import com.yiweiyi.www.presenter.SearchPresenter;
+import com.yiweiyi.www.ui.WebActivity;
 import com.yiweiyi.www.ui.login.LoginActivity;
 import com.yiweiyi.www.ui.me.RawMaterialActivity;
-import com.yiweiyi.www.utils.HtmlUtils;
 import com.yiweiyi.www.utils.SpUtils;
 import com.yiweiyi.www.view.search.ClearRecordsView;
 import com.yiweiyi.www.view.search.DeleteRecordView;
@@ -84,8 +83,8 @@ public class SearchIndexActivity extends BaseActivity implements SearchRecordsVi
     @BindView(R.id.search_re)
     RecyclerView searchRe;
 
-    @BindView(R.id.webView)
-    WebView webView;
+//    @BindView(R.id.webView)
+//    WebView webView;
 
     @BindView(R.id.sreach_cl)
     CoordinatorLayout sreachCl;
@@ -133,10 +132,10 @@ public class SearchIndexActivity extends BaseActivity implements SearchRecordsVi
                     break;
                     case R.id.all_cl: {
                         //商家展示页
-//                        Intent intent = new Intent(mContext, BusinessDisplayActivity.class);
-//                        intent.putExtra(BusinessDisplayActivity.SEARCH, mSearchHistoryAdapter.getItem(position).getContent());
-//                        startActivity(intent);
-                        searchEt.setText(mSearchHistoryAdapter.getItem(position).getContent());
+                        Intent intent = new Intent(mContext, BusinessDisplayActivity.class);
+                        intent.putExtra(BusinessDisplayActivity.SEARCH, mSearchHistoryAdapter.getItem(position).getContent());
+                        startActivity(intent);
+//                        searchEt.setText(mSearchHistoryAdapter.getItem(position).getContent());
                     }
                     break;
                 }
@@ -172,13 +171,13 @@ public class SearchIndexActivity extends BaseActivity implements SearchRecordsVi
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 if (!charSequence.toString().isEmpty()) {
                     searchRe.setVisibility(View.VISIBLE);
-                    webView.setVisibility(View.GONE);
+//                    webView.setVisibility(View.GONE);
                     searchHistoryRe.setVisibility(View.GONE);
                     ll_search_history.setVisibility(View.GONE);
 
                 } else {
                     searchRe.setVisibility(View.GONE);
-                    webView.setVisibility(View.GONE);
+//                    webView.setVisibility(View.GONE);
                     ll_search_history.setVisibility(View.VISIBLE);
                     searchHistoryRe.setVisibility(View.VISIBLE);
                 }
@@ -386,10 +385,13 @@ public class SearchIndexActivity extends BaseActivity implements SearchRecordsVi
                 break;
             case 3:
                 try {
-                    webView.setVisibility(View.VISIBLE);
+
                     JSONObject jsonObject = new JSONObject(returnData);
                     String data1 = jsonObject.optString("data");
-                    HtmlUtils.getHtmlData(data1, webView);
+                    Intent intent = new Intent(SearchIndexActivity.this, WebActivity.class);
+                    intent.putExtra("type","SEARCH3");
+                    intent.putExtra("data",data1);
+                    startActivity(intent);
 
                 } catch (JSONException e) {
                     e.printStackTrace();

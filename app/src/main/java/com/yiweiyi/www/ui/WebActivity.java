@@ -1,5 +1,6 @@
 package com.yiweiyi.www.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.webkit.WebView;
@@ -30,11 +31,18 @@ public class WebActivity extends SimpleTopbarActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_web);
-
+        Intent intent = getIntent();
+        String type = intent.getStringExtra("type");
         webView = findViewById(R.id.webView);
-//        TextView tv_details = findViewById(R.id.tv_details);
-        OkHttpHelper.getRestfulHttp(this,1000,
-                 UrlAddr.SETTLEDTIPS,this);
+        if ("SEARCH3".equals(type)){
+            resetTopbarTitle("线缆百科");
+            String data = intent.getStringExtra("data");
+            HtmlUtils.getHtmlData(data, webView);
+        }else {
+            OkHttpHelper.getRestfulHttp(this,1000,
+                    UrlAddr.SETTLEDTIPS,this);
+        }
+
 
     }
 
