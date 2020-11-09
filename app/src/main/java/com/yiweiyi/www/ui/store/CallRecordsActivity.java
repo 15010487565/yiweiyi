@@ -178,7 +178,7 @@ public class CallRecordsActivity extends TitleBaseActivity implements HttpInterf
                 tv_app.setText("APP："+data.getApp_num());
                 tv_xcx.setText("小程序："+data.getXcx_num());
                 int browse_total = data.getTotal();
-                leftTv.setText("总："+browse_total);
+                 leftTv.setText("总："+browse_total);
                 int today = data.getToday();
                 rightTv.setText("今日："+today);
 

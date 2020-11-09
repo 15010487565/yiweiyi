@@ -19,6 +19,8 @@ public interface UrlAddr {
     String ABOUT_US = path+"api/index/about_us";//关于我们
     String SHOP_DETAILS = path+"api/shop/info";//商家详情表
 
+    String STATISTICS = path+"api/log/statistics";//商家管理页统计数据
+
     String ALNUM = path+"api/shop/album/";//
     String ALBUMLIST3 = path+"api/shop/ALBUMLIST3/";//资质证书
     String LIKE = path+"api/log/like/";//靠谱列表

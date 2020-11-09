@@ -17,6 +17,9 @@ import com.yiweiyi.www.utils.PrfUtils;
 import com.yiweiyi.www.utils.SpUtils;
 import com.yiweiyi.www.view.CircleImageView;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -77,6 +80,11 @@ public class StoreManageActivity extends TitleBaseActivity implements HttpInterf
         params.put("shop_id", meShopId +"");
         OkHttpHelper.postAsyncHttp(this,1001,
                 params, UrlAddr.SHOP_DETAILS,this);
+
+        Map<String, String> params1 = new HashMap<String, String>();
+        params1.put("shop_id", meShopId +"");
+        OkHttpHelper.postAsyncHttp(this,1002,
+                params1, UrlAddr.STATISTICS,this);
     }
 
     private void initView() {
@@ -164,14 +172,23 @@ public class StoreManageActivity extends TitleBaseActivity implements HttpInterf
 
                 ImageUtils.setImage(headImg, this.logo, 3000, R.mipmap.ic_launcher);
 
-                int browse_total = data.getBrowse_total();
-                numberHowSawMeTv.setText("("+browse_total+")");
-//                int browse = info.getBrowse();
-//                numberHowSawMeTv.setText("("+browse+")");
-                int call_log_total = data.getCall_log_total();
-                numberCallRecordsTv.setText("("+call_log_total+")");
-                int like_num = data.getLike_num();
-                numberReliableTv.setText("("+like_num+")");
+
+                break;
+            case 1002:
+                try {
+                    JSONObject jsonObject = new JSONObject(returnData);
+                    JSONObject dataObject = jsonObject.optJSONObject("data");
+
+                    int browse_total = dataObject.optInt("browse_total");
+                    numberHowSawMeTv.setText("("+browse_total+")");
+                    int call_log_total = dataObject.optInt("call_log_total");
+                    numberCallRecordsTv.setText("("+call_log_total+")");
+                    int like_num = dataObject.optInt("like_num");
+                    numberReliableTv.setText("("+like_num+")");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
                 break;
         }
 
