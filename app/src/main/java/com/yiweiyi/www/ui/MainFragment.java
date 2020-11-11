@@ -16,6 +16,7 @@ import com.yiweiyi.www.R;
 import com.yiweiyi.www.adapter.main.SeriesTextAdapter;
 import com.yiweiyi.www.base.BaseFragment;
 import com.yiweiyi.www.bean.main.HomeCategoryBean;
+import com.yiweiyi.www.ui.me.RawMaterialActivity;
 import com.yiweiyi.www.ui.search.BusinessDisplayActivity;
 import com.yiweiyi.www.utils.GridDecorationLpp;
 
@@ -90,9 +91,22 @@ public class MainFragment extends BaseFragment {
         mSeriesTextAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                Intent intent = new Intent(mContext, BusinessDisplayActivity.class);
-                intent.putExtra(BusinessDisplayActivity.SEARCH, mSeriesTextAdapter.getItem(position).getKey_name());
-                mContext.startActivity(intent);
+
+                HomeCategoryBean.DataBean.ListBean item = mSeriesTextAdapter.getItem(position);
+                String key_name = item.getKey_name();
+                if ("原料行情".equals(key_name)||"历史铜价".equals(key_name)){
+                    Intent intent = new Intent(mContext, RawMaterialActivity.class);
+                    startActivity(intent);
+                }else if ("电阻表".equals(key_name)){
+                    Intent intent = new Intent(mContext, WebActivity.class);
+                    intent.putExtra("key_name", key_name);
+                    startActivity(intent);
+                }else {
+                    Intent intent = new Intent(mContext, BusinessDisplayActivity.class);
+                    intent.putExtra(BusinessDisplayActivity.SEARCH,key_name );
+                    mContext.startActivity(intent);
+                }
+
             }
         });
     }

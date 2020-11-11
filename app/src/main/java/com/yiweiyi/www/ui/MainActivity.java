@@ -45,7 +45,7 @@ import com.yiweiyi.www.ui.login.LoginActivity;
 import com.yiweiyi.www.ui.me.FeedBackActivity;
 import com.yiweiyi.www.ui.me.RawMaterialActivity;
 import com.yiweiyi.www.ui.me.UserinfoActivity;
-import com.yiweiyi.www.ui.search.SearchIndexActivity;
+import com.yiweiyi.www.ui.search.SearchTabActivity;
 import com.yiweiyi.www.ui.setting.SettingActivity;
 import com.yiweiyi.www.ui.store.StoreManageActivity;
 import com.yiweiyi.www.utils.PrfUtils;
@@ -361,7 +361,7 @@ public class MainActivity extends BaseActivity implements HomeCategoryView, Free
             public void onTabSelected(TabLayout.Tab tab) {
                 tabPosition = tab.getPosition();
                 TextView textView = new TextView(MainActivity.this);
-                float selectedSize = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_PX, 20, getResources().getDisplayMetrics());
+                float selectedSize = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_PX, 19, getResources().getDisplayMetrics());
                 textView.setTextSize(TypedValue.COMPLEX_UNIT_SP,selectedSize);
                 textView.setTextColor(getResources().getColor(R.color.black));
                 TextPaint tp = textView.getPaint();
@@ -463,7 +463,7 @@ public class MainActivity extends BaseActivity implements HomeCategoryView, Free
             break;
             //搜索
             case R.id.search_ll: {
-                Intent intent = new Intent(this, SearchIndexActivity.class);
+                Intent intent = new Intent(this, SearchTabActivity.class);
 //                intent.putExtra("type","tab");
                 startActivity(intent);
             }

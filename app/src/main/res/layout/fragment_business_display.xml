@@ -9,36 +9,36 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="gone">
+<!--    <androidx.constraintlayout.widget.ConstraintLayout-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent"-->
+<!--        android:visibility="gone">-->
 
-        <TextView
-            android:id="@+id/title_tv"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="17dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginRight="17dp"
-            android:text="抱歉，没有找到与“无结果的关键词”相关的结果，请 尝试输入其他关键词。"
-            android:textSize="17sp"
-            app:layout_constraintTop_toTopOf="parent" />
+<!--        <TextView-->
+<!--            android:id="@+id/title_tv"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginLeft="17dp"-->
+<!--            android:layout_marginTop="20dp"-->
+<!--            android:layout_marginRight="17dp"-->
+<!--            android:text="抱歉，没有找到与“无结果的关键词”相关的结果，请 尝试输入其他关键词。"-->
+<!--            android:textSize="17sp"-->
+<!--            app:layout_constraintTop_toTopOf="parent" />-->
 
-        <com.qmuiteam.qmui.alpha.QMUIAlphaButton
-            android:id="@+id/call_bt"
-            android:layout_width="179dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="69dp"
-            android:background="@drawable/shape_yuanjiao_7_58o06a"
-            android:drawableLeft="@drawable/phone_bai_xiao"
-            android:paddingLeft="25dp"
-            android:paddingRight="25dp"
-            android:text="@string/advisory_service"
-            android:textColor="@color/white"
-            android:textSize="17sp"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/title_tv" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+<!--        <com.qmuiteam.qmui.alpha.QMUIAlphaButton-->
+<!--            android:id="@+id/call_bt"-->
+<!--            android:layout_width="179dp"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginTop="69dp"-->
+<!--            android:background="@drawable/shape_yuanjiao_7_58o06a"-->
+<!--            android:drawableLeft="@drawable/phone_bai_xiao"-->
+<!--            android:paddingLeft="25dp"-->
+<!--            android:paddingRight="25dp"-->
+<!--            android:text="@string/advisory_service"-->
+<!--            android:textColor="@color/white"-->
+<!--            android:textSize="17sp"-->
+<!--            app:layout_constraintLeft_toLeftOf="parent"-->
+<!--            app:layout_constraintRight_toRightOf="parent"-->
+<!--            app:layout_constraintTop_toBottomOf="@id/title_tv" />-->
+<!--    </androidx.constraintlayout.widget.ConstraintLayout>-->
 </androidx.constraintlayout.widget.ConstraintLayout>

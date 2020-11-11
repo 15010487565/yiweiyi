@@ -105,7 +105,7 @@ public class SearchIndexActivity extends BaseActivity implements SearchRecordsVi
         Intent intent = getIntent();
         type = intent.getStringExtra("type");
         initView();
-        initData();
+
         initListener();
     }
 
@@ -135,6 +135,7 @@ public class SearchIndexActivity extends BaseActivity implements SearchRecordsVi
                         Intent intent = new Intent(mContext, BusinessDisplayActivity.class);
                         intent.putExtra(BusinessDisplayActivity.SEARCH, mSearchHistoryAdapter.getItem(position).getContent());
                         startActivity(intent);
+                        finish();
 //                        searchEt.setText(mSearchHistoryAdapter.getItem(position).getContent());
                     }
                     break;
@@ -151,6 +152,7 @@ public class SearchIndexActivity extends BaseActivity implements SearchRecordsVi
                     intent.putExtra(BusinessDisplayActivity.SEARCH, item.getShop_name());
                 }
                 startActivity(intent);
+                finish();
             }
         });
         mSearchHistoryAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
@@ -174,6 +176,8 @@ public class SearchIndexActivity extends BaseActivity implements SearchRecordsVi
 //                    webView.setVisibility(View.GONE);
                     searchHistoryRe.setVisibility(View.GONE);
                     ll_search_history.setVisibility(View.GONE);
+                    //首页搜索
+//                    mSearchPresenter.proximitySearch(charSequence.toString());
 
                 } else {
                     searchRe.setVisibility(View.GONE);
@@ -245,12 +249,6 @@ public class SearchIndexActivity extends BaseActivity implements SearchRecordsVi
         searchHistoryRe.setAdapter(mSearchHistoryAdapter);
     }
 
-    /**
-     * 数据添加
-     */
-    private void initData() {
-
-    }
 
     @OnClick({R.id.share_bt, R.id.clear_bt})
     public void onViewClicked(View view) {
@@ -354,7 +352,7 @@ public class SearchIndexActivity extends BaseActivity implements SearchRecordsVi
                                             @Override
                                             public void onNext(FreeEntryBean baseBean) {
                                                 String data = baseBean.getData();
-                                                HelpUtils.call(SearchIndexActivity.this,data,false);
+                                                HelpUtils.call(mContext,data,false);
 //                                                BottomAirlinesPhoneDialog dialog = new BottomAirlinesPhoneDialog();
 //                                                dialog.setData(data);
 //                                                dialog.show(getSupportFragmentManager(), "AirlinesPhone");
@@ -371,6 +369,7 @@ public class SearchIndexActivity extends BaseActivity implements SearchRecordsVi
                             intent.putExtra(BusinessDisplayActivity.SEARCH, search_param);
 //                        }
                         startActivity(intent);
+                        finish();
                     }
                 } catch (JsonSyntaxException e) {
                     e.printStackTrace();
@@ -380,7 +379,8 @@ public class SearchIndexActivity extends BaseActivity implements SearchRecordsVi
                 break;
             case 2:
                 if (returnMsg.indexOf("原料行情") != -1) {
-                    startActivity(new Intent(SearchIndexActivity.this, RawMaterialActivity.class));
+                    startActivity(new Intent(mContext, RawMaterialActivity.class));
+                    finish();
                 }
                 break;
             case 3:
@@ -388,10 +388,11 @@ public class SearchIndexActivity extends BaseActivity implements SearchRecordsVi
 
                     JSONObject jsonObject = new JSONObject(returnData);
                     String data1 = jsonObject.optString("data");
-                    Intent intent = new Intent(SearchIndexActivity.this, WebActivity.class);
+                    Intent intent = new Intent(mContext, WebActivity.class);
                     intent.putExtra("type","SEARCH3");
                     intent.putExtra("data",data1);
                     startActivity(intent);
+                    finish();
 
                 } catch (JSONException e) {
                     e.printStackTrace();

@@ -95,7 +95,7 @@ public class SearchPresenter {
     public void deleteRecord(String user_id, int[] ids) {
         Map<String, Object> map = new HashMap<>();
         map.put("user_id", user_id);
-        map.put("ids.xml", ids);
+        map.put("ids", ids);
         mSearchModel.deleteRecord(map);
     }
 

@@ -44,5 +44,4 @@ public class SearchAdapter extends BaseQuickAdapter<ProximitySearchBean.DataBean
     public void setKeyword(String keyword) {
         this.keyword = keyword;
     }
-
 }

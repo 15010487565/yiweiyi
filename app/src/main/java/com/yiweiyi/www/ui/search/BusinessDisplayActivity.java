@@ -38,6 +38,7 @@ import com.yiweiyi.www.base.BaseActivity;
 import com.yiweiyi.www.base.CommonData;
 import com.yiweiyi.www.bean.search.SearchCompeBean;
 import com.yiweiyi.www.presenter.SearchPresenter;
+import com.yiweiyi.www.ui.MainActivity;
 import com.yiweiyi.www.ui.login.LoginActivity;
 import com.yiweiyi.www.utils.ShareDialog;
 import com.yiweiyi.www.utils.SpUtils;
@@ -80,6 +81,9 @@ public class BusinessDisplayActivity extends BaseActivity implements SearchCompe
     QMUIAlphaImageButton moreTabBt;
     @BindView(R.id.main_vp2)
     ViewPager2 vp2;
+    @BindView(R.id.ll_empty)
+    LinearLayout ll_empty;
+
     //分享弹窗
     private ShareDialog shareDialog;
     public static String SEARCH = "search";
@@ -145,7 +149,7 @@ public class BusinessDisplayActivity extends BaseActivity implements SearchCompe
             public void onTabSelected(TabLayout.Tab tab) {
                 diqu = tab.getText().toString();
                 TextView textView = new TextView(BusinessDisplayActivity.this);
-                float selectedSize = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_PX, 20, getResources().getDisplayMetrics());
+                float selectedSize = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_PX, 19, getResources().getDisplayMetrics());
                 textView.setTextSize(TypedValue.COMPLEX_UNIT_SP,selectedSize);
                 textView.setTextColor(getResources().getColor(R.color.black));
                 TextPaint tp = textView.getPaint();
@@ -265,9 +269,7 @@ public class BusinessDisplayActivity extends BaseActivity implements SearchCompe
     /**
      * 设置vp2
      */
-    private void setVp2(SearchCompeBean.DataBean baseBean) {
-        mArea_list = baseBean.getArea_list();
-        mArea_list.add(0, "全部");
+    private void setVp2() {
         diqu = "全部";
         List<Fragment> fragmentList = new ArrayList<>();
 
@@ -317,24 +319,27 @@ public class BusinessDisplayActivity extends BaseActivity implements SearchCompe
     }
 
     private void initData() {
+        Log.e("TAG_列表","mSearch="+mSearch);
         mSearchPresenter.searchCompe(mSearch, SpUtils.getUserID(), "","0");
     }
 
 
     @OnClick({R.id.back_bt, R.id.more_tab_bt, R.id.share_bt,R.id.search_tv})
     public void onViewClicked(View view) {
+        Intent intent = null;
         switch (view.getId()) {
             case R.id.back_bt:
-                finish();
+                intent = new Intent(mContext, MainActivity.class);
+                mContext.startActivity(intent);
                 break;
             case R.id.more_tab_bt:
                 String userID = SpUtils.getUserID();
                 if (userID.isEmpty()) {
-                    Intent intent = new Intent(mContext, LoginActivity.class);
+                    intent = new Intent(mContext, LoginActivity.class);
                     mContext.startActivity(intent);
                 }else {
                     if (!diqu.isEmpty() && !alldiqu.isEmpty() && diqu != null && alldiqu != null) {
-                        Intent intent = new Intent(mContext, SelectRegionActivity.class);
+                        intent = new Intent(mContext, SelectRegionActivity.class);
                         Log.e("地区", diqu);
                         intent.putExtra(SelectRegionActivity.DATA, diqu);
                         intent.putExtra(SelectRegionActivity.ALLDATA, alldiqu);
@@ -349,7 +354,7 @@ public class BusinessDisplayActivity extends BaseActivity implements SearchCompe
             }
             break;
             case R.id.search_tv:
-                Intent intent = new Intent(this, SearchIndexActivity.class);
+                intent = new Intent(this, SearchTabActivity.class);
 //                intent.putExtra("type","index");
                 startActivity(intent);
                 break;
@@ -376,14 +381,40 @@ public class BusinessDisplayActivity extends BaseActivity implements SearchCompe
     @Override
     public void onSearchCompeSuccess(SearchCompeBean baseBean) {
         ly_pull_refresh.setRefreshing(false);
-        for (int i = 0; i < baseBean.getData().getArea_list().size(); i++) {
-            if (i == 0) {
-                alldiqu = baseBean.getData().getArea_list().get(i);
-            } else {
-                alldiqu = alldiqu + "," + baseBean.getData().getArea_list().get(i);
+        SearchCompeBean.DataBean data = baseBean.getData();
+        List<SearchCompeBean.DataBean.ShopListBean> shop_list = data.getShop_list();
+        if (shop_list == null || shop_list.size() == 0){
+            ll_empty.setVisibility(View.VISIBLE);
+        }else {
+            ll_empty.setVisibility(View.GONE);
+            try {
+                mArea_list = new ArrayList<>();
+                Object area_list = data.getArea_list();
+                if (area_list instanceof ArrayList){
+                    ArrayList jsonArray = (ArrayList) area_list;
+                    for (int i = 0; i < jsonArray.size(); i++) {
+                        Object o = jsonArray.get(i);
+                        if (o instanceof String){
+                            String str = (String) o;
+                            if (i == 0) {
+                                mArea_list.add(0, "全部");
+                                mArea_list.add(str);
+                                alldiqu = str;
+                            } else {
+                                alldiqu = alldiqu + "," + o;
+                                mArea_list.add(str);
+                            }
+                        }
+
+                    }
+                }
+
+                setVp2();
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         }
-        setVp2(baseBean.getData());
+
     }
 
     @Override
@@ -416,4 +447,19 @@ public class BusinessDisplayActivity extends BaseActivity implements SearchCompe
     public void onRefresh() {
         initData();
     }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+//        if(keyCode== KeyEvent.KEYCODE_BACK){
+            Intent intent = new Intent(mContext, MainActivity.class);
+            mContext.startActivity(intent);
+//        }
+    }
+
+//    @Override
+//    public boolean onKeyDown(int keyCode, KeyEvent event) {
+//
+//        return super.onKeyDown(keyCode,event);
+//    }
 }

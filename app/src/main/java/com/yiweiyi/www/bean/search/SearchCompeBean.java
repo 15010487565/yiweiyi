@@ -29,16 +29,24 @@ public class SearchCompeBean extends BaseBean {
     }
 
     public static class DataBean implements Parcelable {
-        private List<String> area_list;
+//        private List<String> area_list;
+        private Object area_list;
         private List<ShopListBean> shop_list;
 
-        public List<String> getArea_list() {
+        public Object getArea_list() {
             return area_list;
         }
 
-        public void setArea_list(List<String> area_list) {
+        public void setArea_list(Object area_list) {
             this.area_list = area_list;
         }
+//        public List<String> getArea_list() {
+//            return area_list;
+//        }
+//
+//        public void setArea_list(List<String> area_list) {
+//            this.area_list = area_list;
+//        }
 
         public List<ShopListBean> getShop_list() {
             return shop_list;

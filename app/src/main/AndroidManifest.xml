@@ -82,11 +82,11 @@
         <activity android:name=".ui.search.SearchTabActivity"
             android:alwaysRetainTaskState="true"
             android:launchMode="singleTop"
-            android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />
+            android:windowSoftInputMode="stateVisible" />
         <activity android:name=".ui.search.SearchIndexActivity"
             android:alwaysRetainTaskState="true"
             android:launchMode="singleTop"
-            android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />
+            android:windowSoftInputMode="stateVisible" />
 
         <activity android:name=".ui.store.StoreManageActivity" /> <!-- 基本信息 -->
         <activity android:name=".ui.store.BasicInfoActivity" />
