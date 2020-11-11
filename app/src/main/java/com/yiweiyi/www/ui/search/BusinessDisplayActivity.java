@@ -7,8 +7,12 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.text.SpannableString;
+import android.text.Spanned;
 import android.text.TextPaint;
 import android.text.TextUtils;
+import android.text.method.LinkMovementMethod;
+import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
@@ -32,10 +36,12 @@ import com.tencent.mm.opensdk.modelmsg.WXImageObject;
 import com.tencent.mm.opensdk.modelmsg.WXMediaMessage;
 import com.tencent.mm.opensdk.modelmsg.WXMiniProgramObject;
 import com.yiweiyi.www.R;
+import com.yiweiyi.www.api.ApiManager;
 import com.yiweiyi.www.api.Constants;
 import com.yiweiyi.www.api.EventBusMsg;
 import com.yiweiyi.www.base.BaseActivity;
 import com.yiweiyi.www.base.CommonData;
+import com.yiweiyi.www.bean.personal.FreeEntryBean;
 import com.yiweiyi.www.bean.search.SearchCompeBean;
 import com.yiweiyi.www.presenter.SearchPresenter;
 import com.yiweiyi.www.ui.MainActivity;
@@ -56,6 +62,10 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
+import www.xcd.com.mylibrary.help.HelpUtils;
 
 /**
  * @Author: zsh
@@ -385,6 +395,47 @@ public class BusinessDisplayActivity extends BaseActivity implements SearchCompe
         List<SearchCompeBean.DataBean.ShopListBean> shop_list = data.getShop_list();
         if (shop_list == null || shop_list.size() == 0){
             ll_empty.setVisibility(View.VISIBLE);
+
+            TextView textView = findViewById(R.id.tv_msg);
+            String searchStr = "抱歉，没有找到与“" + mSearch + "”相关的结果，请尝试输入其他关键词。";
+            SpannableString spannableString = new SpannableString(searchStr);
+            //设置部分文字点击事件
+            spannableString.setSpan(
+                    new ForegroundColorSpan(getResources().getColor(R.color.blue)),
+                    9, 9 + mSearch.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+            textView.setText(spannableString);
+            textView.setMovementMethod(LinkMovementMethod.getInstance());
+
+            findViewById(R.id.advisory_service).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ApiManager.getInstance().consumerHotline()
+                            .subscribeOn(Schedulers.io())
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribe(new Subscriber<FreeEntryBean>() {
+                                @Override
+                                public void onCompleted() {
+
+                                }
+
+                                @Override
+                                public void onError(Throwable e) {
+
+                                }
+
+                                @Override
+                                public void onNext(FreeEntryBean baseBean) {
+                                    String data = baseBean.getData();
+                                    HelpUtils.call(mContext,data,false);
+//                                                BottomAirlinesPhoneDialog dialog = new BottomAirlinesPhoneDialog();
+//                                                dialog.setData(data);
+//                                                dialog.show(getSupportFragmentManager(), "AirlinesPhone");
+                                }
+                            });
+                }
+            });
+
         }else {
             ll_empty.setVisibility(View.GONE);
             try {
