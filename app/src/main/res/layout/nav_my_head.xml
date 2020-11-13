@@ -41,14 +41,16 @@
             android:src="@drawable/no_login"
             />
 
-        <com.qmuiteam.qmui.alpha.QMUIAlphaButton
+        <TextView
             android:id="@+id/login_bt"
             android:layout_width="wrap_content"
             android:layout_height="59dp"
             android:background="@null"
             android:text="@string/login"
+            android:layout_marginLeft="16dp"
+            android:gravity="center"
             android:textSize="19sp"
-            android:visibility="gone"
+            android:visibility="visible"
             android:layout_toRightOf="@id/head_img"/>
         <LinearLayout
             android:id="@+id/ll_maininfo"
@@ -56,7 +58,7 @@
             android:layout_height="59dp"
             android:gravity="center_vertical"
             android:layout_marginLeft="16dp"
-            android:visibility="visible"
+            android:visibility="gone"
             android:layout_toRightOf="@id/head_img"
             android:orientation="vertical">
             <TextView

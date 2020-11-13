@@ -24,6 +24,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.qmuiteam.qmui.alpha.QMUIAlphaButton;
@@ -56,6 +57,8 @@ import java.io.ByteArrayOutputStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -132,6 +135,8 @@ public class DetailsActivity extends SimpleTopbarActivity  {
 
     @BindView(R.id.certifications_cl)
     ConstraintLayout certifications_cl;
+    @BindView(R.id.top_title)
+    TextView top_title;
 
 //    @BindView(R.id.ll_mini_program)
 //    LinearLayout ll_mini_program;
@@ -156,7 +161,7 @@ public class DetailsActivity extends SimpleTopbarActivity  {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details);
-        ButterKnife.bind(this);
+
         String phone = getIntent().getStringExtra(SHOPEPHONE);
         call_bt.setText(phone);
         initLisetener();
@@ -178,7 +183,7 @@ public class DetailsActivity extends SimpleTopbarActivity  {
     @Override
     protected void afterSetContentView() {
         super.afterSetContentView();
-
+        ButterKnife.bind(this);
         //设置布局管理器
         zan_rv = findViewById(R.id.zan_rv);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
@@ -187,26 +192,64 @@ public class DetailsActivity extends SimpleTopbarActivity  {
         //设置适配器
         adapter = new GalleryAdapter(R.layout.iten_gallery, null);
         zan_rv.setAdapter(adapter);
-
+        //产品图册
         products_catalogue_rv = findViewById(R.id.products_catalogue_rv);
         products_catalogue_rv.setLayoutManager(new GridLayoutManager(this, 3));
         catalogueAdapter = new GridAdapter(R.layout.item_prod_cata, null);
         products_catalogue_rv.setAdapter(catalogueAdapter);
+        catalogueAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                //产品图册
+                Intent intent = new Intent(DetailsActivity.this, ProdcataActivity.class);
+                intent.putExtra(SHOPEID, shop_id);
+                intent.putExtra(ProdcataActivity.ALNUMTYPE,"1");
+                startActivity(intent);
+            }
+        });
 
-
+        //实景展示
         real_view_rv = findViewById(R.id.real_view_rv);
         real_view_rv.setLayoutManager(new GridLayoutManager(this, 3));
         realAdapter = new GridAdapter(R.layout.item_prod_cata, null);
         real_view_rv.setAdapter(realAdapter);
-
+        realAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                //产品图册
+                Intent intent = new Intent(DetailsActivity.this, ProdcataActivity.class);
+                intent.putExtra(SHOPEID, shop_id);
+                intent.putExtra(ProdcataActivity.ALNUMTYPE,"2");
+                startActivity(intent);
+            }
+        });
+        //资质证书
         certifications_rv = findViewById(R.id.certifications_rv);
         LinearLayoutManager linearLayoutManager1 = new LinearLayoutManager(this);
         linearLayoutManager1.setOrientation(LinearLayoutManager.HORIZONTAL);
         certifications_rv.setLayoutManager(linearLayoutManager1);
-        //设置适配器
         cationsAdapter = new GridAdapter(R.layout.item_prod_cata, null);
         certifications_rv.setAdapter(cationsAdapter);
+        certifications_rv.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                LinearLayoutManager layoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
+                int firstCompletelyVisibleItemPosition = layoutManager.findFirstCompletelyVisibleItemPosition();
 
+//                if(firstCompletelyVisibleItemPosition==0)
+//                    Log.i(TAG, "滑动到顶部");
+//
+                int lastCompletelyVisibleItemPosition = layoutManager.findLastCompletelyVisibleItemPosition();
+//                Log.i(TAG, "lastCompletelyVisibleItemPosition: "+lastCompletelyVisibleItemPosition);
+                if(cationsAdapter.getData().size() == 5 && lastCompletelyVisibleItemPosition==layoutManager.getItemCount()-1) {
+                    Intent intent = new Intent(DetailsActivity.this, CertificationActivity.class);
+                    intent.putExtra(SHOPEID, shop_id);
+                    intent.putExtra(ProdcataActivity.ALNUMTYPE, "3");
+                    startActivity(intent);
+                }
+            }
+        });
 
     }
 
@@ -237,7 +280,28 @@ public class DetailsActivity extends SimpleTopbarActivity  {
 
             }
         });
+        scroll.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
+            @Override
+            public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
 
+                //Log.e(TAG, "onScrollChange: " + scrollX +"---" + scrollY + "----" +oldScrollX + "---" + oldScrollY );
+                //监听滚动状态
+                Log.e("TAG_","scrollY="+scrollY+";oldScrollY="+oldScrollY);
+                if (scrollY > oldScrollY ) {//向下滚动
+                   top_title.setVisibility(View.VISIBLE);
+                   if (scrollY > 200){
+                       top_title.getBackground().setAlpha(255);
+                   }else {
+                       top_title.getBackground().setAlpha(scrollY*255/200);
+                   }
+
+                }
+                if (scrollY == 0) {// 滚动到顶
+                    top_title.setVisibility(View.INVISIBLE);
+                }
+
+            }
+        });
     }
 
     public  Bitmap capture(View view) {
@@ -326,42 +390,6 @@ public class DetailsActivity extends SimpleTopbarActivity  {
         }
         return null;
     }
-    private Handler mHandler = new Handler(){
-        @Override
-        public void handleMessage(@NonNull Message msg) {
-            super.handleMessage(msg);
-            switch (msg.what){
-                case 0:
-                    sharePicture(capture(scroll),1);
-                    iv_mini_program.setVisibility(View.GONE);
-                    break;
-
-                case 2:
-                    WXMiniProgramObject miniProgram = new WXMiniProgramObject();
-                    miniProgram.webpageUrl="www.xianlankufang.com";// 兼容低版本的网页链接
-                    miniProgram.userName="gh_6606c78a3dd6";//小程序ID
-                    miniProgram.path="/pages/detail/detail?scene="+shop_id;//小程序路径
-                    WXMediaMessage mediaMessage = new WXMediaMessage(miniProgram);
-                    mediaMessage.title = compe_name_tv.getText().toString().trim();//小程序消息title
-                    mediaMessage.description = compe_name_tv.getText().toString().trim(); // 小程序消息desc
-//                Bitmap bitmap = BitmapFactory.decodeResource(BusinessDisplayActivity.this.getResources(),R.mipmap.ic_launcher);
-                    Bitmap bitmap = capture(scroll);
-//                Bitmap sendBitmap = Bitmap.createScaledBitmap(bitmap,50,50,true);
-                    mediaMessage.thumbData = bmpToByteArray(bitmap);
-
-                    SendMessageToWX.Req req = new SendMessageToWX.Req();
-                    req.transaction = compe_name_tv.getText().toString().trim(); // 小程序消息封面图片，小于128k
-                    req.scene = SendMessageToWX.Req.WXSceneSession;
-                    req.message = mediaMessage;
-                    Constants.wx_api.sendReq(req);
-                    bitmap.recycle();
-
-                    iv_mini_program.setVisibility(View.GONE);
-                    break;
-            }
-
-        }
-    };
 
     @Override
     public void onSuccessResult(int requestCode, int returnCode, String returnMsg, String returnData, Map<String, String> paramsMaps) {
@@ -383,6 +411,7 @@ public class DetailsActivity extends SimpleTopbarActivity  {
                 DetailsModel.DataBean.InfoBean info = data.getInfo();
                 String shop_name = info.getShop_name();
                 compe_name_tv.setText(shop_name);
+                top_title.setText(shop_name);
                 location_tv.setText(info.getAddress());
 
                 is_like = info.getIs_like();
@@ -426,7 +455,14 @@ public class DetailsActivity extends SimpleTopbarActivity  {
                     JSONArray jsonArray3 = data1.optJSONArray("type_3");
                     if (jsonArray3 != null){
                         List<String> dataArr3 = gson.fromJson(jsonArray3.toString(), new TypeToken<List<String>>(){}.getType());
-                        cationsAdapter.setNewData(dataArr3);
+                        Log.e("TAG_纸质证书","==="+dataArr3.size());
+                        if (dataArr3 != null &&dataArr3.size() > 5){
+                            List newList = dataArr3.subList(0, 5);
+                            cationsAdapter.setNewData(newList);
+                        }else {
+                            cationsAdapter.setNewData(dataArr3);
+                        }
+
                         certifications_cl.setVisibility(View.VISIBLE);
                     }else {
                         certifications_cl.setVisibility(View.GONE);
@@ -533,12 +569,11 @@ public class DetailsActivity extends SimpleTopbarActivity  {
                 shareDialog.show();
                 break;
             case R.id.call_bt:
+                initTimer();
+                mTimer.schedule(mTimerTask, 0, 1000);
                 String phone = getIntent().getStringExtra(SHOPEPHONE);
-                callPhone(phone);
+                HelpUtils.call(this,phone,false);
 
-//                BottomAirlinesPhoneDialog dialog = new BottomAirlinesPhoneDialog();
-//                dialog.setData(phone);
-//                dialog.show(getSupportFragmentManager(),"Phone");
                 break;
             case R.id.more_zan_bt:{
                 Intent intent = new Intent(DetailsActivity.this, LikelistActivity.class);
@@ -591,21 +626,106 @@ public class DetailsActivity extends SimpleTopbarActivity  {
     }
 
 
-    public void callPhone(String phone) {
-        HelpUtils.call(this,phone,false);
+    public void callPhone() {
 
+        String phone = getIntent().getStringExtra(SHOPEPHONE);
+        HelpUtils.call(this,"13241089309",false);
         Map<String, String> params1 = new HashMap<String, String>();
         params1.put("user_id", SpUtils.getUserID());
         params1.put("shop_id", shop_id +"");
-
-//        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd-HH:mm:ss");
-//        Date date = new Date(System.currentTimeMillis());
-//        String str=simpleDateFormat.format(date);
-
         params1.put("shop_phone", phone +"");
         params1.put("call_time", System.currentTimeMillis() +"");
         params1.put("is_connect", "");
         OkHttpHelper.postAsyncHttp(this,1002,
                 params1, UrlAddr.ADDCALLLOG,this);
     }
+    //初始化timer
+    TimerTask mTimerTask;
+    long MAX_TIME = 6000;
+    long curTime = 0;
+    Timer mTimer;
+    public void initTimer() {
+        mTimerTask = new TimerTask() {
+            @Override
+            public void run() {
+                if (curTime == 0) {
+                    curTime = MAX_TIME;
+                } else {
+                    //计数器，每次减一秒。
+                    curTime -= 1000;
+                }
+                Log.e("TAG_拨打电话1111","curTime="+curTime);
+                Message message = new Message();
+                message.what = 3;
+                message.obj = curTime;
+                mHandler.sendMessage(message);
+            }
+        };
+        mTimer = new Timer();
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        destroyTimer();
+    }
+
+    public void destroyTimer() {
+        Log.e("TAG_拨打电话","destroyTimer=");
+        if (mTimer != null) {
+            mTimer.cancel();
+            mTimer = null;
+        }
+        if (mTimerTask != null) {
+            mTimerTask.cancel();
+            mTimerTask = null;
+        }
+    }
+
+    private Handler mHandler = new Handler(){
+        @Override
+        public void handleMessage(@NonNull Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what){
+                case 0:
+                    sharePicture(capture(scroll),1);
+                    iv_mini_program.setVisibility(View.GONE);
+                    break;
+
+                case 2:
+                    WXMiniProgramObject miniProgram = new WXMiniProgramObject();
+                    miniProgram.webpageUrl="www.xianlankufang.com";// 兼容低版本的网页链接
+                    miniProgram.userName="gh_6606c78a3dd6";//小程序ID
+                    miniProgram.path="/pages/detail/detail?scene="+shop_id;//小程序路径
+                    WXMediaMessage mediaMessage = new WXMediaMessage(miniProgram);
+                    mediaMessage.title = compe_name_tv.getText().toString().trim();//小程序消息title
+                    mediaMessage.description = compe_name_tv.getText().toString().trim(); // 小程序消息desc
+//                Bitmap bitmap = BitmapFactory.decodeResource(BusinessDisplayActivity.this.getResources(),R.mipmap.ic_launcher);
+                    Bitmap bitmap = capture(scroll);
+//                Bitmap sendBitmap = Bitmap.createScaledBitmap(bitmap,50,50,true);
+                    mediaMessage.thumbData = bmpToByteArray(bitmap);
+
+                    SendMessageToWX.Req req = new SendMessageToWX.Req();
+                    req.transaction = compe_name_tv.getText().toString().trim(); // 小程序消息封面图片，小于128k
+                    req.scene = SendMessageToWX.Req.WXSceneSession;
+                    req.message = mediaMessage;
+                    Constants.wx_api.sendReq(req);
+                    bitmap.recycle();
+
+                    iv_mini_program.setVisibility(View.GONE);
+                    break;
+                case 3:
+                    long sRecLen = (long) msg.obj;
+                    Log.e("TAG_拨打电话","curTime="+curTime);
+                    //如果当前时间等于0时，则运行结束。
+                    if (sRecLen <= 0) {
+                        mTimer.cancel();
+                        curTime = 0;
+                        callPhone();
+                    }
+                    break;
+            }
+
+        }
+    };
 }

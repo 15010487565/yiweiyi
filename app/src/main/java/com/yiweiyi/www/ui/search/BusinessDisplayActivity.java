@@ -30,6 +30,7 @@ import androidx.viewpager2.widget.ViewPager2;
 
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
+import com.google.gson.Gson;
 import com.qmuiteam.qmui.alpha.QMUIAlphaImageButton;
 import com.tencent.mm.opensdk.modelmsg.SendMessageToWX;
 import com.tencent.mm.opensdk.modelmsg.WXImageObject;
@@ -93,7 +94,7 @@ public class BusinessDisplayActivity extends BaseActivity implements SearchCompe
     ViewPager2 vp2;
     @BindView(R.id.ll_empty)
     LinearLayout ll_empty;
-
+    int tabPosition = 0;
     //分享弹窗
     private ShareDialog shareDialog;
     public static String SEARCH = "search";
@@ -158,6 +159,7 @@ public class BusinessDisplayActivity extends BaseActivity implements SearchCompe
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 diqu = tab.getText().toString();
+                tabPosition = tab.getPosition();
                 TextView textView = new TextView(BusinessDisplayActivity.this);
                 float selectedSize = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_PX, 19, getResources().getDisplayMetrics());
                 textView.setTextSize(TypedValue.COMPLEX_UNIT_SP,selectedSize);
@@ -279,12 +281,14 @@ public class BusinessDisplayActivity extends BaseActivity implements SearchCompe
     /**
      * 设置vp2
      */
-    private void setVp2() {
+    private void setVp2(List<SearchCompeBean.DataBean.ShopListBean> shop_list) {
         diqu = "全部";
         List<Fragment> fragmentList = new ArrayList<>();
 
         for (int i = 0; i < mArea_list.size(); i++) {
-            fragmentList.add(BusinessDisplayFragment.newInstance(mSearch, mArea_list.get(i)));
+            fragmentList.add(BusinessDisplayFragment.newInstance(mSearch,
+                    mArea_list.get(i),
+                    shop_list));
         }
 
 
@@ -311,7 +315,7 @@ public class BusinessDisplayActivity extends BaseActivity implements SearchCompe
                 tab.setText(mArea_list.get(position));
             }
         }).attach();
-
+        vp2.setCurrentItem(reFresh,false);
     }
 
     private void initView() {
@@ -325,7 +329,16 @@ public class BusinessDisplayActivity extends BaseActivity implements SearchCompe
 
         shareDialog = new ShareDialog(this, w);
         searchTv.setText(TextUtils.isEmpty(mSearch)?"真实货源\t即搜即得":mSearch);
-        initData();
+        Intent intent = getIntent();
+        String data = intent.getStringExtra("data");
+        if (data != null){
+            Gson gson = new Gson();
+            SearchCompeBean searchCompeBean = gson.fromJson(data, SearchCompeBean.class);
+            reSerData(searchCompeBean);
+        }else {
+            initData();
+        }
+
     }
 
     private void initData() {
@@ -354,6 +367,8 @@ public class BusinessDisplayActivity extends BaseActivity implements SearchCompe
                         intent.putExtra(SelectRegionActivity.DATA, diqu);
                         intent.putExtra(SelectRegionActivity.ALLDATA, alldiqu);
                         startActivityForResult(intent, CommonData.GETCITY);
+                        overridePendingTransition(R.anim.zoom_enter,
+                                R.anim.zoom_exit);
                     }
                 }
 
@@ -391,6 +406,11 @@ public class BusinessDisplayActivity extends BaseActivity implements SearchCompe
     @Override
     public void onSearchCompeSuccess(SearchCompeBean baseBean) {
         ly_pull_refresh.setRefreshing(false);
+        reSerData(baseBean);
+
+    }
+
+    private void reSerData(SearchCompeBean baseBean) {
         SearchCompeBean.DataBean data = baseBean.getData();
         List<SearchCompeBean.DataBean.ShopListBean> shop_list = data.getShop_list();
         if (shop_list == null || shop_list.size() == 0){
@@ -460,12 +480,11 @@ public class BusinessDisplayActivity extends BaseActivity implements SearchCompe
                     }
                 }
 
-                setVp2();
+                setVp2(shop_list);
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
-
     }
 
     @Override
@@ -493,9 +512,10 @@ public class BusinessDisplayActivity extends BaseActivity implements SearchCompe
             }
         }
     }
-
+    private int reFresh = 0;
     @Override
     public void onRefresh() {
+        reFresh = tabPosition;
         initData();
     }
 

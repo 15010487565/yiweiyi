@@ -51,48 +51,52 @@
         android:textSize="15sp"
         app:layout_constraintLeft_toRightOf="@id/principal_"
         app:layout_constraintTop_toTopOf="@id/principal_" />
-
-    <TextView
-        android:id="@+id/phone_"
+    <LinearLayout
+        android:id="@+id/ll_info"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingTop="2dp"
-        android:paddingBottom="2dp"
-        android:gravity="center"
-        android:text="电\t\t话："
-        android:textColor="@color/color535353"
-        android:textSize="15sp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+
         app:layout_constraintLeft_toLeftOf="@id/principal_"
-        app:layout_constraintTop_toBottomOf="@id/principal_" />
-
-    <TextView
-        android:id="@+id/phone_tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
-        android:paddingTop="2dp"
-        android:paddingBottom="2dp"
-        android:textColor="@color/color0582FA"
-        android:textSize="15sp"
-        android:text=""
-        app:layout_constraintLeft_toRightOf="@id/phone_"
-        app:layout_constraintTop_toTopOf="@id/phone_" />
-
-    <TextView
-        android:id="@+id/more_number_tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
-        android:paddingTop="2dp"
-        android:paddingBottom="2dp"
-        android:text="@string/more_number"
-        android:textColor="@color/colorFF7D18"
-        android:textSize="15sp"
-        app:layout_constraintLeft_toRightOf="@id/phone_tv"
-        app:layout_constraintTop_toTopOf="@id/phone_" />
-
+        app:layout_constraintTop_toBottomOf="@id/principal_" >
+        <TextView
+            android:id="@+id/phone_"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="电\t\t话："
+            android:textColor="@color/color535353"
+            android:textSize="15sp"
+           />
+        <LinearLayout
+            android:id="@+id/ll_phone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp">
+            <TextView
+                android:id="@+id/phone_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/color0582FA"
+                android:textSize="15sp"
+                android:paddingTop="2dp"
+                android:paddingBottom="2dp"
+                android:text=""
+                />
+        </LinearLayout>
+        <TextView
+            android:id="@+id/more_number_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:text="@string/more_number"
+            android:textColor="@color/colorFF7D18"
+            android:textSize="15sp" />
+    </LinearLayout>
 
     <TextView
         android:id="@+id/title_tv"
@@ -100,8 +104,8 @@
         android:layout_height="wrap_content"
         android:textColor="@color/color535353"
         android:textSize="15sp"
-        app:layout_constraintLeft_toLeftOf="@id/phone_"
-        app:layout_constraintTop_toBottomOf="@id/phone_" />
+        app:layout_constraintLeft_toLeftOf="@id/ll_info"
+        app:layout_constraintTop_toBottomOf="@id/ll_info" />
 
     <TextView
         android:id="@+id/address_tv"

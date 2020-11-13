@@ -5,6 +5,7 @@ import android.os.Parcelable;
 
 import com.yiweiyi.www.base.BaseBean;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -66,7 +67,7 @@ public class SearchCompeBean extends BaseBean {
 
         }
 
-        public static class ShopListBean {
+        public static class ShopListBean implements Serializable {
             /**
              * id : 108
              * shop_name : 佰汇电缆有限公司

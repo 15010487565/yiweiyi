@@ -344,6 +344,7 @@ public class SearchTabActivity extends BaseActivity implements SearchRecordsView
             case 1:{
 //                mSearchAdapter.setKeyword(search_param);
                 Intent intent = new Intent(mContext, BusinessDisplayActivity.class);
+                intent.putExtra("data", returnData);
                 intent.putExtra(BusinessDisplayActivity.SEARCH, search_param);
                 startActivity(intent);
                 finish();

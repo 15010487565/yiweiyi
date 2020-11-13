@@ -63,7 +63,7 @@ public class LoginActivity extends BaseActivity implements SendVerifiCodeView {
         phoneEt.setFocusable(true);
         phoneEt.setFocusableInTouchMode(true);
         phoneEt.requestFocus();
-        phoneEt.setCursorVisible(false);//隐藏光标
+//        phoneEt.setCursorVisible(false);//隐藏光标
 
         PrfUtils.setWexinAuth(false);
        SpannableString spannableString = new SpannableString(getString(R.string.registered_title));

@@ -29,7 +29,7 @@ public class DateUtils {
                 SimpleDateFormat dateFormat1 = new SimpleDateFormat("HH:mm");
                 return dateFormat1.format(date);
             }else {
-                SimpleDateFormat dateFormat2 = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+                SimpleDateFormat dateFormat2 = new SimpleDateFormat("yyyy-MM-dd");
                 return dateFormat2.format(date);
             }
         } catch(Exception e){

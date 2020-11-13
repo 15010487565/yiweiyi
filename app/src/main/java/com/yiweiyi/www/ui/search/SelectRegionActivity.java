@@ -268,4 +268,11 @@ public class SelectRegionActivity extends TitleBaseActivity implements CommonAre
             }
         }
     }
+
+    @Override
+    public void finish() {
+        super.finish();
+//        overridePendingTransition(R.anim.zoom_enter,
+//                R.anim.zoom_exit);
+    }
 }

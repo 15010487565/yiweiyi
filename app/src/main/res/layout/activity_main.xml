@@ -87,7 +87,7 @@
                     android:src="@drawable/search" />
             </LinearLayout>
 
-            <LinearLayout
+            <RelativeLayout
                 android:id="@+id/tab_ll"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -95,11 +95,20 @@
                 android:background="@color/white"
                 android:orientation="horizontal"
                 >
-
+                <com.qmuiteam.qmui.alpha.QMUIAlphaImageButton
+                    android:id="@+id/more_tab_bt"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginRight="14dp"
+                    android:layout_marginLeft="14dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerInParent="true"
+                    android:background="@drawable/menu2"
+                    />
                 <com.google.android.material.tabs.TabLayout
                     android:id="@+id/tab_layout"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:tabGravity="center"
                     android:layout_marginLeft="15dp"
@@ -114,24 +123,17 @@
                     app:tabRippleColor="@color/transparent"
                     app:tabSelectedTextColor="@color/black"
                     app:tabTextAppearance="@style/TabSize18"
-                    app:tabTextColor="#666666" />
+                    app:tabTextColor="#666666"
+                    android:layout_toLeftOf="@id/more_tab_bt"/>
 
-<!--                <ImageView-->
-<!--                    android:layout_width="25dp"-->
-<!--                    android:layout_height="50dp"-->
-<!--                    android:background="@drawable/shap_jianbian_bai" />-->
+                <View
+                    android:layout_width="15dp"
+                    android:layout_height="50dp"
+                    android:layout_toLeftOf="@id/more_tab_bt"
+                    android:background="@drawable/shap_jianbian_bai" />
 
-                <com.qmuiteam.qmui.alpha.QMUIAlphaImageButton
-                    android:id="@+id/more_tab_bt"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginRight="14dp"
-                    android:layout_marginLeft="14dp"
-                    android:background="@drawable/menu2"
-                   />
 
-            </LinearLayout>
+            </RelativeLayout>
 
             <androidx.viewpager2.widget.ViewPager2
                 android:id="@+id/main_vp2"

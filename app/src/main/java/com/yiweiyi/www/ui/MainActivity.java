@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.text.TextPaint;
 import android.util.Log;
 import android.util.TypedValue;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -98,7 +99,7 @@ public class MainActivity extends BaseActivity implements HomeCategoryView, Free
     RelativeLayout rl_info;
     private LinearLayout ll_maininfo;
     private CircleImageView mHead;
-    private QMUIAlphaButton mLogin;
+    private TextView mLogin;
     private TextView mName;
     private int upPosition = 0;
     private int tabPosition = 0;
@@ -429,6 +430,8 @@ public class MainActivity extends BaseActivity implements HomeCategoryView, Free
         mAllSeries.setLayoutManager(new LinearLayoutManager(mContext));
         List<HomeCategoryBean.DataBean> allSeriesList = new ArrayList<>();
         mAllSeriesAdrpter = new AllSeriesAdrpter(R.layout.iteam_text_all_series, allSeriesList);
+        View view = LayoutInflater.from(this).inflate(R.layout.iten_footer, null);
+        mAllSeriesAdrpter.addFooterView(view);
         mAllSeries.setAdapter(mAllSeriesAdrpter);
     }
 

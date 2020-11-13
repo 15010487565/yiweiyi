@@ -9,7 +9,6 @@ import android.widget.TextView;
 
 import com.huantansheng.easyphotos.EasyPhotos;
 import com.huantansheng.easyphotos.models.album.entity.Photo;
-import com.qmuiteam.qmui.alpha.QMUIAlphaButton;
 import com.yiweiyi.www.R;
 import com.yiweiyi.www.api.UrlAddr;
 import com.yiweiyi.www.base.CommonData;
@@ -51,7 +50,7 @@ public class BasicInfoActivity extends PhotoActivity {
     TextView name_tv;
 
     @BindView(R.id.phone_bt)
-    QMUIAlphaButton phone_bt;
+    TextView phone_bt;
 
     @Override
     protected Object getTopbarTitle() {

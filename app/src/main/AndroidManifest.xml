@@ -9,6 +9,9 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
 
+    <!--        //申请权限-->
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+
     <application
         android:name=".base.YWYApplication"
         android:allowBackup="true"
@@ -83,10 +86,6 @@
             android:alwaysRetainTaskState="true"
             android:launchMode="singleTop"
             android:windowSoftInputMode="stateVisible" />
-        <activity android:name=".ui.search.SearchIndexActivity"
-            android:alwaysRetainTaskState="true"
-            android:launchMode="singleTop"
-            android:windowSoftInputMode="stateVisible" />
 
         <activity android:name=".ui.store.StoreManageActivity" /> <!-- 基本信息 -->
         <activity android:name=".ui.store.BasicInfoActivity" />
@@ -141,6 +140,7 @@
             android:launchMode="singleTop"
             android:theme="@style/AppThemeAnimation"
             android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />
+
     </application>
 
 </manifest>

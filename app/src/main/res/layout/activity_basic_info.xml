@@ -67,6 +67,7 @@
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:text="@string/factory_name"
+                android:textColor="@color/black_26"
                 android:layout_gravity="center_vertical"
                 android:textSize="17sp"
                 />
@@ -79,7 +80,7 @@
                 android:layout_marginRight="20dp"
                 android:src="@drawable/no_login"
                 android:text="鑫京泰线缆有限公司"
-                android:textColor="@color/black"
+                android:textColor="@color/black_26"
                 android:textSize="17sp"
                 />
         </LinearLayout>
@@ -97,6 +98,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/principal"
                 android:textSize="17sp"
+                android:textColor="@color/black_26"
                 android:layout_gravity="center_vertical"
                 />
 
@@ -107,11 +109,11 @@
                 android:layout_marginRight="20dp"
                 android:text="曹绍翔"
                 android:layout_gravity="center_vertical"
-                android:textColor="@color/black"
+                android:textColor="@color/black_26"
                 android:textSize="17sp"
                 />
         </LinearLayout>
-        <com.qmuiteam.qmui.alpha.QMUIAlphaButton
+        <TextView
             android:id="@+id/phone_bt"
             android:layout_width="match_parent"
             android:layout_height="56dp"
@@ -122,7 +124,7 @@
             android:gravity="left|center_vertical"
             android:paddingRight="20dp"
             android:text="@string/contact_number"
-            android:textColor="@color/black"
+            android:textColor="@color/black_26"
             android:textSize="17sp"
             />
 

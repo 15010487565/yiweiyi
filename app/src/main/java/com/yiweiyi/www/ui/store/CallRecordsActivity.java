@@ -3,7 +3,6 @@ package com.yiweiyi.www.ui.store;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -45,10 +44,10 @@ public class CallRecordsActivity extends TitleBaseActivity implements HttpInterf
     @BindView(R.id.recycler_rv)
     RecyclerView recyclerRv;
 
-    @BindView(R.id.head_ll)
-    LinearLayout head_ll;
-    @BindView(R.id.number_tv)
-    TextView number_tv;
+//    @BindView(R.id.head_ll)
+//    LinearLayout head_ll;
+//    @BindView(R.id.number_tv)
+//    TextView number_tv;
     int page = 1;
     private CallRecordsAdapter mCallRecordsAdapter;
 
@@ -75,8 +74,8 @@ public class CallRecordsActivity extends TitleBaseActivity implements HttpInterf
         String type = intent.getStringExtra("type");
         if ("1".equals(type)){
             setBaseTitle(getResources().getString(R.string.who_saw_me));
-            head_ll.setVisibility(View.VISIBLE);
-            number_tv.setVisibility(View.GONE);
+//            head_ll.setVisibility(View.VISIBLE);
+//            number_tv.setVisibility(View.GONE);
             String meShopId = PrfUtils.getMeShopId();
             Map<String, String> params = new HashMap<String, String>();
             params.put("page", String.valueOf(page));
@@ -85,8 +84,8 @@ public class CallRecordsActivity extends TitleBaseActivity implements HttpInterf
                     params, UrlAddr.BROWSE,this);
         }else if ("2".equals(type)){
             setBaseTitle(getResources().getString(R.string.call_records));
-            head_ll.setVisibility(View.VISIBLE);
-            number_tv.setVisibility(View.GONE);
+//            head_ll.setVisibility(View.VISIBLE);
+//            number_tv.setVisibility(View.GONE);
             String meShopId = PrfUtils.getMeShopId();
             Map<String, String> params = new HashMap<String, String>();
             params.put("page", String.valueOf(page));
@@ -95,11 +94,10 @@ public class CallRecordsActivity extends TitleBaseActivity implements HttpInterf
                     params, UrlAddr.CALLLOG,this);
         }else {
             setBaseTitle(getResources().getString(R.string.reliable));
-            head_ll.setVisibility(View.GONE);
-            number_tv.setVisibility(View.VISIBLE);
+//            head_ll.setVisibility(View.GONE);
+//            number_tv.setVisibility(View.VISIBLE);
             String meShopId = PrfUtils.getMeShopId();
             Map<String, String> params = new HashMap<String, String>();
-//            params.put("user_id", SpUtils.getUserID());
             params.put("shop_id", meShopId +"");
             params.put("page", String.valueOf(page));
             OkHttpHelper.postAsyncHttp(this,1003,
@@ -208,7 +206,14 @@ public class CallRecordsActivity extends TitleBaseActivity implements HttpInterf
                 Gson gson = new Gson();
                 CallRecordsModel callRecordsModel = gson.fromJson(returnData, CallRecordsModel.class);
                 CallRecordsModel.DataBean data = callRecordsModel.getData();
-                number_tv.setText(data.getTotal()+"人觉得这家公司很靠谱");
+//                number_tv.setText(data.getTotal()+"人觉得这家公司很靠谱");
+                tv_app.setText("APP："+data.getApp_num());
+                tv_xcx.setText("小程序："+data.getXcx_num());
+                int browse_total = data.getTotal();
+                leftTv.setText("总："+browse_total);
+                int today = data.getToday();
+                rightTv.setText("今日："+today);
+
                 List<CallRecordsModel.DataBean.ListBean> list = data.getList();
                 if (page == 1){
                     if (list != null && list.size() > 0){

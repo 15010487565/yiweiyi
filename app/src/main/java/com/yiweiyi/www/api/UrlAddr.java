@@ -45,7 +45,7 @@ public interface UrlAddr {
     String LIKEADD = path+"api/log/likeAdd";//点赞靠谱
     String LIKEDEL = path+"api/log/likeDel";//取消 靠谱
 
-    String SEARCH_INDEX = path+"api/search/index";//浏览
+    String SEARCH_INDEX = path+"api/search/index";//搜索
     String FEEDBACK = path+"api/index/feedback";//意见反馈
 //    String BROWSE_REMOVE_SELECT = path+"api/browse/remove";//移除选中浏览记录
 //    String BROWSE_REMOVE_REMOVEALL = path+"api/browse/removeAll";//移除所有浏览记录

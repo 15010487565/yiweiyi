@@ -6,6 +6,7 @@ import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ForegroundColorSpan;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,6 +31,7 @@ import com.yiweiyi.www.ui.login.LoginActivity;
 import com.yiweiyi.www.utils.SpUtils;
 import com.yiweiyi.www.view.search.SearchCompeView;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -66,6 +68,17 @@ public class BusinessDisplayFragment extends BaseFragment implements SearchCompe
     private String area;
     private SearchPresenter mSearchPresenter;
     private MorePhoneDialog mMorePhoneDialog;
+    List<SearchCompeBean.DataBean.ShopListBean> shop_list;
+
+    public static BusinessDisplayFragment newInstance(String search, String area,List<SearchCompeBean.DataBean.ShopListBean> shop_list) {
+        Bundle args = new Bundle();
+        args.putString("search", search);
+        args.putString("area", area);
+        args.putSerializable("shop_list", (Serializable) shop_list);
+        BusinessDisplayFragment fragment = new BusinessDisplayFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -75,7 +88,7 @@ public class BusinessDisplayFragment extends BaseFragment implements SearchCompe
         if (bundle != null) {
             search = bundle.getString("search");
             area = bundle.getString("area");
-
+            shop_list = (ArrayList<SearchCompeBean.DataBean.ShopListBean>)bundle.getSerializable("shop_list");
         }
 
     }
@@ -104,12 +117,18 @@ public class BusinessDisplayFragment extends BaseFragment implements SearchCompe
         super.onActivityCreated(savedInstanceState);
         mSearchPresenter = new SearchPresenter(this);
         initView();
-        initData();
+        if ("全部".equals(area)){
+            initdata( shop_list);
+        }else {
+            initData();
+        }
+
         initListener();
 
     }
 
     private void initData() {
+        Log.e("TAG_列表fragment","area="+area);
         if (area.equals("全部")) {
             mSearchPresenter.searchCompe(search, SpUtils.getUserID(), "","0");
         } else {
@@ -154,7 +173,7 @@ public class BusinessDisplayFragment extends BaseFragment implements SearchCompe
                     mContext.startActivity(intent);
                 }else {
                     switch (view.getId()){
-                        case R.id.phone_tv:{
+                        case R.id.ll_phone:{
 
                             List<SearchCompeBean.DataBean.ShopListBean> data1 = mBusinessDisplayAdapter.getData();
                             SearchCompeBean.DataBean.ShopListBean shopListBean = data1.get(position);
@@ -205,18 +224,17 @@ public class BusinessDisplayFragment extends BaseFragment implements SearchCompe
 
     }
 
-    public static BusinessDisplayFragment newInstance(String search, String area) {
-        Bundle args = new Bundle();
-        args.putString("search", search);
-        args.putString("area", area);
-        BusinessDisplayFragment fragment = new BusinessDisplayFragment();
-        fragment.setArguments(args);
-        return fragment;
-    }
+
 
     @Override
     public void onSearchCompeSuccess(SearchCompeBean baseBean) {
         List<SearchCompeBean.DataBean.ShopListBean> shop_list = baseBean.getData().getShop_list();
+        initdata(shop_list);
+
+
+    }
+
+    private void initdata( List<SearchCompeBean.DataBean.ShopListBean> shop_list) {
         if (shop_list == null || shop_list.size() == 0) {
             View emptyView = getLayoutInflater().inflate(R.layout.view_empty_search, null);
             mBusinessDisplayAdapter.setEmptyView(emptyView);
@@ -258,10 +276,8 @@ public class BusinessDisplayFragment extends BaseFragment implements SearchCompe
                 }
             });
         } else {
-            mBusinessDisplayAdapter.replaceData(baseBean.getData().getShop_list());
+            mBusinessDisplayAdapter.setNewData(shop_list);
         }
-
-
     }
 
     @Override

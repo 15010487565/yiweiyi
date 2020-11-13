@@ -43,9 +43,18 @@ public class BusinessDisplayAdapter extends BaseQuickAdapter<SearchCompeBean.Dat
         helper.setText(R.id.name_tv, item.getHead());
         TextView phone = helper.getView(R.id.phone_tv);
         phone.setText(item.getPhone().get(0));
+//        if (helper.getAdapterPosition() == 0){
+//            phone.setBackgroundResource(R.mipmap.mb);
+//            phone.setText(item.getPhone().get(0));
+//        }else if (helper.getAdapterPosition() == 1){
+//            phone.setBackgroundResource(R.mipmap.mb);
+//            phone.setText("");
+//        }else {
+//            phone.setText(item.getPhone().get(0));
+//        }
         if (TextUtils.isEmpty(SpUtils.getUserID())){
-            phone.setBackgroundColor(ContextCompat.getColor(mContext,R.color.blue));
-            phone.setText("\t\t\t\t\t\t\t\t\t\t\t");
+            phone.setBackgroundResource(R.mipmap.mb);
+            phone.setText("\t\t\t\t\t\t\t\t\t\t\t\t\t\t");
         }else {
             phone.setBackgroundColor(ContextCompat.getColor(mContext,R.color.white));
             phone.setText(item.getPhone().get(0));
@@ -62,7 +71,7 @@ public class BusinessDisplayAdapter extends BaseQuickAdapter<SearchCompeBean.Dat
 //                .centerCrop()
                 .apply(override)
                 .into((ImageView) helper.getView(R.id.head_img));
-        helper.addOnClickListener(R.id.phone_tv)
+        helper.addOnClickListener(R.id.ll_phone)
                 .addOnClickListener(R.id.more_number_tv);
     }
 }
